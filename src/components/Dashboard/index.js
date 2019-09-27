@@ -133,7 +133,7 @@ export default function Dashboard() {
             <MenuIcon />
           </IconButton>
           <Typography component="h1" variant="h6"  noWrap className={classes.title}>
-            Writing Application Reviewer Tool
+            Writing Advisor Review Tool
           </Typography>
         </Toolbar>
       </AppBar>
