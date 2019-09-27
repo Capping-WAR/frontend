@@ -1,8 +1,8 @@
 import React, { Component, Fragment } from 'react';
 import {createMuiTheme} from '@material-ui/core/styles';
 import MuiThemeProvider from '@material-ui/core/styles/MuiThemeProvider';
-import { Header, Footer} from './Layouts';
-import Reviewer from './Reviewer'
+import { Header, Footer} from './components/Layouts';
+import Dashboard from './components/Dashboard';
 
 const theme = createMuiTheme({
   palette: {
@@ -41,9 +41,9 @@ class App extends Component {
     // wont include extra markup
     return <MuiThemeProvider theme={theme}>
       <Fragment>
-        <Header />
-        <Reviewer />
-        <Footer />
+        {/* <Header /> */}
+        <Dashboard />
+        {/* <Footer /> */}
       </Fragment>
     </MuiThemeProvider>
     
