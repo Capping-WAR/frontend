@@ -1,7 +1,7 @@
 import React, { Component, Fragment } from 'react';
 import { Provider } from 'react-redux';
 import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles';
-import { Header, Footer} from './components/Layouts';
+import { Footer } from './components/Layouts';
 import Dashboard from './components/Dashboard';
 import Store from './redux/store';
 
@@ -44,7 +44,6 @@ class App extends Component {
       <MuiThemeProvider theme={theme}>
          <Provider store={Store}>
           <Fragment>
-            {/* <Header /> */}
             <Dashboard />
             {/* <Footer /> */}
           </Fragment>

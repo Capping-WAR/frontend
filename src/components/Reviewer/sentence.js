@@ -98,7 +98,6 @@ const Sentence = () => {
                             sentence[2]
                         ) 
                     )
-
                 }
                 </Typography>
             </CardContent>
