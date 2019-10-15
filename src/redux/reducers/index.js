@@ -27,56 +27,6 @@ export const initialState = {
 
 export const baseReducer = (state = initialState, action) => {
   switch (action.type) {
-    // User log-in actions
-    // case ActionTypes.USER_LOGIN_REQUEST:
-    //   return { ...state, isLoading: true, loggedIn: false };
-
-    // case ActionTypes.USER_LOGIN_SUCCESS:
-    //   return {
-    //     ...state,
-    //     isLoading: false,
-    //     loggedIn: true,
-    //     user: action.payload.user,
-    //   };
-
-    // case ActionTypes.USER_LOGIN_FAILURE:
-    //   return {
-    //     ...state,
-    //     isLoading: false,
-    //     error: action.payload.error || 'Could not log in',
-    //   };
-
-    // // User sign-up actions
-    // case ActionTypes.USER_SIGNUP_REQUEST:
-    //   return {
-    //     ...state,
-    //     isLoading: true,
-    //     loggedIn: false,
-    //   };
-      
-    // // Log out user action
-    // case ActionTypes.USER_LOG_OUT_REQUEST:
-    //   return {
-    //     ...state,
-    //     isLoading: true,
-    //   }
-
-    // case ActionTypes.USER_LOG_OUT_SUCCESS:
-    //   return {
-    //     ...state,
-    //     isLoading: false,
-    //     loggedIn: false,
-    //     user: initialState.user,
-    //     lpars: initialState.lpars,
-    //   }
-
-    // case ActionTypes.USER_LOG_OUT_FAILURE:
-    //   return {
-    //     ...state,
-    //     isLoading: false,
-    //     error: action.payload.error || 'Could not log out',
-    //   }
-
 
     case ActionTypes.GET_SENTENCE_REQUEST:
       return {
@@ -93,7 +43,7 @@ export const baseReducer = (state = initialState, action) => {
         return {
           ...state,
           isFetchingSentence: false,
-          sentence: action.payload[0]
+          sentence: action.payload.Sentence
         }
       
     case ActionTypes.GET_SENTENCE_FAILURE:
@@ -119,7 +69,7 @@ export const baseReducer = (state = initialState, action) => {
         return {
           ...state,
           isFetchingRules: false,
-          rules: action.payload
+          rules: action.payload.Rules
         }
       
     case ActionTypes.GET_RULES_FAILURE:

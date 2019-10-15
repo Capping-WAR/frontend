@@ -13,7 +13,7 @@ export const fetchSentence = () => ({
   type: ActionTypes.API_MIDDLEWARE_INVOKE,
   [ActionTypes.API_MIDDLEWARE_INVOKE]: {
     route: ActionTypes.API_MIDDLEWARE_SENTENCE_ENDPOINT,
-    endpoint: '',
+    endpoint: '/7',
     method: 'GET',
     types: [
       ActionTypes.GET_SENTENCE_REQUEST,
