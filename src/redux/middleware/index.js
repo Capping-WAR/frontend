@@ -7,6 +7,10 @@ import * as ActionTypes from '../constants';
 
 
 const SERVER_API_ENDPOINT_BASE = '/api/v1';
+const SERVER_API_USER_ACTIONS = `${SERVER_API_ENDPOINT_BASE}/users`;
+const SERVER_API_SENTENCE_ACTIONS = `${SERVER_API_ENDPOINT_BASE}/sentences`;
+const SERVER_API_RULE_ACTIONS = `${SERVER_API_ENDPOINT_BASE}/rules`;
+
 
 const middleware = store => next => action => {
   console.log('AT MIDDLWARE LEVEL');
@@ -24,8 +28,19 @@ const middleware = store => next => action => {
   const { route, endpoint, method, content, types } = apiInvocationHook;
   const [ requestType, successType, failureType ] = types;
 
-  const cleanedRoute = route === ActionTypes.API_MIDDLEWARE_USERS_ENDPOINT
-    ? SERVER_API_USER_ACTIONS;
+  let cleanedRoute = '';
+
+  switch (route) {
+    case ActionTypes.API_MIDDLEWARE_USERS_ENDPOINT:
+      cleanedRoute = SERVER_API_USER_ACTIONS;
+      break;
+    case ActionTypes.API_MIDDLEWARE_SENTENCE_ENDPOINT:
+      cleanedRoute = SERVER_API_SENTENCE_ACTIONS;
+      break;
+    case ActionTypes.API_MIDDLEWARE_RULES_ENDPOINT:
+        cleanedRoute = SERVER_API_RULE_ACTIONS;
+        break;
+  }
 
   const cleanedEndpoint = cleanedRoute + endpoint;
 
@@ -49,6 +64,7 @@ const middleware = store => next => action => {
     .then(async (serverResponse) => {
       const data = await serverResponse.json();
 
+      console.log(data)
       if (!serverResponse.ok || data.error) {
         return next(actionWith({
           payload: data.error || { error: 'Server error occurred' },
@@ -62,10 +78,14 @@ const middleware = store => next => action => {
       }));
     })
     .catch(
-      (err) => next(actionWith({
-        payload: err.message || { error: 'Server error occurred' },
-        type: failureType,
-      })),
+      (err) => {
+
+        console.log(err)
+        return next(actionWith({
+          payload: err.message || { error: 'Server error occurred' },
+          type: failureType,
+        }))
+      }
     );
 };
 

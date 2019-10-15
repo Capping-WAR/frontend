@@ -109,7 +109,7 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-export default function Dashboard() {
+const Dashboard = () => {
   const classes = useStyles();
   const [open, setOpen] = React.useState(true);
   const handleDrawerOpen = () => {
@@ -119,16 +119,17 @@ export default function Dashboard() {
     setOpen(false);
   };
 
+
   return (
     <div className={classes.root}>
       <CssBaseline />
-      <AppBar position="absolute" className={clsx(classes.appBar, open && classes.appBarShift)}>
+      <AppBar position="absolute" className={clsx(classes.appBar, !open && classes.appBarShift)}>
         <Toolbar className={classes.toolbar}>
           <IconButton
             edge="start"
             aria-label="open drawer"
-            onClick={handleDrawerOpen}
-            className={clsx(classes.menuButton, open && classes.menuButtonHidden)}
+            onClick={handleDrawerClose}
+            className={clsx(classes.menuButton, !open && classes.menuButtonHidden)}
           >
             <MenuIcon />
           </IconButton>
@@ -140,12 +141,12 @@ export default function Dashboard() {
       <Drawer
         variant="permanent"
         classes={{
-          paper: clsx(classes.drawerPaper, !open && classes.drawerPaperClose),
+          paper: clsx(classes.drawerPaper, open && classes.drawerPaperClose),
         }}
         open={open}
       >
         <div className={classes.toolbarIcon}>
-          <IconButton onClick={handleDrawerClose}>
+          <IconButton onClick={handleDrawerOpen}>
             <ChevronLeftIcon />
           </IconButton>
         </div>
@@ -163,3 +164,5 @@ export default function Dashboard() {
     </div>
   );
 }
+
+export default Dashboard;
