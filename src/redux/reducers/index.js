@@ -141,6 +141,7 @@ export const baseReducer = (state = initialState, action) => {
       }
 
     case ActionTypes.GET_SEARCH_FAILURE:
+      console.log( action.payload.error )
       return {
         ...state,
         isFetchingSearch: false,

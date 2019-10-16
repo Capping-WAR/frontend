@@ -21,12 +21,15 @@ export const fetchSentenceToBeReviewed = () =>  (dispatch, getState, subscribe) 
     })
     .then(() => {
       const unsubscribe = store.subscribe(() => {
-        const { isFetchingSearch, SearchResults } = getState();
+        const { user, isFetchingSearch, SearchResults } = getState();
         if (isFetchingSearch) {
           console.log('FETCHING')
         } else {
-          console.log('DONE', getState(), SearchResults)
           unsubscribe()
+          console.log(SearchResults[`sentencetobereviewed(${user.id})`][0][0])
+          // dispatch(SearchResults[`sentencetobereviewed(${user.id})`])
+          dispatch(fetchSentence(SearchResults[`sentencetobereviewed(${user.id})`][0][0]))
+          
         }
       });
     })
@@ -96,6 +99,7 @@ export const submitReview = (review) => (dispatch, getState, subscribe) => {
             ...review,
             ruleReviewID: ruleReviewID
           }));
+          dispatch(fetchSentenceToBeReviewed());
         }
       })
     })
