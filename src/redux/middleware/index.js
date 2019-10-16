@@ -10,6 +10,7 @@ const SERVER_API_ENDPOINT_BASE = '/api/v1';
 const SERVER_API_USER_ACTIONS = `${SERVER_API_ENDPOINT_BASE}/users`;
 const SERVER_API_SENTENCE_ACTIONS = `${SERVER_API_ENDPOINT_BASE}/sentences`;
 const SERVER_API_RULE_ACTIONS = `${SERVER_API_ENDPOINT_BASE}/rules`;
+const SERVER_API_REVIEWER_ACTIONS = `${SERVER_API_ENDPOINT_BASE}/reviewers`;
 
 
 const middleware = store => next => action => {
@@ -39,6 +40,9 @@ const middleware = store => next => action => {
       break;
     case ActionTypes.API_MIDDLEWARE_RULES_ENDPOINT:
         cleanedRoute = SERVER_API_RULE_ACTIONS;
+        break;
+    case ActionTypes.API_MIDDLEWARE_REVIEWERS_ENDPOINT:
+        cleanedRoute = SERVER_API_REVIEWER_ACTIONS;
         break;
   }
 

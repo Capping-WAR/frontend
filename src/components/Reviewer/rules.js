@@ -78,11 +78,12 @@ const Rules = () => {
                         )
                         :(
                             rules.map((rule) => (
-                                <ExpansionPanel style={{backgroundColor: "#438397", color:"white"}}>
+                                <ExpansionPanel style={{backgroundColor: "#438397", color:"white", textAlign:"left", fontWeight: 'bold'}}>
                                     <ExpansionPanelSummary
                                     expandIcon={<ExpandMoreIcon />}
                                     aria-controls="panel1a-content"
                                     id="panel1a-header"
+                                    style = {{fontWeight: '100'}}
                                     > 
                                         <Typography className={classes.heading}>{rule[1]}</Typography>
                                     </ExpansionPanelSummary>

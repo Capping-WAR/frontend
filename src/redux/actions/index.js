@@ -50,6 +50,26 @@ export const doneFetchingRules = () => (
 );
 
 
+export const fetchReviewers = () => ({
+  type: ActionTypes.API_MIDDLEWARE_INVOKE,
+  [ActionTypes.API_MIDDLEWARE_INVOKE]: {
+    route: ActionTypes.API_MIDDLEWARE_REVIEWERS_ENDPOINT,
+    endpoint: '',
+    method: 'GET',
+    types: [
+      ActionTypes.GET_REVIEWERS_REQUEST,
+      ActionTypes.GET_REVIEWERS_SUCCESS,
+      ActionTypes.GET_REVIEWERS_FAILURE,
+    ],
+  },
+});
+
+export const doneFetchingReviewers = () => (
+  {
+    type: ActionTypes.DONE_GETTING_REVIEWERS,
+  }
+);
+
 
 // export const logUserIn = (userInfo) => ({
 //   type: ActionTypes.API_MIDDLEWARE_INVOKE,
