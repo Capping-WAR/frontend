@@ -4,6 +4,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import { useDispatch, useSelector } from 'react-redux';
 import { useState, useEffect } from 'react';
 import { fetchSentenceToBeReviewed, doneFetchingSentence, submitReview } from '../../redux/actions';
+import { store } from '../../redux/store'
 import Popover from '@material-ui/core/Popover';
 import PopupState, { bindTrigger, bindPopover } from 'material-ui-popup-state';
 import Card from '@material-ui/core/Card';
@@ -64,6 +65,7 @@ const Sentence = () => {
             resolve();
         })
         .then(() => {
+            
             dispatch(doneFetchingSentence());
         })
         .catch((err) => {

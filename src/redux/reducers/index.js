@@ -23,7 +23,6 @@ export const initialState = {
   ruleReviewID: undefined,
   rules: undefined,
   sentence: undefined,
-  // review: undefined,
   error: null,
 };
 
