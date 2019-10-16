@@ -74,7 +74,9 @@ const Rules = () => {
                 {
                     (rules === undefined
                         ? (
-                            "No Rules Available"
+                          <ExpansionPanel style={{backgroundColor: "#438397", color:"white"}}>
+                            <Typography className={classes.heading}>No Rules Available</Typography>
+                          </ExpansionPanel>
                         )
                         :(
                             rules.map((rule) => (
@@ -95,35 +97,7 @@ const Rules = () => {
                             ))
                         ) 
                     )
-
                 }
-
-
-              {/* <ExpansionPanel style={{backgroundColor: "#438397", color:"white"}}>
-                <ExpansionPanelSummary
-                  expandIcon={<ExpandMoreIcon />}
-                  aria-controls="panel1a-content"
-                  id="panel1a-header"
-                > 
-             <Typography className={classes.heading}>Rule 1</Typography>
-                </ExpansionPanelSummary>
-                <ExpansionPanelDetails>
-                  <Typography style={{textAlign:"left"}}>
-                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse malesuada lacus ex,
-                    sit amet blandit leo lobortis eget.
-                  </Typography>
-                </ExpansionPanelDetails>
-              </ExpansionPanel>
-              <ExpansionPanel  style={{backgroundColor: "#438397", color:"white"}}>
-                <ExpansionPanelSummary
-                  expandIcon={<ExpandMoreIcon />}
-                  aria-controls="panel1a-content"
-                  id="panel1a-header"
-                >
-                  
-                  </Typography>
-                </ExpansionPanelDetails>
-              </ExpansionPanel> */}
             </Paper>
           </div> 
         </Grid>

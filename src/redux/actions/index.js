@@ -7,13 +7,40 @@
  */
 
 import * as ActionTypes from '../constants';
+import store from '../store';
 
 
-export const fetchSentence = () => ({
+export const fetchSentenceToBeReviewed = () =>  (dispatch, getState, subscribe) => {
+  // Get the Sentence ID of the sentence to be reviewed
+    return new Promise((resolve, reject) => {
+      const { user } = getState(); 
+      dispatch(fetchSearch(
+        `SELECT * FROM SentenceToBeReviewed(${user.id});`
+      ));
+      resolve();
+    })
+    .then(() => {
+      const unsubscribe = store.subscribe(() => {
+        const { isFetchingSearch, SearchResults } = getState();
+        if (isFetchingSearch) {
+          console.log('FETCHING')
+        } else {
+          console.log('DONE', getState(), SearchResults)
+          unsubscribe()
+        }
+      });
+    })
+    .catch((err) => {
+      console.log(err)
+      // handle error
+    });
+};
+
+export const fetchSentence = (sentenceID) => ({
   type: ActionTypes.API_MIDDLEWARE_INVOKE,
   [ActionTypes.API_MIDDLEWARE_INVOKE]: {
     route: ActionTypes.API_MIDDLEWARE_SENTENCE_ENDPOINT,
-    endpoint: '/7',
+    endpoint: `/${sentenceID}`,
     method: 'GET',
     types: [
       ActionTypes.GET_SENTENCE_REQUEST,
@@ -49,41 +76,95 @@ export const doneFetchingRules = () => (
   }
 );
 
+export const submitReview = (review) => (dispatch, getState, subscribe) => {
+  if (review.ruleReviewID === undefined) {
+
+    return new Promise((resolve, reject) => {
+      dispatch(fetchRuleReviewID(review.sentenceID));
+      resolve();
+    })
+    .then(() => {
+      const unsubscribe = store.subscribe(() => {
+        const { isFetchingRuleReview, ruleReviewID } = getState();
+        if (isFetchingRuleReview) {
+          // console.log('FETCHING')
+        } else {
+          // console.log('DONE', getState())
+          unsubscribe()
+          dispatch(doneFetchingRuleReviewID())
+          dispatch(addPeopleReview({
+            ...review,
+            ruleReviewID: ruleReviewID
+          }));
+        }
+      })
+    })
+    .catch((err) => {
+        console.log(err)
+        // handle error
+        dispatch(doneFetchingRuleReviewID())
+    });
+  }
+};
+
+export const fetchRuleReviewID = (sentenceID) => ({
+  type: ActionTypes.API_MIDDLEWARE_INVOKE,
+  [ActionTypes.API_MIDDLEWARE_INVOKE]: {
+    route: ActionTypes.API_MIDDLEWARE_SENTENCE_RULES_ENDPOINT,
+    endpoint: `/${sentenceID}`,
+    method: 'GET',
+    types: [
+      ActionTypes.GET_RULE_REVIEW_REQUEST,
+      ActionTypes.GET_RULE_REVIEW_SUCCESS,
+      ActionTypes.GET_RULE_REVIEW_FAILURE,
+    ],
+  },
+});
+
+export const doneFetchingRuleReviewID = () => (
+  {
+    type: ActionTypes.DONE_GETTING_RULE_REVIEW,
+  }
+);
+
+export const addPeopleReview = (review) => ({
+    type: ActionTypes.API_MIDDLEWARE_INVOKE,
+    [ActionTypes.API_MIDDLEWARE_INVOKE]: {
+      route: ActionTypes.API_MIDDLEWARE_PEOPLE_REVIEWS_ENDPOINT,
+      endpoint: '',
+      method: 'POST',
+      content: {
+        sentenceID: review.sentenceID,
+        reviewerID: review.reviewerID,
+        ruleReviewID: review.ruleReviewID,
+        ruleReview: review.ruleReview,
+        dateAdded: "now()"
+      },
+      types: [
+        ActionTypes.POST_REVIEW_REQUEST,
+        ActionTypes.POST_REVIEW_SUCCESS,
+        ActionTypes.POST_REVIEW_FAILURE,
+      ],
+    },
+  }
+);
+
+export const fetchSearch = (query) => ({
+  type: ActionTypes.API_MIDDLEWARE_INVOKE,
+  [ActionTypes.API_MIDDLEWARE_INVOKE]: {
+    route: ActionTypes.API_MIDDLEWARE_SEARCH_ENDPOINT,
+    endpoint: ``,
+    method: 'POST',
+    content: {
+      query: query
+    },
+    types: [
+      ActionTypes.GET_SEARCH_REQUEST,
+      ActionTypes.GET_SEARCH_SUCCESS,
+      ActionTypes.GET_SEARCH_FAILURE,
+    ],
+  },
+});
 
 
-// export const logUserIn = (userInfo) => ({
-//   type: ActionTypes.API_MIDDLEWARE_INVOKE,
-//   [ActionTypes.API_MIDDLEWARE_INVOKE]: {
-//     route: ActionTypes.API_MIDDLEWARE_USERS_ENDPOINT,
-//     endpoint: '/login',
-//     method: 'POST',
-//     content: userInfo,
-//     types: [
-//       ActionTypes.USER_LOGIN_REQUEST,
-//       ActionTypes.USER_LOGIN_SUCCESS,
-//       ActionTypes.USER_LOGIN_FAILURE,
-//     ],
-//   },
-// });
 
-// export const logUserOut = (email) => (dispatch, getState) => {
-//   const { loggedIn } = getState();
-
-//   if (!loggedIn) {
-//     return null;
-//   }
-
-//   return {
-//     [ActionTypes.API_MIDDLEWARE_INVOKE]: {
-//       route: ActionTypes.API_MIDDLEWARE_USERS_ENDPOINT,
-//       endpoint: '/logout',
-//       method: 'POST',
-//       content: JSON.stringify({ email }),
-//       types: [
-//         ActionTypes.USER_LOG_OUT_REQUEST,
-//         ActionTypes.USER_LOG_OUT_SUCCESS,
-//         ActionTypes.USER_LOG_OUT_FAILURE,
-//       ],
-//     },
-//   };
-// };

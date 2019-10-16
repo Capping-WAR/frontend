@@ -3,7 +3,7 @@ import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import { useDispatch, useSelector } from 'react-redux';
 import { useState, useEffect } from 'react';
-import { fetchSentence, doneFetchingSentence } from '../../redux/actions';
+import { fetchSentenceToBeReviewed, doneFetchingSentence, submitReview } from '../../redux/actions';
 import Popover from '@material-ui/core/Popover';
 import PopupState, { bindTrigger, bindPopover } from 'material-ui-popup-state';
 import Card from '@material-ui/core/Card';
@@ -60,7 +60,7 @@ const Sentence = () => {
 
     useEffect(() => {
         new Promise((resolve, reject) => {
-            dispatch(fetchSentence());
+            dispatch(fetchSentenceToBeReviewed());
             resolve();
         })
         .then(() => {
@@ -78,7 +78,16 @@ const Sentence = () => {
     ? <CircularProgress color="secondary"/>
     : null;
 
-    const { sentence, rules } = state; 
+    const { sentence, user, rules } = state; 
+
+    let review = {}
+    if (sentence !== undefined) {
+        review = {
+            sentenceID: sentence.id,
+            reviewerID: user.id,
+            dateAdded: "now()"
+        }
+    } 
 
     return (
         <div className={`${classes.root} ${classes.GridItem}`}>
@@ -95,14 +104,19 @@ const Sentence = () => {
                             "No Sentence Available"
                         )
                         :(
-                            sentence[2]
+                            sentence.text
                         ) 
                     )
                 }
                 </Typography>
             </CardContent>
             <CardActions className={classes.buttons}>
-                <Button variant="contained" size="medium" color="secondary" className={classes.buttons.correct}>Correct</Button>
+                <Button variant="contained" size="medium" color="secondary" onClick={() =>
+                    dispatch(submitReview({
+                        ...review,
+                        ruleReview: 1, // 1 means correct
+                    }))
+                } className={classes.buttons.correct}>Correct</Button>
                 <PopupState variant="popover" popupId="demo-popup-popover">
                     {popupState => (
                         <div>
@@ -127,7 +141,9 @@ const Sentence = () => {
                             {
                                 (rules === undefined
                                     ? (
-                                        "Rules not Available"
+                                        <tr><td>
+                                            Rules not Available
+                                        </td></tr>
                                     )
                                     :(
                                         rules.map((rule) => (

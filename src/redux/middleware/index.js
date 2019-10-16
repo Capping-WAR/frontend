@@ -8,8 +8,12 @@ import * as ActionTypes from '../constants';
 
 const SERVER_API_ENDPOINT_BASE = '/api/v1';
 const SERVER_API_USER_ACTIONS = `${SERVER_API_ENDPOINT_BASE}/users`;
-const SERVER_API_SENTENCE_ACTIONS = `${SERVER_API_ENDPOINT_BASE}/sentences`;
+const SERVER_API_SENTENCE_ACTIONS = `${SERVER_API_ENDPOINT_BASE}/sentence`;
 const SERVER_API_RULE_ACTIONS = `${SERVER_API_ENDPOINT_BASE}/rules`;
+const SERVER_API_PEOPLE_REVIEWS_ACTIONS = `${SERVER_API_ENDPOINT_BASE}/review`;
+const SERVER_API_SENTENCE_RULES_ACTIONS = `${SERVER_API_ENDPOINT_BASE}/sentenceRule`;
+const SERVER_API_SEARCH_ACTIONS = `${SERVER_API_ENDPOINT_BASE}/search`;
+
 
 
 const middleware = store => next => action => {
@@ -28,6 +32,10 @@ const middleware = store => next => action => {
   const { route, endpoint, method, content, types } = apiInvocationHook;
   const [ requestType, successType, failureType ] = types;
 
+  if (method === 'POST') {
+    console.log(content)
+  }
+
   let cleanedRoute = '';
 
   switch (route) {
@@ -38,8 +46,17 @@ const middleware = store => next => action => {
       cleanedRoute = SERVER_API_SENTENCE_ACTIONS;
       break;
     case ActionTypes.API_MIDDLEWARE_RULES_ENDPOINT:
-        cleanedRoute = SERVER_API_RULE_ACTIONS;
-        break;
+      cleanedRoute = SERVER_API_RULE_ACTIONS;
+      break;
+    case ActionTypes.API_MIDDLEWARE_PEOPLE_REVIEWS_ENDPOINT:
+      cleanedRoute = SERVER_API_PEOPLE_REVIEWS_ACTIONS;
+      break;
+    case ActionTypes.API_MIDDLEWARE_SENTENCE_RULES_ENDPOINT:
+      cleanedRoute = SERVER_API_SENTENCE_RULES_ACTIONS;
+      break;
+    case ActionTypes.API_MIDDLEWARE_SEARCH_ENDPOINT:
+      cleanedRoute = SERVER_API_SEARCH_ACTIONS;
+      break;
   }
 
   const cleanedEndpoint = cleanedRoute + endpoint;
@@ -51,6 +68,11 @@ const middleware = store => next => action => {
     return finalAction;
   };
 
+  next({
+    type: requestType,
+  })
+  
+  console.log(cleanedEndpoint)
   window.fetch(cleanedEndpoint, {
     method,
     headers: {
