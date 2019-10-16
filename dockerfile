@@ -12,7 +12,7 @@ COPY package.json .
 
 EXPOSE 3000
 RUN npm install \
-    && npm run build \
+    && npm run build 
     # && find /sectorz/build/index.html -type f -exec sed -i 's/src="\//src="\/sectorz\//g' {} \; \
     # && find /sectorz/build/index.html -type f -exec sed -i 's/href="\//href="\/sectorz\//g' {} \;
 CMD npm run serve

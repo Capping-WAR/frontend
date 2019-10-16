@@ -73,7 +73,9 @@ const middleware = store => next => action => {
   })
   
   console.log(cleanedEndpoint)
-  window.fetch(cleanedEndpoint, {
+  
+  // https://cors-anywhere.herokuapp.com/
+  window.fetch(`http://10.10.9.156:5050/http://10.10.9.156:8080${cleanedEndpoint}`, {
     method,
     headers: {
       'Content-Type': 'application/json',
