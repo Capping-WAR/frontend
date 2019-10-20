@@ -4,11 +4,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import { useDispatch, useSelector } from 'react-redux';
 import { useState, useEffect } from 'react';
 
-import { 
-    doneFetchingSentence, fetchSentence, fetchSentenceToBeReviewed
-    } from '../../redux/actions/sentenceActions';
-import { addPeopleReview } from '../../redux/actions/reviewActions';
-
+import { submitReview  } from '../../redux/actions/reviewActions';
 import { store } from '../../redux/store'
 import Popover from '@material-ui/core/Popover';
 import PopupState, { bindTrigger, bindPopover } from 'material-ui-popup-state';
@@ -64,31 +60,12 @@ const Sentence = () => {
     const state = useSelector(state => state);
     const { isFetchingSentence } = state;
 
-    useEffect(() => {
-        new Promise((resolve, reject) => {
-            dispatch(fetchSentenceToBeReviewed());
-            resolve();
-        })
-        .then(() => {
-            
-            dispatch(doneFetchingSentence());
-        })
-        .catch((err) => {
-            console.log(err)
-            // handle error
-            dispatch(doneFetchingSentence());
-        });
-    }, []);
+    console.log(state)
 
 
     const spinner = isFetchingSentence
     ? <CircularProgress color="secondary"/>
     : null;
-
-    // submitReview({
-    //     ...review,
-    //     ruleReview: 1, // 1 means correct
-    // })
 
     const { rules } = state.ruleReducer;
     const { user } = state.userReducer;
@@ -126,7 +103,10 @@ const Sentence = () => {
             </CardContent>
             <CardActions className={classes.buttons}>
                 <Button variant="contained" size="medium" color="secondary" onClick={() =>
-                    dispatch()
+                    dispatch(submitReview({
+                        ...review,
+                        ruleReview: 1, // 1 means correct
+                    }))
                 } className={classes.buttons.correct}>Correct</Button>
                 <PopupState variant="popover" popupId="demo-popup-popover">
                     {popupState => (

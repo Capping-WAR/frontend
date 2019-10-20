@@ -5,6 +5,7 @@ import * as ActionTypes from '../constants';
 
 export const defaultState = {
 	error: null,
+	isFetchingRuleReview: false,
 	ruleReviewID: undefined,
 }
 

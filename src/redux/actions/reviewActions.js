@@ -2,10 +2,16 @@
 // Daniel Nicolas Gisolfi
 
 import * as ActionTypes from '../constants';
-import { fetchRuleReviewID, doneFetchingRuleReviewID } from './sentenceRuleActions';
+import { 
+	fetchRuleReviewID, 
+	doneFetchingRuleReviewID,  
+} from './sentenceRuleActions';
+import { fetchSentenceToBeReviewed } from './sentenceActions';
 import store from '../store';
 
-export const addPeopleReview = (review) => ({
+export const addPeopleReview = (review) => {
+	console.log(review)
+	return {
 	type: ActionTypes.API_MIDDLEWARE_INVOKE,
 	[ActionTypes.API_MIDDLEWARE_INVOKE]: {
 		route: ActionTypes.API_MIDDLEWARE_PEOPLE_REVIEWS_ENDPOINT,
@@ -25,7 +31,7 @@ export const addPeopleReview = (review) => ({
 		],
 	},
   }
-);
+};
 
 export const submitReview = (review) => (dispatch, getState, subscribe) => {
 	if (review.ruleReviewID === undefined) {
@@ -35,19 +41,20 @@ export const submitReview = (review) => (dispatch, getState, subscribe) => {
 		})
 		.then(() => {
 			const unsubscribe = store.subscribe(() => {
-			const { isFetchingRuleReview, ruleReviewID } = getState();
-			if (isFetchingRuleReview) {
-				// console.log('FETCHING')
-			} else {
-				// console.log('DONE', getState())
-				unsubscribe()
-				dispatch(doneFetchingRuleReviewID())
-				dispatch(addPeopleReview({
-				...review,
-				ruleReviewID: ruleReviewID
-				}));
-				// dispatch(fetchSentenceToBeReviewed());
-			}
+				const state = getState();
+				const { isFetchingRuleReview, ruleReviewID } = state.sentenceRulesReducer;
+				if (isFetchingRuleReview) {
+					// console.log('FETCHING')
+				} else {
+					// console.log('DONE', getState())
+					unsubscribe()
+					dispatch(doneFetchingRuleReviewID())
+					dispatch(addPeopleReview({
+						...review,
+						ruleReviewID: ruleReviewID
+					}));
+					dispatch(fetchSentenceToBeReviewed());
+				}
 			})
 		})
 		.catch((err) => {

@@ -7,7 +7,6 @@ import ExpansionPanel from '@material-ui/core/ExpansionPanel';
 import ExpansionPanelSummary from '@material-ui/core/ExpansionPanelSummary';
 import ExpansionPanelDetails from '@material-ui/core/ExpansionPanelDetails';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
-import { fetchRules, doneFetchingRules } from '../../redux/actions/ruleActions';
 import { useDispatch, useSelector } from 'react-redux';
 import { useState, useEffect } from 'react';
 import CircularProgress from '@material-ui/core/CircularProgress';
@@ -43,22 +42,8 @@ const useStyles = makeStyles(theme => ({
 const Rules = () => {
     const classes = useStyles();
 
-    const dispatch = useDispatch();
     const state = useSelector(state => state);
     const { isFetchingRule } = state;
-
-    useEffect(() => {
-        new Promise((resolve, reject) => {
-            dispatch(fetchRules());
-            resolve();
-        })
-        .then(() => {
-            dispatch(doneFetchingRules());
-        })
-        .catch((err) => {
-            dispatch(doneFetchingRules());
-        });
-    }, []);
 
     const spinner = isFetchingRule
         ? <CircularProgress color="secondary"/>

@@ -101,7 +101,7 @@ const middleware = store => next => action => {
     })
     .catch(
       (err) => {
-
+        
         console.log(err)
         return next(actionWith({
           payload: err.message || { error: 'Server error occurred' },

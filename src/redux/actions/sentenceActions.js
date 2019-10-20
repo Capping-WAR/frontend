@@ -44,7 +44,6 @@ export const fetchSentenceToBeReviewed = () =>  (dispatch, getState, subscribe) 
 				// console.log('FETCHING')
 			} else {
 				unsubscribe()
-				console.log(SearchResults.sentencetobereviewed[0][0])
 				dispatch(fetchSentence(SearchResults.sentencetobereviewed[0][0]))
 			}
 		});
