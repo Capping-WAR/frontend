@@ -2,9 +2,13 @@
 // Daniel Nicolas Gisolfi
 
 import * as ActionTypes from '../constants';
-import { initialState } from './index';
 
-export const sentenceRulesReducer = (state = initialState, action) => {
+export const defaultState = {
+	error: null,
+	ruleReviewID: undefined,
+}
+
+export const sentenceRulesReducer = (state = defaultState, action) => {
 	switch (action.type) {
 		case ActionTypes.GET_RULE_REVIEW_REQUEST:
 			return {

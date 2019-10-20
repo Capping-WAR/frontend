@@ -2,9 +2,14 @@
 // Daniel Nicolas Gisolfi
 
 import * as ActionTypes from '../constants';
-import { initialState } from './index';
 
-export const ruleReducer = (state = initialState, action) => {
+export const defaultState = {
+	error: null,
+	isFetchingRules: false,
+	rules: undefined,
+}
+
+export const ruleReducer = (state = defaultState, action) => {
 	switch (action.type) {
 		case ActionTypes.GET_RULES_REQUEST:
 			return {

@@ -2,9 +2,14 @@
 // Daniel Nicolas Gisolfi
 
 import * as ActionTypes from '../constants';
-import { initialState } from './index';
 
-export const userReducer = (state = initialState, action) => {
+export const defaultState = {
+	isFetchingSearch: false,
+	SearchResults: undefined,
+	error: null,
+}
+
+export const utilsReducer = (state = defaultState, action) => {
 	switch (action.type) {
 		
 		case ActionTypes.GET_SEARCH_REQUEST:

@@ -2,40 +2,45 @@
 // Daniel Nicolas Gisolfi
 
 import * as ActionTypes from '../constants';
-import { initialState } from './index';
 
-	export const sentenceReducer = (state = initialState, action) => {
-		switch (action.type) {
+export const defaultState = {
+	error: null,
+	isFetchingSentence: false,
+	sentence: undefined,
+}
 	
-			case ActionTypes.GET_SENTENCE_REQUEST:
-				return {
-					...state,
-					isFetchingSentence: true,
+export const sentenceReducer = (state = defaultState, action) => {
+	switch (action.type) {
+
+		case ActionTypes.GET_SENTENCE_REQUEST:
+			return {
+				...state,
+				isFetchingSentence: true,
+			}
+		case ActionTypes.DONE_GETTING_SENTENCE:
+			return {
+				...state,
+				isFetchingSentence: false,
+			};
+		
+		case ActionTypes.GET_SENTENCE_SUCCESS:
+			return {
+				...state,
+				isFetchingSentence: false,
+				sentence: {
+					id: action.payload.Sentence[0][0],
+					text: action.payload.Sentence[0][2],
 				}
-			case ActionTypes.DONE_GETTING_SENTENCE:
-				return {
-					...state,
-					isFetchingSentence: false,
-				};
+			}
 			
-			case ActionTypes.GET_SENTENCE_SUCCESS:
-				return {
-					...state,
-					isFetchingSentence: false,
-					sentence: {
-						id: action.payload.Sentence[0][0],
-						text: action.payload.Sentence[0][2],
-					}
-				}
-				
-			case ActionTypes.GET_SENTENCE_FAILURE:
-				return {
-					...state,
-					isFetchingSentence: false,
-					error: action.payload.error || 'Could not get Sentences',
-				}
-				
-			default:
-				return state;
-		}
-	};
+		case ActionTypes.GET_SENTENCE_FAILURE:
+			return {
+				...state,
+				isFetchingSentence: false,
+				error: action.payload.error || 'Could not get Sentences',
+			}
+			
+		default:
+			return state;
+	}
+};

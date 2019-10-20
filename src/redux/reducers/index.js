@@ -9,36 +9,19 @@
  * @exports {Object} New store object
  */
 
-
 import { combineReducers } from 'redux';
 import { sentenceReducer } from './sentences'
 import { sentenceRulesReducer } from './sentenceRules'
 import { ruleReducer } from './rules'
 import { reviewReducer } from './reviews'
 import { userReducer } from './users'
-
-
-export const initialState = {
-    isLoading: false,
-    loggedIn: false,
-    isFetchingSentence: false,
-    isFetchingRules: false,
-    user: {
-        first: 'Daniel',
-        last: 'Gisolfi',
-        email: 'Daniel.Gisolfi1@marist.edu',
-        id: 20074558
-    },
-    ruleReviewID: undefined,
-    rules: undefined,
-    sentence: undefined,
-    error: null,
-};
+import { utilsReducer } from './utils'
 
 export default combineReducers({
     sentenceRulesReducer,
     sentenceReducer,
     reviewReducer,
+    utilsReducer,
     ruleReducer,
-    userReducer
+    userReducer,
 })

@@ -2,9 +2,12 @@
 // Daniel Nicolas Gisolfi
 
 import * as ActionTypes from '../constants';
-import { initialState } from './index';
 
-export const reviewReducer = (state = initialState, action) => {
+export const defaultState = {
+	error: null,
+}    
+
+export const reviewReducer = (state = defaultState, action) => {
 	switch (action.type) {
 
 		case ActionTypes.POST_REVIEW_REQUEST:

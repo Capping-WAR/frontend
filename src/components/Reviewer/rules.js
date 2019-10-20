@@ -7,7 +7,7 @@ import ExpansionPanel from '@material-ui/core/ExpansionPanel';
 import ExpansionPanelSummary from '@material-ui/core/ExpansionPanelSummary';
 import ExpansionPanelDetails from '@material-ui/core/ExpansionPanelDetails';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
-import { fetchRules, doneFetchingRules } from '../../redux/actions';
+import { fetchRules, doneFetchingRules } from '../../redux/actions/ruleActions';
 import { useDispatch, useSelector } from 'react-redux';
 import { useState, useEffect } from 'react';
 import CircularProgress from '@material-ui/core/CircularProgress';
@@ -64,8 +64,8 @@ const Rules = () => {
         ? <CircularProgress color="secondary"/>
         : null;
 
-    const { rules } = state;
-    console.log(state)
+    const { rules } = state.ruleReducer;
+    
     return (
         <Grid item xs>
           <div className={`${classes.root} ${classes.GridItem} ${classes.SideCol}`}>
