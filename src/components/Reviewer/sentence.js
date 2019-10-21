@@ -3,7 +3,8 @@ import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import { useDispatch, useSelector } from 'react-redux';
 import { useState, useEffect } from 'react';
-import { fetchSentenceToBeReviewed, doneFetchingSentence, submitReview } from '../../redux/actions';
+
+import { submitReview  } from '../../redux/actions/reviewActions';
 import { store } from '../../redux/store'
 import Popover from '@material-ui/core/Popover';
 import PopupState, { bindTrigger, bindPopover } from 'material-ui-popup-state';
@@ -57,30 +58,18 @@ const Sentence = () => {
     const classes = useStyles();
     const dispatch = useDispatch();
     const state = useSelector(state => state);
-    const {isFetchingSentence} = state;
+    const { isFetchingSentence } = state;
 
-    useEffect(() => {
-        new Promise((resolve, reject) => {
-            dispatch(fetchSentenceToBeReviewed());
-            resolve();
-        })
-        .then(() => {
-            
-            dispatch(doneFetchingSentence());
-        })
-        .catch((err) => {
-            console.log(err)
-            // handle error
-            dispatch(doneFetchingSentence());
-        });
-    }, []);
+    console.log(state)
 
 
     const spinner = isFetchingSentence
     ? <CircularProgress color="secondary"/>
     : null;
 
-    const { sentence, user, rules } = state; 
+    const { rules } = state.ruleReducer;
+    const { user } = state.userReducer;
+    const { sentence } = state.sentenceReducer; 
 
     let review = {}
     if (sentence !== undefined) {
@@ -89,7 +78,7 @@ const Sentence = () => {
             reviewerID: user.id,
             dateAdded: "now()"
         }
-    } 
+    }
 
     return (
         <div className={`${classes.root} ${classes.GridItem}`}>

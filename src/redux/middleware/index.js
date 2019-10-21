@@ -72,10 +72,8 @@ const middleware = store => next => action => {
     type: requestType,
   })
   
-  console.log(cleanedEndpoint)
   
-  // https://cors-anywhere.herokuapp.com/
-  window.fetch(`http://10.10.9.156:5050/http://10.10.9.156:8080${cleanedEndpoint}`, {
+  fetch(`http://10.10.9.156:5050/http://10.10.9.156:8080${cleanedEndpoint}`, {
     method,
     headers: {
       'Content-Type': 'application/json',
@@ -103,7 +101,7 @@ const middleware = store => next => action => {
     })
     .catch(
       (err) => {
-
+        
         console.log(err)
         return next(actionWith({
           payload: err.message || { error: 'Server error occurred' },

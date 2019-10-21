@@ -6,6 +6,15 @@ import Typography from '@material-ui/core/Typography';
 import UserInfo from './userInfo';
 import Rules from './rules';
 import Sentence from './sentence';
+import { 
+  doneFetchingSentence, 
+  fetchSentence, 
+  fetchSentenceToBeReviewed
+  } from '../../redux/actions/sentenceActions';
+import { addPeopleReview } from '../../redux/actions/reviewActions';
+import { useDispatch, useSelector } from 'react-redux';
+import { useEffect } from 'react';
+import { fetchRules, doneFetchingRules } from '../../redux/actions/ruleActions';
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -15,6 +24,34 @@ const useStyles = makeStyles(theme => ({
 
 const Reviewer = () => {
   const classes = useStyles();
+
+  const dispatch = useDispatch();
+  const state = useSelector(state => state);
+
+  useEffect(() => {
+    new Promise((resolve, reject) => {
+      dispatch(fetchRules());
+      resolve();
+    })
+    .then(() => {
+        dispatch(doneFetchingRules());
+        new Promise((resolve, reject) => {
+          dispatch(fetchSentenceToBeReviewed());
+          resolve();
+        })
+        .then(() => {
+            dispatch(doneFetchingSentence());
+        })
+        .catch((err) => {
+            console.log(err)
+            // handle error
+            dispatch(doneFetchingSentence());
+        });
+    })
+    .catch((err) => {
+        dispatch(doneFetchingRules());
+    });
+  }, []);
 
   return (
     <div className={classes.root}>
