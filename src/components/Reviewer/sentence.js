@@ -3,8 +3,8 @@ import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import { useDispatch, useSelector } from 'react-redux';
 import { useState, useEffect } from 'react';
-
-import { submitReview  } from '../../redux/actions/reviewActions';
+import { fetchSentenceToBeReviewed } from '../../redux/actions/sentenceActions'
+import { submitAllRuleReviews  } from '../../redux/actions/reviewActions';
 import { store } from '../../redux/store'
 import Popover from '@material-ui/core/Popover';
 import PopupState, { bindTrigger, bindPopover } from 'material-ui-popup-state';
@@ -14,6 +14,7 @@ import CardContent from '@material-ui/core/CardContent';
 import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
 import CircularProgress from '@material-ui/core/CircularProgress';
+import { reject } from 'q';
 
 const useStyles = makeStyles(theme => ({
     root: {
@@ -56,20 +57,19 @@ const useStyles = makeStyles(theme => ({
 
 const Sentence = () => {
     const classes = useStyles();
-    const dispatch = useDispatch();
     const state = useSelector(state => state);
+    const dispatch = useDispatch();
     const { isFetchingSentence } = state;
 
-    console.log(state)
-
+    const { rules } = state.ruleReducer;
+    const { user } = state.userReducer;
+    const { sentence } = state.sentenceReducer; 
 
     const spinner = isFetchingSentence
     ? <CircularProgress color="secondary"/>
     : null;
 
-    const { rules } = state.ruleReducer;
-    const { user } = state.userReducer;
-    const { sentence } = state.sentenceReducer; 
+    
 
     let review = {}
     if (sentence !== undefined) {
@@ -103,10 +103,10 @@ const Sentence = () => {
             </CardContent>
             <CardActions className={classes.buttons}>
                 <Button variant="contained" size="medium" color="secondary" onClick={() =>
-                    dispatch(submitReview({
+                    dispatch(submitAllRuleReviews({
                         ...review,
                         ruleReview: 1, // 1 means correct
-                    }))
+                    }, rules))
                 } className={classes.buttons.correct}>Correct</Button>
                 <PopupState variant="popover" popupId="demo-popup-popover">
                     {popupState => (

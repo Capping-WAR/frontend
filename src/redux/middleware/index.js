@@ -17,7 +17,6 @@ const SERVER_API_SEARCH_ACTIONS = `${SERVER_API_ENDPOINT_BASE}/search`;
 
 
 const middleware = store => next => action => {
-  console.log('AT MIDDLWARE LEVEL');
   // Determine if the API hook was passed in so we can trigger API processing.
   const apiInvocationHook = action[ActionTypes.API_MIDDLEWARE_INVOKE];
 
