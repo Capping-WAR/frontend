@@ -9,9 +9,7 @@ import {
 import { fetchSentenceToBeReviewed } from './sentenceActions';
 import store from '../store';
 
-export const addPeopleReview = (review) => {
-	console.log(review)
-	return {
+export const addPeopleReview = (review) => ({
 	type: ActionTypes.API_MIDDLEWARE_INVOKE,
 	[ActionTypes.API_MIDDLEWARE_INVOKE]: {
 		route: ActionTypes.API_MIDDLEWARE_PEOPLE_REVIEWS_ENDPOINT,
@@ -31,36 +29,58 @@ export const addPeopleReview = (review) => {
 		],
 	},
   }
+);
+
+export const submitSingleReview = (review) => (dispatch, getState, subscribe) => {
+	return new Promise((resolve, reject) => {
+		dispatch(addPeopleReview(review));
+		resolve();
+	})
+	.then(() => {
+		const unsubscribe = store.subscribe(() => {
+			const state = getState();
+			const { isAddingReview } = state.reviewReducer;
+		})
+	})
+	.catch((err) => {
+		console.log(err)
+		// handle error
+	});
 };
 
-export const submitReview = (review) => (dispatch, getState, subscribe) => {
-	if (review.ruleReviewID === undefined) {
-		return new Promise((resolve, reject) => {
-			dispatch(fetchRuleReviewID(review.sentenceID));
-			resolve();
-		})
-		.then(() => {
-			const unsubscribe = store.subscribe(() => {
-				const state = getState();
-				const { isFetchingRuleReview, ruleReviewID } = state.sentenceRulesReducer;
-				if (isFetchingRuleReview) {
-					// console.log('FETCHING')
-				} else {
-					// console.log('DONE', getState())
-					unsubscribe()
-					dispatch(doneFetchingRuleReviewID())
-					dispatch(addPeopleReview({
-						...review,
-						ruleReviewID: ruleReviewID
-					}));
-					dispatch(fetchSentenceToBeReviewed());
-				}
+export const submitAllRuleReviews = (review, rules) => (dispatch, getState, subscribe) => {
+	console.log(review)
+	if (review.sentenceID === undefined) {
+		return 
+	} 
+	return new Promise((resolve, reject) => {
+		resolve(
+			rules.map((rule) => {
+				return new Promise((resolve, reject) => {
+					dispatch(submitSingleReview({...review, ruleReviewID: rule[0]}))
+					resolve();
+				})
+				.catch((err) => {
+					console.log(err)
+					// handle error
+				});
 			})
-		})
-		.catch((err) => {
-			console.log(err)
-			// handle error
-			dispatch(doneFetchingRuleReviewID())
+		);
+	})
+	.then((promises) => {
+		const unsubscribe = store.subscribe(() => {
+			const state = getState();
+			const { isSubmitingReview } = state.reviewReducer;
+			console.log(state)
+			if (!isSubmitingReview) {
+				unsubscribe();
+				Promise.all(promises)
+				dispatch(fetchSentenceToBeReviewed())
+			}
 		});
-	}
+	})
+	.catch((err) => {
+		console.log(err)
+		// handle error
+	});
 };

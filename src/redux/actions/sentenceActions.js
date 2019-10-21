@@ -40,11 +40,12 @@ export const fetchSentenceToBeReviewed = () =>  (dispatch, getState, subscribe) 
 			const state = getState();
 			const { isFetchingSearch, SearchResults } = state.utilsReducer;
 
-			if (isFetchingSearch) {
-				// console.log('FETCHING')
-			} else {
+			if (!isFetchingSearch) {
 				unsubscribe()
-				dispatch(fetchSentence(SearchResults.sentencetobereviewed[0][0]))
+				if (SearchResults.sentencetobereviewed.length != 0){
+					dispatch(fetchSentence(SearchResults.sentencetobereviewed[0][0]))
+				}
+			
 			}
 		});
 	})
