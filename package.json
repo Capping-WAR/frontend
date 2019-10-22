@@ -1,9 +1,10 @@
 {
     "name": "dashboard",
     "version": "0.1.0",
+    "proxy": "http://10.10.9.156:8080",
     "private": true,
     "dependencies": {
-      "@material-ui/core": "^4.4.0",
+      "@material-ui/core": "^4.5.1",
       "@material-ui/icons": "^4.2.1",
       "bootstrap": "^4.3.1",
       "material-ui-popup-state": "^1.4.1",
@@ -11,9 +12,14 @@
       "react-bootstrap": "^1.0.0-beta.12",
       "react-checkbox-group": "^5.0.2",
       "react-dom": "^16.9.0",
-      "react-scripts": "3.1.1"
+      "react-redux": "^7.1.1",
+      "react-scripts": "3.1.1",
+      "redux": "^4.0.4",
+      "redux-devtools-extension": "^2.13.8",
+      "redux-thunk": "^2.3.0"
     },
     "scripts": {
+      "serve": "node index.js",
       "start": "react-scripts start",
       "build": "react-scripts build",
       "test": "react-scripts test",
@@ -38,3 +44,4 @@
       "**/@babel/runtime": "7.5.0"
     }
   }
+  

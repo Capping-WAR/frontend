@@ -1,5 +1,5 @@
-import Header from './Header';
+import SideNav from './SideNav';
 import Footer from './Footer';
 import {mainListItems, secondaryListItems} from './listItems';
 
-export { Header, mainListItems, secondaryListItems, Footer};
+export { SideNav, mainListItems, secondaryListItems, Footer};

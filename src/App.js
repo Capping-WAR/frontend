@@ -1,8 +1,9 @@
 import React, { Component, Fragment } from 'react';
-import {createMuiTheme} from '@material-ui/core/styles';
-import MuiThemeProvider from '@material-ui/core/styles/MuiThemeProvider';
-import { Header, Footer} from './components/Layouts';
+import { Provider } from 'react-redux';
+import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles';
+import { Footer } from './components/Layouts';
 import Dashboard from './components/Dashboard';
+import Store from './redux/store';
 
 const theme = createMuiTheme({
   palette: {
@@ -39,14 +40,16 @@ class App extends Component {
   render(){
     // Fragment: gives you an outer wrapper for elements, 
     // wont include extra markup
-    return <MuiThemeProvider theme={theme}>
-      <Fragment>
-        {/* <Header /> */}
-        <Dashboard />
-        {/* <Footer /> */}
-      </Fragment>
-    </MuiThemeProvider>
-    
+    return (
+      <MuiThemeProvider theme={theme}>
+         <Provider store={Store}>
+          <Fragment>
+            <Dashboard />
+            {/* <Footer /> */}
+          </Fragment>
+        </Provider>
+      </MuiThemeProvider>
+    )
   }
 }
 export default App;
