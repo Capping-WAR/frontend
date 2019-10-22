@@ -48,33 +48,74 @@ export const submitSingleReview = (review) => (dispatch, getState, subscribe) =>
 	});
 };
 
-export const submitAllRuleReviews = (review, rules) => (dispatch, getState, subscribe) => {
-	console.log(review)
+export const submitCorrectReviews = (review, rules) => (dispatch, getState, subscribe) => {
 	if (review.sentenceID === undefined) {
 		return 
 	} 
 	return new Promise((resolve, reject) => {
-		resolve(
-			rules.map((rule) => {
-				return new Promise((resolve, reject) => {
-					dispatch(submitSingleReview({...review, ruleReviewID: rule[0]}))
-					resolve();
-				})
-				.catch((err) => {
-					console.log(err)
-					// handle error
-				});
+		rules.map((rule) => {
+			return new Promise((resolve, reject) => {
+				dispatch(submitSingleReview({...review, ruleReviewID: rule[0]}))
+				resolve();
 			})
-		);
+			.catch((err) => {
+				console.log(err)
+				// handle error
+			});
+		})
+		resolve();
 	})
-	.then((promises) => {
+	.then(() => {
 		const unsubscribe = store.subscribe(() => {
 			const state = getState();
 			const { isSubmitingReview } = state.reviewReducer;
-			console.log(state)
 			if (!isSubmitingReview) {
 				unsubscribe();
-				Promise.all(promises)
+				dispatch(fetchSentenceToBeReviewed())
+			}
+		});
+	})
+	.catch((err) => {
+		console.log(err)
+		// handle error
+	});
+};
+
+export const submitIncorrectReviews = (review, rules, checkboxVals) => (dispatch, getState, subscribe) => {
+	console.log('oi', checkboxVals)
+	if (review.sentenceID === undefined) {
+		return 
+	} 
+	return new Promise((resolve, reject) => {
+		console.log(checkboxVals)
+		rules.map((rule) => {
+			if (!checkboxVals.hasOwnProperty(rule[0])) {
+				const key = rule[0]
+				Object.assign(checkboxVals, { [key]: 1 })// it was correct put the val in
+			}
+			return new Promise((resolve, reject) => {
+				dispatch(
+					submitSingleReview({
+						...review, 
+						ruleReviewID: rule[0], 
+						ruleReview: checkboxVals[rule[0]]
+					})
+				)
+				resolve();
+			})
+			.catch((err) => {
+				console.log(err)
+				// handle error
+			});
+		})
+		resolve();
+	})
+	.then(() => {
+		const unsubscribe = store.subscribe(() => {
+			const state = getState();
+			const { isSubmitingReview } = state.reviewReducer;
+			if (!isSubmitingReview) {
+				unsubscribe();
 				dispatch(fetchSentenceToBeReviewed())
 			}
 		});

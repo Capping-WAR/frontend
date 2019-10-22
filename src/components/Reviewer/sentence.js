@@ -4,7 +4,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import { useDispatch, useSelector } from 'react-redux';
 import { useState, useEffect } from 'react';
 import { fetchSentenceToBeReviewed } from '../../redux/actions/sentenceActions'
-import { submitAllRuleReviews  } from '../../redux/actions/reviewActions';
+import { submitCorrectReviews, submitIncorrectReviews } from '../../redux/actions/reviewActions';
 import { store } from '../../redux/store'
 import Popover from '@material-ui/core/Popover';
 import PopupState, { bindTrigger, bindPopover } from 'material-ui-popup-state';
@@ -60,15 +60,15 @@ const Sentence = () => {
     const state = useSelector(state => state);
     const dispatch = useDispatch();
     const { isFetchingSentence } = state;
-
     const { rules } = state.ruleReducer;
     const { user } = state.userReducer;
-    const { sentence } = state.sentenceReducer; 
+    const { sentence } = state.sentenceReducer;
+    const [checkboxVals, setCheckboxVals] = useState({});
 
+  
     const spinner = isFetchingSentence
     ? <CircularProgress color="secondary"/>
     : null;
-
     
 
     let review = {}
@@ -103,7 +103,7 @@ const Sentence = () => {
             </CardContent>
             <CardActions className={classes.buttons}>
                 <Button variant="contained" size="medium" color="secondary" onClick={() =>
-                    dispatch(submitAllRuleReviews({
+                    dispatch(submitCorrectReviews({
                         ...review,
                         ruleReview: 1, // 1 means correct
                     }, rules))
@@ -143,6 +143,26 @@ const Sentence = () => {
                                                 type="checkbox"
                                                 name="rule"
                                                 value={rule[0]}
+                                                onChange={e => {
+                                                    if (checkboxVals.hasOwnProperty(e.target.value)) {
+                                                        if (checkboxVals[e.target.value] === 1) {
+                                                            setCheckboxVals({
+                                                                ...checkboxVals,
+                                                                [e.target.value]: 0
+                                                            })
+                                                        } else {
+                                                            setCheckboxVals({
+                                                                ...checkboxVals,
+                                                                [e.target.value]: 1
+                                                            })
+                                                        }
+                                                    } else {
+                                                        setCheckboxVals({
+                                                            ...checkboxVals,
+                                                            [e.target.value]: 0
+                                                        })
+                                                    }
+                                                }}
                                                 />{rule[1]}
                                             </td></tr>
                                         ))
@@ -151,7 +171,12 @@ const Sentence = () => {
 
                             }
                             <tr><td>
-                            <Button variant="contained" className={classes.buttons.incorrect} {...bindTrigger(popupState)}>
+                            <Button variant="contained" onClick={() => 
+                                dispatch(submitIncorrectReviews(
+                                    review, rules, checkboxVals
+                                    )
+                                )
+                            } className={classes.buttons.incorrect}>
                                 Submit
                             </Button>
                             </td></tr></table>
