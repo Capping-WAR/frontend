@@ -13,6 +13,7 @@ const SERVER_API_RULE_ACTIONS = `${SERVER_API_ENDPOINT_BASE}/rules`;
 const SERVER_API_PEOPLE_REVIEWS_ACTIONS = `${SERVER_API_ENDPOINT_BASE}/review`;
 const SERVER_API_SENTENCE_RULES_ACTIONS = `${SERVER_API_ENDPOINT_BASE}/sentenceRule`;
 const SERVER_API_SEARCH_ACTIONS = `${SERVER_API_ENDPOINT_BASE}/search`;
+const SERVER_API_REVIEWER_ACTIONS = `${SERVER_API_ENDPOINT_BASE}/reviewer`;
 
 
 
@@ -30,10 +31,6 @@ const middleware = store => next => action => {
 
   const { route, endpoint, method, content, types } = apiInvocationHook;
   const [ requestType, successType, failureType ] = types;
-
-  if (method === 'POST') {
-    console.log(content)
-  }
 
   let cleanedRoute = '';
 
@@ -55,6 +52,9 @@ const middleware = store => next => action => {
       break;
     case ActionTypes.API_MIDDLEWARE_SEARCH_ENDPOINT:
       cleanedRoute = SERVER_API_SEARCH_ACTIONS;
+      break;
+    case ActionTypes.API_MIDDLEWARE_REVIEWER_ENDPOINT:
+      cleanedRoute = SERVER_API_REVIEWER_ACTIONS;
       break;
   }
 
@@ -85,7 +85,6 @@ const middleware = store => next => action => {
     .then(async (serverResponse) => {
       const data = await serverResponse.json();
 
-      console.log(data)
       if (!serverResponse.ok || data.error) {
         return next(actionWith({
           payload: data.error || { error: 'Server error occurred' },

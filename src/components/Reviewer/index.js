@@ -11,10 +11,13 @@ import {
   fetchSentence, 
   fetchSentenceToBeReviewed
   } from '../../redux/actions/sentenceActions';
-import { addPeopleReview } from '../../redux/actions/reviewActions';
+import { fetchSearch } from '../../redux/actions/utilActions';
 import { useDispatch, useSelector } from 'react-redux';
 import { useEffect } from 'react';
 import { fetchRules, doneFetchingRules } from '../../redux/actions/ruleActions';
+import { fetchReviewer, doneFetchingReviewer} from '../../redux/actions/reviewerActions';
+import store from '../../redux/store'
+import { getState } from 'expect/build/jestMatchersObject';
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -27,6 +30,7 @@ const Reviewer = () => {
 
   const dispatch = useDispatch();
   const state = useSelector(state => state);
+  const { user } = state.userReducer; 
 
   useEffect(() => {
     new Promise((resolve, reject) => {
@@ -41,6 +45,37 @@ const Reviewer = () => {
         })
         .then(() => {
             dispatch(doneFetchingSentence());
+          //   new Promise((resolve, reject) => {
+          //     console.log(user)
+          //     dispatch(
+          //       fetchReviewer(user.id)
+          //     );
+          //     const unsubscribe = store.subscribe(() => {
+          //       const state = getState();
+          //       const { isFetchingReviewer, reviewer } = state.reviewerReducer;
+          //       if (isFetchingReviewer !== undefined) {
+          //         if (!isFetchingReviewer) {
+          //           if (reviewer != undefined){
+          //             unsubscribe()
+          //             console.log(state)
+          //           }
+                  
+          //         }
+  
+          //         resolve();
+
+          //       }
+                
+          //     })
+          //   })
+          //   .then(() => {
+          //     dispatch(doneFetchingReviewer());
+          //     console.log(state)
+          //   })
+          //   .catch((err) => {
+          //     console.log(err)
+          //     // handle error
+          // });
         })
         .catch((err) => {
             console.log(err)

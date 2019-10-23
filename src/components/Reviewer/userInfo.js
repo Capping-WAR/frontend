@@ -11,6 +11,7 @@ import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
 import ListItemAvatar from '@material-ui/core/ListItemAvatar';
+import { useDispatch, useSelector } from 'react-redux';
 
 const useStyles = makeStyles(theme => ({
     root: {
@@ -39,9 +40,15 @@ const useStyles = makeStyles(theme => ({
   }));
 
 const UserInfo = () => {
-    const classes = useStyles();
+  const classes = useStyles();
+  const state = useSelector(state => state);
+  const dispatch = useDispatch();
 
-    const [completed, setCompleted] = React.useState(0);
+  const { reviewer } = state.reviewerReducer;
+  console.log(reviewer)
+
+
+  const [completed, setCompleted] = React.useState(0);
 
   React.useEffect(() => {
     function progress() {
