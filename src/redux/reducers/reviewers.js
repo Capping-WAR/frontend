@@ -21,7 +21,7 @@ export const reviewerReducer = (state = defaultState, action) => {
             return {
                 ...state,
                 isFetchingReviewer: false,
-                reviewer: action.payload.Reviewers
+                reviewer: action.payload.Reviewer
             }
 
         case ActionTypes.GET_REVIEWER_FAILURE:

@@ -45,37 +45,20 @@ const Reviewer = () => {
         })
         .then(() => {
             dispatch(doneFetchingSentence());
-          //   new Promise((resolve, reject) => {
-          //     console.log(user)
-          //     dispatch(
-          //       fetchReviewer(user.id)
-          //     );
-          //     const unsubscribe = store.subscribe(() => {
-          //       const state = getState();
-          //       const { isFetchingReviewer, reviewer } = state.reviewerReducer;
-          //       if (isFetchingReviewer !== undefined) {
-          //         if (!isFetchingReviewer) {
-          //           if (reviewer != undefined){
-          //             unsubscribe()
-          //             console.log(state)
-          //           }
-                  
-          //         }
-  
-          //         resolve();
-
-          //       }
-                
-          //     })
-          //   })
-          //   .then(() => {
-          //     dispatch(doneFetchingReviewer());
-          //     console.log(state)
-          //   })
-          //   .catch((err) => {
-          //     console.log(err)
-          //     // handle error
-          // });
+            new Promise((resolve, reject) => {
+              dispatch(
+                fetchReviewer(user.id)
+              );
+              resolve();
+            })
+            .then(() => {
+              dispatch(doneFetchingReviewer());
+              console.log(state)
+            })
+            .catch((err) => {
+              console.log(err)
+              // handle error
+          });
         })
         .catch((err) => {
             console.log(err)
@@ -85,6 +68,7 @@ const Reviewer = () => {
     })
     .catch((err) => {
         dispatch(doneFetchingRules());
+        console.log(err)
     });
   }, []);
 
