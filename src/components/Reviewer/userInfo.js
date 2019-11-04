@@ -27,6 +27,7 @@ const useStyles = makeStyles(theme => ({
     },
     item: {
       padding: theme.spacing(2),
+      ListStyleType: 'none'
     },
     GridItem: {
       paddingTop: 40

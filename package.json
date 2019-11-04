@@ -1,47 +1,55 @@
 {
-    "name": "dashboard",
-    "version": "0.1.0",
-    "proxy": "http://10.10.9.156:8080",
-    "private": true,
-    "dependencies": {
-      "@material-ui/core": "^4.5.1",
-      "@material-ui/icons": "^4.2.1",
-      "bootstrap": "^4.3.1",
-      "material-ui-popup-state": "^1.4.1",
-      "react": "^16.9.0",
-      "react-bootstrap": "^1.0.0-beta.12",
-      "react-checkbox-group": "^5.0.2",
-      "react-dom": "^16.9.0",
-      "react-redux": "^7.1.1",
-      "react-scripts": "3.1.1",
-      "redux": "^4.0.4",
-      "redux-devtools-extension": "^2.13.8",
-      "redux-thunk": "^2.3.0"
-    },
-    "scripts": {
-      "serve": "node index.js",
-      "start": "react-scripts start",
-      "build": "react-scripts build",
-      "test": "react-scripts test",
-      "eject": "react-scripts eject"
-    },
-    "eslintConfig": {
-      "extends": "react-app"
-    },
-    "browserslist": {
-      "production": [
-        ">0.2%",
-        "not dead",
-        "not op_mini all"
-      ],
-      "development": [
-        "last 1 chrome version",
-        "last 1 firefox version",
-        "last 1 safari version"
-      ]
-    },
-    "resolutions": {
-      "**/@babel/runtime": "7.5.0"
-    }
+  "name": "dashboard",
+  "version": "0.1.0",
+  "proxy": "http://10.10.9.156:8080",
+  "private": true,
+  "dependencies": {
+    "@material-ui/core": "^4.5.1",
+    "@material-ui/icons": "^4.2.1",
+    "body-parser": "^1.19.0",
+    "connect-cas": "^1.8.1",
+    "cookie-parser": "^1.4.4",
+    "cookie-session": "^1.3.3",
+    "express-session": "^1.17.0",
+    "formik": "^1.5.8",
+    "js-cookie": "^2.2.1",
+    "material-ui-popup-state": "^1.4.1",
+    "nodejs-cas": "^1.0.12",
+    "react": "^16.11.0",
+    "react-checkbox-group": "^5.0.2",
+    "react-dom": "^16.11.0",
+    "react-redux": "^7.1.1",
+    "react-router": "^5.1.2",
+    "react-router-dom": "^5.1.2",
+    "react-scripts": "3.1.1",
+    "redux": "^4.0.4",
+    "redux-devtools-extension": "^2.13.8",
+    "redux-thunk": "^2.3.0",
+    "yup": "^0.27.0"
+  },
+  "scripts": {
+    "serve": "node index.js",
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "test": "react-scripts test",
+    "eject": "react-scripts eject"
+  },
+  "eslintConfig": {
+    "extends": "react-app"
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  },
+  "resolutions": {
+    "**/@babel/runtime": "7.5.0"
   }
-  
+}

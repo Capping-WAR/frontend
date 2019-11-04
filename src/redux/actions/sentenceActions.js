@@ -42,10 +42,14 @@ export const fetchSentenceToBeReviewed = () =>  (dispatch, getState, subscribe) 
 
 			if (!isFetchingSearch) {
 				unsubscribe()
-				if (SearchResults.sentencetobereviewed.length != 0){
-					dispatch(fetchSentence(SearchResults.sentencetobereviewed[0][0]))
+				if (SearchResults !== undefined) {
+					
+					if (SearchResults.sentencetobereviewed.length != 0){
+						dispatch(fetchSentence(SearchResults.sentencetobereviewed[0][0]))
+					}
+				} else {
+					console.log('This shouldnt happen, something has gone arye')
 				}
-			
 			}
 		});
 	})

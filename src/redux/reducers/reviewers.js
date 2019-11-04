@@ -36,6 +36,11 @@ export const reviewerReducer = (state = defaultState, action) => {
                 ...state,
                 isFetchingReviewer: false,
             }
+        
+        case ActionTypes.RESET_REVIEWER:
+            return {
+                ...defaultState
+            }
 
         default:
             return state;
