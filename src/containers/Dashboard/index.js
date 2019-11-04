@@ -6,6 +6,8 @@ import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
 import Reviewer from '../../components/Reviewer';
 import { SideNav } from '../../components/Layouts';
+import { useDispatch, useSelector } from 'react-redux';
+import { Redirect } from 'react-router-dom';
 import Cookies from 'js-cookie';
 
 const theme = createMuiTheme({
@@ -47,6 +49,12 @@ const useStyles = makeStyles(theme => ({
 
 const Dashboard = () => {
   const classes = useStyles();
+  const state = useSelector(state => state);
+  const { reviewer } = state.reviewerReducer;
+
+  if (reviewer === undefined) {
+    return <Redirect to={{ pathname: '/signup' }} />;
+  }
 
   console.log(Cookies.get('username'));
 

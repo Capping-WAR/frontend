@@ -65,40 +65,6 @@ const useStyles = makeStyles(theme => ({
   submit: {
     margin: theme.spacing(3, 0, 2),
   },
-    // root: {
-    //     flexGrow: 1,
-    //   },
-    // margin: {
-    //     margin: 20,
-    // },
-    // item: {
-    //     padding: theme.spacing(2),
-    // },
-    // card: {
-    //     margin: 40,
-    //     backgroundColor: "#444B58",
-    //     textAlign: 'center',
-    // },
-
-    // GridItem: {
-    //     paddingTop: 40
-    // },
-    // SideCol: {
-    //     paddingLeft: 20,
-    //     paddingRight: 20
-    // },
-    // buttons: {
-    //     margin: theme.spacing(1),
-    //     display: 'flex',
-    //     alignItems: 'center',
-    //     justifyContent: 'center',
-    // },
-    // container: {
-    //     paddingTop: theme.spacing(4),
-    //     paddingBottom: theme.spacing(4),
-    //     background: "#282C34",
-    //     color: "white",
-    //   },
 }));
 
 const Copyright = () => {
@@ -115,9 +81,7 @@ const Copyright = () => {
   }
 
 const checkEmptyArr = (arr) => {
-    console.log(Array.isArray(arr))
     if (Array.isArray(arr)) {
-        console.log(arr.length)
         if (arr.length === 0) {
             return true
         } else {
@@ -151,7 +115,6 @@ const SignUp = () => {
     }, []);
 
     const { reviewer, isFetchingReviewer } = state.reviewerReducer;
-    console.log((reviewer !== undefined ), (!isFetchingReviewer), (!checkEmptyArr(reviewer)), reviewer)
     return ((reviewer !== undefined ) && (!isFetchingReviewer) && (!checkEmptyArr(reviewer))) ? (
         <Redirect
         to={{ pathname: '/' }}
