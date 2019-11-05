@@ -52,11 +52,12 @@ const Dashboard = () => {
   const state = useSelector(state => state);
   const { reviewer } = state.reviewerReducer;
 
-  if (reviewer === undefined) {
-    return <Redirect to={{ pathname: '/signup' }} />;
-  }
+  // if (reviewer === undefined) {
+  //   return <Redirect to={{ pathname: '/signup' }} />;
+  // }
 
   console.log(Cookies.get('username'));
+  console.log(Cookies.get('NSESSIONID'));
 
   return (
       <MuiThemeProvider theme={theme}>

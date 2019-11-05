@@ -4,6 +4,7 @@
 import * as ActionTypes from '../constants';
 
 export const defaultState = {
+    isAddingReviewer: false,
     isFetchingReviewer: false,
     reviewer: undefined,
 	error: null,
@@ -40,6 +41,26 @@ export const reviewerReducer = (state = defaultState, action) => {
         case ActionTypes.RESET_REVIEWER:
             return {
                 ...defaultState
+            }
+
+        case ActionTypes.POST_REVIEWER_REQUEST:
+            return {
+                ...state,
+                isAddingReviewer: true,
+            }
+
+        case ActionTypes.POST_REVIEWER_SUCCESS:
+            return {
+                ...state,
+                isAddingReviewer: false,
+                reviewer: action.payload.Reviewer
+            }
+
+        case ActionTypes.POST_REVIEWER_FAILURE:
+            return {
+                ...state,
+                isAddingReviewer: false,
+                error: action.payload.error || 'Could not add Reviewer',
             }
 
         default:

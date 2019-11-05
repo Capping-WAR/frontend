@@ -29,17 +29,18 @@ const theme = createMuiTheme({
 const App = () => {
   return (
     <MuiThemeProvider theme={theme}>
-        <Provider store={Store}>
-          <Router>
-            <Switch>
-              {/* Each route is defined with Route */}
-              <Route path="/signup" component={SignUp}/>
-              <Route path="/" component={Dashboard}/>
-            </Switch>
-          </Router>
+      <Provider store={Store}>
+        <Router>
+          <Switch>
+            {/* Each route is defined with Route */}
+            <Route path="/signup" component={SignUp}/>
+            <Route path="/" component={Dashboard}/>
+          </Switch>
+        </Router>
       </Provider>
     </MuiThemeProvider>
   )
 }
 
 export default App;
+

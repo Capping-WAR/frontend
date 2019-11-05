@@ -7,49 +7,53 @@ const cookieSession = require('cookie-session');
 var url = require('url');
 
 
-cas.configure({ 'host': 'login.marist.edu' });
 const app = express();
 
+// Serve the static files from the React app
+app.use(express.static(path.join(__dirname, 'build')));
+cas.configure({ 'host': 'login.marist.edu' });
 
 app.use(cookieParser('this should be random and secure'));
 app.use(cookieSession({
-      name: 'NSESSIONID',
-      secret: 'Hello I am a long long long secret',
+      name: 'session',
+      secret: 'osnonsco'
     }));
 
 
-
-// Handles any requests
-app.get('/', (req, res) => {
-    if (req.session.cas && req.session.cas.user) {
-      return res.sendFile(path.join(__dirname+'/build/index.html'));
-    } else {
-      return res.redirect('/login');
-    }
-});
-
 app.get('/login', cas.serviceValidate(), cas.authenticate(), (req, res) => {
-    // Great, we logged in, now redirect back to the home page.
-    return res.redirect('/');
+  // Great, we logged in, now redirect back to the home page.
+  return res.redirect('/');
 });
 
 app.get('/logout', (req, res) => {
-    if (!req.session) {
-      return res.redirect('/');
-    }
-    // Forget our own login session
-    if (req.session.destroy) {
-      req.session.destroy();
-    } else {
-      // Cookie-based sessions have no destroy()
-      req.session = null;
-    }
-    // Send the user to the official campus-wide logout URL
-    var options = cas.configure();
-    options.pathname = options.paths.logout;
-    return res.redirect(url.format(options));
-  });  
+  if (!req.session) {
+    return res.redirect('/');
+  }
+  // Forget our own login session
+  if (req.session.destroy) {
+    req.session.destroy();
+  } else {
+    // Cookie-based sessions have no destroy()
+    req.session = null;
+  }
+  // Send the user to the official campus-wide logout URL
+  var options = cas.configure();
+  options.pathname = options.paths.logout;
+  return res.redirect(url.format(options));
+});  
 
+// Handles any requests
+app.get('/', (req, res) => {
+  console.log(req)
+  console.log(req.session)
+  if (req.session.cas && req.session.cas.user) {
+    req.session.cookie.username = req.session.cas.user
+    console.log(req.session)
+    res.sendFile(path.join(__dirname+'/build/index.html'));
+  } else {
+    return res.redirect('/login');
+  }
+});
 
 const http_port = 3000;
 app.listen(http_port);

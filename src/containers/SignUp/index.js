@@ -22,7 +22,7 @@ import Link from '@material-ui/core/Link';
 import Box from '@material-ui/core/Box';
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import { fetchReviewer, doneFetchingReviewer, resetReviewer} from '../../redux/actions/reviewerActions';
-// import { addReviewer } from '../../redux/actions/reviewerActions';
+import { addReviewer } from '../../redux/actions/reviewerActions';
 
 
 const theme = createMuiTheme({
@@ -179,12 +179,11 @@ const SignUp = () => {
                     </Grid>
                 </Grid>
                 <Button
-                    type="submit"
                     fullWidth
                     variant="contained"
                     color="secondary"
                     className={classes.submit}
-                    // onClick={dispatch(addReviewer(user))}
+                    onClick={() => dispatch(addReviewer(user))}
                 >
                     Sign Up
                 </Button>
