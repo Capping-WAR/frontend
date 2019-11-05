@@ -2,12 +2,14 @@ import React, { Component, Fragment } from 'react';
 import { Provider } from 'react-redux';
 import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles';
 import { Footer } from '../../components/Layouts';
-import Dashboard from '../../containers/Dashboard';
+import Dashboard from '..//Dashboard';
 import SignUp from '../SignUp';
+import AI from '../AI';
 import Store from '../../redux/store';
+import About from '../../containers/About';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 
-const theme = createMuiTheme({
+export const theme = createMuiTheme({
   spacing: 4,
   palette: {
       type: 'dark',
@@ -33,6 +35,8 @@ const App = () => {
         <Router>
           <Switch>
             {/* Each route is defined with Route */}
+            <Route path="/ai" component={AI}/>
+            <Route path="/about" component={About}/>
             <Route path="/signup" component={SignUp}/>
             <Route path="/" component={Dashboard}/>
           </Switch>
