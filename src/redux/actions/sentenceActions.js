@@ -30,7 +30,6 @@ export const fetchSentenceToBeReviewed = () =>  (dispatch, getState, subscribe) 
 	return new Promise((resolve, reject) => {
 		const state = getState();
 		const { reviewer } = state.reviewerReducer;
-		console.log(reviewer)
 		dispatch(fetchSearch(
 			`SELECT * FROM SentenceToBeReviewed(${reviewer.id});`
 		));

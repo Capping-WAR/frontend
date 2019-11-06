@@ -22,6 +22,7 @@ import Box from '@material-ui/core/Box';
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import { fetchReviewer, doneFetchingReviewer, resetReviewer} from '../../redux/actions/reviewerActions';
 import { addReviewer } from '../../redux/actions/reviewerActions';
+import Cookies from 'universal-cookie';
 
 
 const theme = createMuiTheme({
@@ -99,6 +100,11 @@ const SignUp = () => {
     const state = useSelector(state => state);
     const { reviewer, isFetchingReviewer } = state.reviewerReducer;
 
+    const cookies = new Cookies();
+    console.log(cookies.get('username'));
+    console.log(cookies.get('NSESSIONID'));
+    console.log(cookies.get('session'));
+
     useEffect(() => {
       dispatch(resetReviewer())
       new Promise((resolve, reject) => {
@@ -114,6 +120,7 @@ const SignUp = () => {
         });
     }, []);
 
+    
 
     return ((reviewer !== undefined ) && (!isFetchingReviewer) && (!checkEmptyArr(reviewer))) ? (
         <Redirect

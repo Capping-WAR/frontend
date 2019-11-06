@@ -4,6 +4,8 @@ var cas = require('connect-cas');
 const express = require('express');
 const cookieParser = require('cookie-parser');
 const cookieSession = require('cookie-session');
+const Cookies = require('universal-cookie');
+
 var url = require('url');
 
 
@@ -13,11 +15,11 @@ const app = express();
 app.use(express.static(path.join(__dirname, 'build')));
 cas.configure({ 'host': 'login.marist.edu' });
 
-app.use(cookieParser('this should be random and secure'));
-app.use(cookieSession({
-      name: 'session',
-      secret: 'osnonsco'
-    }));
+// app.use(cookieParser('this should be random and secure'));
+// app.use(cookieSession({
+//       name: 'session',
+//       secret: 'osnonsco'
+//     }));
 
 
 app.get('/login', cas.serviceValidate(), cas.authenticate(), (req, res) => {
@@ -46,8 +48,10 @@ app.get('/logout', (req, res) => {
 app.get('/', (req, res) => {
   console.log(req)
   console.log(req.session)
+  const cookies = new Cookies(req.headers.cookie);
   if (req.session.cas && req.session.cas.user) {
-    req.session.cookie.username = req.session.cas.user
+    cookies.set('username', req.session.cas.user)
+    // req.session.cookie.username = 
     console.log(req.session)
     res.sendFile(path.join(__dirname+'/build/index.html'));
   } else {
