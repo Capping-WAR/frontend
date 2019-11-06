@@ -15,6 +15,7 @@ import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import { reject } from 'q';
+import { height } from '@material-ui/system';
 
 const useStyles = makeStyles(theme => ({
     root: {
@@ -31,9 +32,7 @@ const useStyles = makeStyles(theme => ({
     },
   
     GridItem: {
-      paddingTop: 40
-    },
-    SideCol: {
+      paddingTop: 40,
       paddingLeft: 20,
       paddingRight: 20
     },

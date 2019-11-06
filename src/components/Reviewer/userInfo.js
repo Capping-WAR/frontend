@@ -30,9 +30,7 @@ const useStyles = makeStyles(theme => ({
       ListStyleType: 'none'
     },
     GridItem: {
-      paddingTop: 40
-    },
-    SideCol: {
+      paddingTop: 40,
       paddingLeft: 20,
       paddingRight: 20
     },
@@ -70,8 +68,8 @@ const UserInfo = () => {
   }, []);
 
   return (
-    <Grid item xs>
-      <div className={`${classes.root} ${classes.GridItem} ${classes.SideCol}`}>
+    <Grid item xs={12}>
+      <div className={`${classes.root} ${classes.GridItem}`}>
         <Paper className={classes.paper}>
           <Typography variant="display1" className={classes.title}>
             Leaderboard
