@@ -40,8 +40,8 @@ const Dashboard = () => {
     return <Redirect to={{ pathname: '/signup' }} />;
   }
 
-  console.log(Cookies.get('username'));
-  console.log(Cookies.get('NSESSIONID'));
+  // console.log(Cookies.get('username'));
+  // console.log(Cookies.get('NSESSIONID'));
 
   return (
       <MuiThemeProvider theme={theme}>
@@ -49,12 +49,12 @@ const Dashboard = () => {
           <Fragment>
             <div className={classes.root}>
               <SideNav />
-            <main className={classes.content}>
-              <div className={classes.appBarSpacer} />
-              <Container maxWidth="lg" className={classes.container}>
-                <Reviewer />
-              </Container>
-            </main>
+              <main className={classes.content}>
+                <div className={classes.appBarSpacer} />
+                <Container maxWidth="lg" className={classes.container}>
+                  <Reviewer />
+                </Container>
+              </main>
             </div>
           </Fragment>
       </Provider>

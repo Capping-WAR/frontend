@@ -29,9 +29,10 @@ export const fetchSentenceToBeReviewed = () =>  (dispatch, getState, subscribe) 
 	// Get the Sentence ID of the sentence to be reviewed
 	return new Promise((resolve, reject) => {
 		const state = getState();
-		const { user } = state.userReducer;
+		const { reviewer } = state.reviewerReducer;
+		console.log(reviewer)
 		dispatch(fetchSearch(
-			`SELECT * FROM SentenceToBeReviewed(${user.id});`
+			`SELECT * FROM SentenceToBeReviewed(${reviewer.id});`
 		));
 		resolve();
 	})

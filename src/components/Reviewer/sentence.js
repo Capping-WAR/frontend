@@ -60,7 +60,7 @@ const Sentence = () => {
     const dispatch = useDispatch();
     const { isFetchingSentence } = state;
     const { rules } = state.ruleReducer;
-    const { user } = state.userReducer;
+    const { reviewer } = state.reviewerReducer;
     const { sentence } = state.sentenceReducer;
     const [checkboxVals, setCheckboxVals] = useState({});
 
@@ -74,7 +74,7 @@ const Sentence = () => {
     if (sentence !== undefined) {
         review = {
             sentenceID: sentence.id,
-            reviewerID: user.id,
+            reviewerID: reviewer.id,
             dateAdded: "now()"
         }
     }

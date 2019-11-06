@@ -56,8 +56,7 @@ const UserInfo = () => {
 
   let { reviewer } = state.reviewerReducer;
   if ((reviewer !== undefined) && (rankIsNotSet)) {
-    reviewer = reviewer[0];
-    setRank(reviewer[5])
+    setRank(reviewer.reputation)
     setRankIsNotSet(false);
   }
   useEffect(() => {

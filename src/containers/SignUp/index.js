@@ -97,23 +97,24 @@ const SignUp = () => {
     const dispatch = useDispatch();
     const [user, setUser] = useState({id:20074558});
     const state = useSelector(state => state);
+    const { reviewer, isFetchingReviewer } = state.reviewerReducer;
 
     useEffect(() => {
-        dispatch(resetReviewer())
-        new Promise((resolve, reject) => {
-            dispatch(fetchReviewer(user.id));
-            resolve();
-          })
-          .then(() => {
+      dispatch(resetReviewer())
+      new Promise((resolve, reject) => {
+          dispatch(fetchReviewer(user.id));
+          resolve();
+        })
+        .then(() => {
+          dispatch(doneFetchingReviewer());
+        })
+        .catch((err) => {
+            console.log(err);
             dispatch(doneFetchingReviewer());
-          })
-          .catch((err) => {
-              console.log(err);
-              dispatch(doneFetchingReviewer());
-          });
+        });
     }, []);
 
-    const { reviewer, isFetchingReviewer } = state.reviewerReducer;
+
     return ((reviewer !== undefined ) && (!isFetchingReviewer) && (!checkEmptyArr(reviewer))) ? (
         <Redirect
         to={{ pathname: '/' }}
