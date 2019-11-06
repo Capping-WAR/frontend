@@ -9,23 +9,7 @@ import { SideNav } from '../../components/Layouts';
 import { useDispatch, useSelector } from 'react-redux';
 import { Redirect } from 'react-router-dom';
 import Cookies from 'js-cookie';
-
-const theme = createMuiTheme({
-  palette: {
-      type: 'dark',
-      primary: {
-        main: '#1c1e24',
-        dark: '#131519',
-      },
-      secondary: {
-        main: '#33bfff',
-        dark: '#2385b2',
-      },
-      error: {
-        main: '#f50057'
-      }
-  },
-});
+import { theme } from '../App';
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -52,12 +36,12 @@ const Dashboard = () => {
   const state = useSelector(state => state);
   const { reviewer } = state.reviewerReducer;
 
-  // if (reviewer === undefined) {
-  //   return <Redirect to={{ pathname: '/signup' }} />;
-  // }
+  if (reviewer === undefined) {
+    return <Redirect to={{ pathname: '/signup' }} />;
+  }
 
-  console.log(Cookies.get('username'));
-  console.log(Cookies.get('NSESSIONID'));
+  // console.log(Cookies.get('username'));
+  // console.log(Cookies.get('NSESSIONID'));
 
   return (
       <MuiThemeProvider theme={theme}>
@@ -65,12 +49,12 @@ const Dashboard = () => {
           <Fragment>
             <div className={classes.root}>
               <SideNav />
-            <main className={classes.content}>
-              <div className={classes.appBarSpacer} />
-              <Container maxWidth="lg" className={classes.container}>
-                <Reviewer />
-              </Container>
-            </main>
+              <main className={classes.content}>
+                <div className={classes.appBarSpacer} />
+                <Container maxWidth="lg" className={classes.container}>
+                  <Reviewer />
+                </Container>
+              </main>
             </div>
           </Fragment>
       </Provider>

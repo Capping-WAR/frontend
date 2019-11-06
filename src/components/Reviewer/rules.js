@@ -52,40 +52,38 @@ const Rules = () => {
     const { rules } = state.ruleReducer;
     
     return (
-        <Grid item xs>
-          <div className={`${classes.root} ${classes.GridItem} ${classes.SideCol}`}>
-            <Paper className={classes.paper}>Rules
-                {spinner}
-                {
-                    (rules === undefined
-                        ? (
-                          <ExpansionPanel style={{backgroundColor: "#438397", color:"white"}}>
-                            <Typography className={classes.heading}>No Rules Available</Typography>
-                          </ExpansionPanel>
-                        )
-                        :(
-                            rules.map((rule) => (
-                                <ExpansionPanel style={{backgroundColor: "#438397", color:"white"}}>
-                                    <ExpansionPanelSummary
-                                    expandIcon={<ExpandMoreIcon />}
-                                    aria-controls="panel1a-content"
-                                    id="panel1a-header"
-                                    > 
-                                        <Typography className={classes.heading}>{rule[1]}</Typography>
-                                    </ExpansionPanelSummary>
-                                    <ExpansionPanelDetails>
-                                    <Typography style={{textAlign:"left"}}>
-                                       {rule[2]}
-                                    </Typography>
-                                    </ExpansionPanelDetails>
-                                </ExpansionPanel>
-                            ))
-                        ) 
+      <div className={`${classes.root} ${classes.GridItem} ${classes.SideCol}`}>
+        <Paper className={classes.paper}>Rules
+            {spinner}
+            {
+                (rules === undefined
+                    ? (
+                      <ExpansionPanel style={{backgroundColor: "#438397", color:"white"}}>
+                        <Typography className={classes.heading}>No Rules Available</Typography>
+                      </ExpansionPanel>
                     )
-                }
-            </Paper>
-          </div> 
-        </Grid>
+                    :(
+                        rules.map((rule) => (
+                            <ExpansionPanel style={{backgroundColor: "#438397", color:"white"}}>
+                                <ExpansionPanelSummary
+                                expandIcon={<ExpandMoreIcon />}
+                                aria-controls="panel1a-content"
+                                id="panel1a-header"
+                                > 
+                                    <Typography className={classes.heading}>{rule[1]}</Typography>
+                                </ExpansionPanelSummary>
+                                <ExpansionPanelDetails>
+                                <Typography style={{textAlign:"left"}}>
+                                    {rule[2]}
+                                </Typography>
+                                </ExpansionPanelDetails>
+                            </ExpansionPanel>
+                        ))
+                    ) 
+                )
+            }
+        </Paper>
+      </div> 
     )
 }
 

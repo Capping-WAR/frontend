@@ -30,7 +30,7 @@ const Reviewer = () => {
 
   const dispatch = useDispatch();
   const state = useSelector(state => state);
-  const { user } = state.userReducer; 
+
 
   useEffect(() => {
     new Promise((resolve, reject) => {
@@ -45,20 +45,6 @@ const Reviewer = () => {
         })
         .then(() => {
             dispatch(doneFetchingSentence());
-            new Promise((resolve, reject) => {
-              dispatch(
-                fetchReviewer(user.id)
-              );
-              resolve();
-            })
-            .then(() => {
-              dispatch(doneFetchingReviewer());
-              console.log(state)
-            })
-            .catch((err) => {
-              console.log(err)
-              // handle error
-          });
         })
         .catch((err) => {
             console.log(err)
@@ -73,15 +59,17 @@ const Reviewer = () => {
   }, []);
 
   return (
-    <div className={classes.root}>
-      <Grid container spacing={3}>
-        <UserInfo/>
-      <Grid item xs={6}>
-        <Sentence />
+    // <div className={classes.root}>
+      <Grid container spacing={1}>
+        <Grid container item xs={12} lg={4}>
+          <UserInfo/>
+        </Grid>
+        <Grid container lg={8}>
+          <Sentence />
+          <Rules/>
+        </Grid>
       </Grid>
-      <Rules/>
-    </Grid>
-  </div>
+  // </div>
   );
 }
 

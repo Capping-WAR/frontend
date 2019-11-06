@@ -6,7 +6,6 @@ import { Redirect } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { Paper, withStyles, Grid, TextField, Button, FormControlLabel, Checkbox } from '@material-ui/core';
 import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles';
-import { ErrorMessage, Formik, Form, Field } from 'formik';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
 import Card from '@material-ui/core/Card';
@@ -96,25 +95,26 @@ const checkEmptyArr = (arr) => {
 const SignUp = () => {
     const classes = useStyles();
     const dispatch = useDispatch();
-    const [user, setUser] = useState({id:2074558});
+    const [user, setUser] = useState({id:20074558});
     const state = useSelector(state => state);
+    const { reviewer, isFetchingReviewer } = state.reviewerReducer;
 
     useEffect(() => {
-        dispatch(resetReviewer())
-        new Promise((resolve, reject) => {
-            dispatch(fetchReviewer(user.id));
-            resolve();
-          })
-          .then(() => {
+      dispatch(resetReviewer())
+      new Promise((resolve, reject) => {
+          dispatch(fetchReviewer(user.id));
+          resolve();
+        })
+        .then(() => {
+          dispatch(doneFetchingReviewer());
+        })
+        .catch((err) => {
+            console.log(err);
             dispatch(doneFetchingReviewer());
-          })
-          .catch((err) => {
-              console.log(err);
-              dispatch(doneFetchingReviewer());
-          });
+        });
     }, []);
 
-    const { reviewer, isFetchingReviewer } = state.reviewerReducer;
+
     return ((reviewer !== undefined ) && (!isFetchingReviewer) && (!checkEmptyArr(reviewer))) ? (
         <Redirect
         to={{ pathname: '/' }}

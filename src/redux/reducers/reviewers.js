@@ -22,7 +22,14 @@ export const reviewerReducer = (state = defaultState, action) => {
             return {
                 ...state,
                 isFetchingReviewer: false,
-                reviewer: action.payload.Reviewer
+                reviewer: {
+                    id: action.payload.Reviewer[0][0],
+                    email: action.payload.Reviewer[0][1],
+                    firstName: action.payload.Reviewer[0][2],
+                    lastName: action.payload.Reviewer[0][3],
+                    isAdmin: action.payload.Reviewer[0][4],
+                    reputation: action.payload.Reviewer[0][5],
+                }
             }
 
         case ActionTypes.GET_REVIEWER_FAILURE:
