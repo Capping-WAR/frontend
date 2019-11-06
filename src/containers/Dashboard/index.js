@@ -9,23 +9,7 @@ import { SideNav } from '../../components/Layouts';
 import { useDispatch, useSelector } from 'react-redux';
 import { Redirect } from 'react-router-dom';
 import Cookies from 'js-cookie';
-
-const theme = createMuiTheme({
-  palette: {
-      type: 'dark',
-      primary: {
-        main: '#1c1e24',
-        dark: '#131519',
-      },
-      secondary: {
-        main: '#33bfff',
-        dark: '#2385b2',
-      },
-      error: {
-        main: '#f50057'
-      }
-  },
-});
+import { theme } from '../App';
 
 const useStyles = makeStyles(theme => ({
   root: {

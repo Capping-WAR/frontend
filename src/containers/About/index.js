@@ -190,17 +190,17 @@ export default function AI() {
                               <Icon icon={LinkedInIcon} /> */}
                             </td>
                           ))}
-                        </tr>
-                        </table>
-                        </Grid>
-                        </Typography>
+                      </tr>
+                    </table>
+                  </Grid>
+                </Typography> 
               </Paper>
             </Grid>
             </div>
-            </Container>
+          </Container>
           </main>
-          </div>
-        </Fragment>
+        </div>
+      </Fragment>
     </Provider>
   </MuiThemeProvider> 
   );
