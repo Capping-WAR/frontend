@@ -60,8 +60,8 @@ const Reviewer = () => {
 
   return (
     // <div className={classes.root}>
-      <Grid container spacing={12}>
-        <Grid container lg={4} xs={12}>
+      <Grid container spacing={1}>
+        <Grid container item xs={12} lg={4}>
           <UserInfo/>
         </Grid>
         <Grid container lg={8}>

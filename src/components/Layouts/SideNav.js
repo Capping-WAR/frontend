@@ -21,6 +21,7 @@ import PeopleIcon from '@material-ui/icons/People';
 import BarChartIcon from '@material-ui/icons/BarChart';
 import LayersIcon from '@material-ui/icons/Layers';
 import AssignmentIcon from '@material-ui/icons/Assignment';
+import { theme } from '../../containers/App';
 
 const drawerWidth = 240;
 
@@ -86,7 +87,7 @@ const useStyles = makeStyles(theme => ({
       }),
       width: theme.spacing(4),
       [theme.breakpoints.up('sm')]: {
-        width: theme.spacing(9),
+        width: theme.spacing(12),
       },
     },
     paper: {
@@ -113,7 +114,8 @@ const SideNav = () => {
   };
 
   return (
-      <div className={classes.root}>
+      <div className={
+        classes.root}>
       <Fragment>
           <CssBaseline />
           <AppBar position="absolute" className={clsx(classes.appBar, !open && classes.appBarShift)}>
