@@ -25,11 +25,9 @@ import { SideNav } from '../../components/Layouts';
 import { Provider } from 'react-redux';
 import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles';
 import Store from '../../redux/store';
-// import { Icon, InlineIcon } from '@iconify/react';
-// import linkedinBox from '@iconify/icons-mdi/linkedin-box';
-// import githubFill from '@iconify/icons-ant-design/github-fill';
-
-
+// import Icon from '@material-ui/core/Icon';
+// import GitHubIcon from '@material-ui/icons/GitHub';``
+// import LinkedInIcon from '@material-ui/icons/LinkedIn';
 
 const drawerWidth = 240;
 
@@ -141,6 +139,14 @@ export default function AI() {
   };
   const fixedHeightPaper = clsx(classes.paper, classes.fixedHeight);
 
+  const students = [
+    {name:"Samantha DiMaio", major:"Information Systems", img:require("../../static/sam.jpg"), github:"", linkedin:""},
+    {name:"Daniel Gisolfi", major:"Computer Science", img:require("../../static/dan.jpg"), github:"", linkedin:""},
+    {name:"Alissa Sytsm", major:"Computer Science", img:require("../../static/ali.jpg"), github:"", linkedin:""},
+    {name:"Dayna Eidle", major:"Computer Science", img:require("../../static/dayna.jpg"), github:"", linkedin:""},
+    {name:"Lauren Urena-Clark", major:"Information Technology", img:require("../../static/lauren.jpeg"), github:"", linkedin:""}
+  ];
+
   return (
 
     <MuiThemeProvider theme={theme}>
@@ -153,17 +159,8 @@ export default function AI() {
             <Container maxWidth="lg" className={classes.container}>
             <div className={classes.root}>
               <Grid item container spacing={12}>
-              <Paper className={classes.paper}><h3>About</h3>
-                <ExpansionPanel style={{backgroundColor: "#438397", color:"white"}}>
-                  <ExpansionPanelSummary
-                    expandIcon={<ExpandMoreIcon />}
-                    aria-controls="panel1a-content"
-                    id="panel1a-header"
-                  >
-                    <Typography className={classes.heading}>About the Project</Typography>
-                  </ExpansionPanelSummary>
-                  <ExpansionPanelDetails>
-                                    <Typography style={{textAlign:"center"}}>
+              <Paper className={classes.paper}>
+                  <Typography style={{textAlign:"center"}}>
                     <h2 className="h1-responsive font-weight-bold my-5">
                       WAR Tool
                     </h2>
@@ -171,74 +168,32 @@ export default function AI() {
                       The WAR (Writing Advising Reviewing) Tool is a web application created for a Fall 2019 senior capping project at Marist College. The members of the team include Samantha DiMaio, Dayna Eidle, Ali Systma, Daniel Gisolfi, and Lauren Urena-Clark. Our team has engaged in a number of roles including setting up, designing, developing, integrating, managing, implementating, and training the system. The tool will be utilized by the Marist College Writing center as an efficient way to review essay sentences. One at a time, the rewiewer will review sentences that have been tagged by the system. It is up to their own critique to classify the sentence as incorrect or correct. If incorrect, the reviewer can choose which rule the sentence violates. The five rules available to select from inclue Spelling, Verbs, Introductory Phrases, Nouns, and Consiceness. The Reviewer also has oppotunity to earn reputation points through their sentence reviews.
                     </p>
                     </Typography>
-                  </ExpansionPanelDetails>
-                </ExpansionPanel>
-                <ExpansionPanel  style={{backgroundColor: "#438397", color:"white"}}>
-                  <ExpansionPanelSummary
-                    expandIcon={<ExpandMoreIcon />}
-                    aria-controls="panel1a-content"
-                    id="panel1a-header"
-                  >
-                    <Typography className={classes.heading}>About the Team</Typography>
-                  </ExpansionPanelSummary>
-                  <ExpansionPanelDetails>
                     <Typography style={{textAlign:"center"}}>
 
-                            <h2 className="h1-responsive font-weight-bold my-5">
-                              Our Team
-                            </h2>
-                            <p className="grey-text w-responsive mx-auto mb-5">
-                              Lorem ipsum dolor sit amet, consectetur adipisicing elit. Fugit,
-                              error amet numquam iure provident voluptate esse quasi, veritatis
-                              totam voluptas nostrum quisquam eum porro a pariatur veniam.
-                            </p>
+                        <h2 className="h1-responsive font-weight-bold my-5">
+                          Our Team
+                        </h2>
+                        <p className="grey-text w-responsive mx-auto mb-5">
+                          Lorem ipsum dolor sit amet, consectetur adipisicing elit. Fugit,
+                          error amet numquam iure provident voluptate esse quasi, veritatis
+                          totam voluptas nostrum quisquam eum porro a pariatur veniam.
+                        </p>
                         <Grid container justify="center" alignItems="center">
-                          <table>
-                            <tr>
-                              <td>
-                                <Avatar alt="Sam DiMaio" src={require("../../static/sam.jpg")} className={classes.bigAvatar} />
-                                <h5 className="font-weight-bold mt-4 mb-3">Samantha DiMaio</h5>
-                                <p className="text-uppercase blue-text">Information Systems</p>
-                                {/* <Icon icon={linkedinBox} />
-                                <Icon icon={githubFill} /> */}
-                              </td>
-
-                              <td>
-                                <Avatar alt="Dan Gisolfi" src={require("../../static/dan.jpg")} className={classes.bigAvatar} />
-                                <h5 className="font-weight-bold mt-4 mb-3">Dan Gisolfi</h5>
-                                <p className="text-uppercase blue-text">Computer Science</p>
-                                {/* <Icon icon={linkedinBox} />
-                                <Icon icon={githubFill} /> */}
-                              </td>
-
-                              <td>
-                                <Avatar alt="Ali Sytsma" src={require("../../static/ali.jpg")} className={classes.bigAvatar} />
-                                <h5 className="font-weight-bold mt-4 mb-3">Alissa Sytsma</h5>
-                                <p className="text-uppercase blue-text">Computer Science</p>
-                                {/* <Icon icon={linkedinBox} />
-                                <Icon icon={githubFill} /> */}
-                              </td>
-
-                              <td>
-                                <Avatar alt="Dayna Eidle" src={require("../../static/dayna.jpg")} className={classes.bigAvatar} />
-                                <h5 className="font-weight-bold mt-4 mb-3">Dayna Eidle</h5>
-                                <p className="text-uppercase blue-text">Computer Science</p>
-                                {/* <Icon icon={linkedinBox} />
-                                <Icon icon={githubFill} /> */}
-                              </td>
-                              <td>
-                                <Avatar alt="Lauren Urena-Clark" src={require("../../static/lauren.jpeg")} className={classes.bigAvatar} />
-                                <h5 className="font-weight-bold mt-4 mb-3">Lauren Urena-Clark</h5>
-                                <p className="text-uppercase blue-text">Information Technology</p>
-                                {/* <Icon icon={linkedinBox} />
-                                <Icon icon={githubFill} /> */}
-                              </td>
-                            </tr>
-                          </table>
+                        <table>
+                        <tr>
+                          {students.map(student => (
+                            <td>
+                              <Avatar alt={student.name} src={student.img} className={classes.bigAvatar} />
+                              <h5 className="font-weight-bold mt-4 mb-3">{student.name}</h5>
+                              <p className="text-uppercase blue-text">{student.major}</p>
+                              {/* <Icon icon={GitHubIcon} />
+                              <Icon icon={LinkedInIcon} /> */}
+                            </td>
+                          ))}
+                        </tr>
+                        </table>
                         </Grid>
-                    </Typography>
-                  </ExpansionPanelDetails>
-                </ExpansionPanel>
+                        </Typography>
               </Paper>
             </Grid>
             </div>
