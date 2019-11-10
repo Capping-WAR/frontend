@@ -96,19 +96,19 @@ const checkEmptyArr = (arr) => {
 const SignUp = () => {
     const classes = useStyles();
     const dispatch = useDispatch();
-    const [user, setUser] = useState({id:20074558});
+    const [user, setUser] = useState(undefined);
     const state = useSelector(state => state);
     const { reviewer, isFetchingReviewer } = state.reviewerReducer;
 
     const cookies = new Cookies();
-    console.log(cookies.get('username'));
-    console.log(cookies.get('NSESSIONID'));
-    console.log(cookies.get('session'));
-
+    if (cookies.get('username') !== undefined  && user === undefined) {
+      setUser(cookies.get('username'))
+    }
+    
     useEffect(() => {
       dispatch(resetReviewer())
       new Promise((resolve, reject) => {
-          dispatch(fetchReviewer(user.id));
+          dispatch(fetchReviewer(user));
           resolve();
         })
         .then(() => {

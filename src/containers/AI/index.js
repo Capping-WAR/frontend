@@ -202,7 +202,7 @@ export default function AI() {
                   <CardActionArea>
                     <CardContent>
                       <Typography gutterBottom variant="h5" component="h2">
-                        Covariance GIF
+                        Hyper Param Search Space
                       </Typography>
                       <div>
                       <img alt=""  src={require("../../static/iu.gif")} />
