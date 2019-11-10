@@ -82,12 +82,10 @@ export const submitCorrectReviews = (review, rules) => (dispatch, getState, subs
 };
 
 export const submitIncorrectReviews = (review, rules, checkboxVals) => (dispatch, getState, subscribe) => {
-	console.log('oi', checkboxVals)
 	if (review.sentenceID === undefined) {
 		return 
 	} 
 	return new Promise((resolve, reject) => {
-		console.log(checkboxVals)
 		rules.map((rule) => {
 			if (!checkboxVals.hasOwnProperty(rule[0])) {
 				const key = rule[0]

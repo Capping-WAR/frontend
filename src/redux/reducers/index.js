@@ -14,14 +14,14 @@ import { sentenceReducer } from './sentences'
 import { sentenceRulesReducer } from './sentenceRules'
 import { ruleReducer } from './rules'
 import { reviewReducer } from './reviews'
-import { userReducer } from './users'
+import { reviewerReducer } from './reviewers'
 import { utilsReducer } from './utils'
 
 export default combineReducers({
     sentenceRulesReducer,
+    reviewerReducer,
     sentenceReducer,
     reviewReducer,
     utilsReducer,
     ruleReducer,
-    userReducer,
 })

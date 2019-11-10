@@ -11,10 +11,13 @@ import {
   fetchSentence, 
   fetchSentenceToBeReviewed
   } from '../../redux/actions/sentenceActions';
-import { addPeopleReview } from '../../redux/actions/reviewActions';
+import { fetchSearch } from '../../redux/actions/utilActions';
 import { useDispatch, useSelector } from 'react-redux';
 import { useEffect } from 'react';
 import { fetchRules, doneFetchingRules } from '../../redux/actions/ruleActions';
+import { fetchReviewer, doneFetchingReviewer} from '../../redux/actions/reviewerActions';
+import store from '../../redux/store'
+import { getState } from 'expect/build/jestMatchersObject';
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -27,6 +30,7 @@ const Reviewer = () => {
 
   const dispatch = useDispatch();
   const state = useSelector(state => state);
+
 
   useEffect(() => {
     new Promise((resolve, reject) => {
@@ -50,19 +54,22 @@ const Reviewer = () => {
     })
     .catch((err) => {
         dispatch(doneFetchingRules());
+        console.log(err)
     });
   }, []);
 
   return (
-    <div className={classes.root}>
-      <Grid container spacing={3}>
-        <UserInfo/>
-      <Grid item xs={6}>
-        <Sentence />
+    // <div className={classes.root}>
+      <Grid container spacing={1}>
+        <Grid container item xs={12} lg={4}>
+          <UserInfo/>
+        </Grid>
+        <Grid container lg={8}>
+          <Sentence />
+          <Rules/>
+        </Grid>
       </Grid>
-      <Rules/>
-    </Grid>
-  </div>
+  // </div>
   );
 }
 

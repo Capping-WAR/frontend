@@ -1,4 +1,3 @@
-
 import React, { Fragment } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import CssBaseline from '@material-ui/core/CssBaseline';
@@ -13,7 +12,16 @@ import Typography from '@material-ui/core/Typography';
 import Divider from '@material-ui/core/Divider';
 import IconButton from '@material-ui/core/IconButton';
 import clsx from 'clsx';
-import { mainListItems, secondaryListItems } from '../Layouts/listItems';
+import { Link } from 'react-router-dom';
+import ListItem from '@material-ui/core/ListItem';
+import ListItemIcon from '@material-ui/core/ListItemIcon';
+import ListItemText from '@material-ui/core/ListItemText';
+import DashboardIcon from '@material-ui/icons/Dashboard';
+import PeopleIcon from '@material-ui/icons/People';
+import BarChartIcon from '@material-ui/icons/BarChart';
+import LayersIcon from '@material-ui/icons/Layers';
+import AssignmentIcon from '@material-ui/icons/Assignment';
+import { theme } from '../../containers/App';
 
 const drawerWidth = 240;
 
@@ -77,9 +85,9 @@ const useStyles = makeStyles(theme => ({
         easing: theme.transitions.easing.sharp,
         duration: theme.transitions.duration.leavingScreen,
       }),
-      width: theme.spacing(7),
+      width: theme.spacing(4),
       [theme.breakpoints.up('sm')]: {
-        width: theme.spacing(9),
+        width: theme.spacing(12),
       },
     },
     paper: {
@@ -96,56 +104,101 @@ const useStyles = makeStyles(theme => ({
   }));
 
 const SideNav = () => {
-    const classes = useStyles();
-    const [open, setOpen] = React.useState(true);
-    const handleDrawerOpen = () => {
-      setOpen(true);
-    };
-    const handleDrawerClose = () => {
-      setOpen(false);
-    };
+  const classes = useStyles();
+  const [open, setOpen] = React.useState(true);
+  const handleDrawerOpen = () => {
+    setOpen(true);
+  };
+  const handleDrawerClose = () => {
+    setOpen(false);
+  };
 
-    return (
-        <Fragment>
-            <CssBaseline />
-            
-            <AppBar position="absolute" className={clsx(classes.appBar, !open && classes.appBarShift)}>
-                <Toolbar className={classes.toolbar}>
-                <IconButton
-                    edge="start"
-                    aria-label="open drawer"
-                    onClick={handleDrawerClose}
-                    className={clsx(classes.menuButton, !open && classes.menuButtonHidden)}
-                >
-                    <MenuIcon />
-                </IconButton>
-                <Typography component="h1" variant="h6"  noWrap className={classes.title}>
-                    Writing Advisor Review Tool
-                </Typography>
-                </Toolbar>
-            </AppBar>
-            
-            
-            <Drawer
-                variant="permanent"
-                classes={{
-                paper: clsx(classes.drawerPaper, open && classes.drawerPaperClose),
-                }}
-                open={open}
-            >
-                <div className={classes.toolbarIcon}>
-                <IconButton onClick={handleDrawerOpen}>
-                    <ChevronLeftIcon />
-                </IconButton>
-                </div>
-                <Divider />
-                <List>{mainListItems}</List>
-                <Divider />
-                <List>{secondaryListItems}</List>
-            </Drawer>
-        </Fragment>
-    )
+  return (
+      <div className={
+        classes.root}>
+      <Fragment>
+          <CssBaseline />
+          <AppBar position="absolute" className={clsx(classes.appBar, !open && classes.appBarShift)}>
+              <Toolbar className={classes.toolbar}>
+              <IconButton
+                  edge="start"
+                  aria-label="open drawer"
+                  onClick={handleDrawerClose}
+                  className={clsx(classes.menuButton, !open && classes.menuButtonHidden)}
+              >
+                  <MenuIcon />
+              </IconButton>
+              <Typography component="h1" variant="h6"  noWrap className={classes.title}>
+                  Writing Advisor Review Tool
+              </Typography>
+              </Toolbar>
+          </AppBar>
 
+
+          <Drawer
+              variant="permanent"
+              classes={{
+              paper: clsx(classes.drawerPaper, open && classes.drawerPaperClose),
+              }}
+              open={open}
+          >
+          <div className={classes.toolbarIcon}>
+              <IconButton onClick={handleDrawerOpen}>
+                  <ChevronLeftIcon />
+              </IconButton>
+          </div>
+          <Divider />
+              <div >
+                  <div >
+                      <Link to="/">
+                          <ListItem button>
+                              <ListItemIcon>
+                                  <DashboardIcon />
+                              </ListItemIcon>
+                              <ListItemText style = {{color: "white", textDecoration: "none"}} primary="Dashboard" />
+                          </ListItem>
+                      </Link>
+                      <Link to="/about">
+                          <ListItem button>
+                              <ListItemIcon>
+                                  <LayersIcon />
+                              </ListItemIcon>
+                              <ListItemText style = {{color: "white", textDecoration: "none"}} primary="About" />
+                          </ListItem>
+                      </Link>
+                      <Link to="/ai">
+                          <ListItem button>
+                              <ListItemIcon>
+                                  <BarChartIcon />
+                              </ListItemIcon>
+                              <ListItemText style = {{color: "white", textDecoration: "none"}} primary="AI" />
+                          </ListItem>
+                      </Link>
+                  </div>
+                  <Divider />
+                  <div>
+                      <Link>
+                          <ListItem button>
+                              <ListItemIcon>
+                                  <AssignmentIcon />
+                              </ListItemIcon>
+                              <ListItemText style = {{color: "white", textDecoration: "none"}} primary="Log Out" />
+                          </ListItem>
+                      </Link>
+                      <Link to="/faq">
+                          <ListItem button>
+                              <ListItemIcon>
+                                  <PeopleIcon />
+                              </ListItemIcon>
+                              <ListItemText style = {{color: "white", textDecoration: "none"}} primary="Help" />
+                          </ListItem>
+                      </Link>
+                  </div>
+              </div>
+          </Drawer>
+      </Fragment>
+   </div>
+  )
 }
 
 export default SideNav;

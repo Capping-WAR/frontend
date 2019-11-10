@@ -29,9 +29,9 @@ export const fetchSentenceToBeReviewed = () =>  (dispatch, getState, subscribe) 
 	// Get the Sentence ID of the sentence to be reviewed
 	return new Promise((resolve, reject) => {
 		const state = getState();
-		const { user } = state.userReducer;
+		const { reviewer } = state.reviewerReducer;
 		dispatch(fetchSearch(
-			`SELECT * FROM SentenceToBeReviewed(${user.id});`
+			`SELECT * FROM SentenceToBeReviewed(${reviewer.id});`
 		));
 		resolve();
 	})
@@ -42,10 +42,14 @@ export const fetchSentenceToBeReviewed = () =>  (dispatch, getState, subscribe) 
 
 			if (!isFetchingSearch) {
 				unsubscribe()
-				if (SearchResults.sentencetobereviewed.length != 0){
-					dispatch(fetchSentence(SearchResults.sentencetobereviewed[0][0]))
+				if (SearchResults !== undefined) {
+					
+					if (SearchResults.sentencetobereviewed.length != 0){
+						dispatch(fetchSentence(SearchResults.sentencetobereviewed[0][0]))
+					}
+				} else {
+					console.log('This shouldnt happen, something has gone arye')
 				}
-			
 			}
 		});
 	})
