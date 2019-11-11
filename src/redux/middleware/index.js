@@ -5,7 +5,7 @@
 import 'whatwg-fetch';
 import * as ActionTypes from '../constants';
 
-const CORS_PROXY_URL = 'https://cors-anywhere.herokuapp.com';
+const CORS_PROXY_URL = 'http://10.10.9.156:5050';
 const SERVER_API_URL = 'http://10.10.9.156:8080';
 const AI_API_URL = 'http://148.100.33.25:9291';
 
@@ -74,12 +74,6 @@ const middleware = store => next => action => {
         cleanedRoute = AI_API_THREADS_ACTIONS;
         URL = AI_API_URL;
         break;
-    // case ActionTypes.API_MIDDLEWARE_REVIEWER_ENDPOINT:
-    //     cleanedRoute = SERVER_API_REVIEWER_ACTIONS;
-    //     break;
-    // case ActionTypes.API_MIDDLEWARE_REVIEWER_ENDPOINT:
-    //     cleanedRoute = SERVER_API_REVIEWER_ACTIONS;
-    //     break;
   }
 
   const cleanedEndpoint = cleanedRoute + endpoint;
@@ -94,10 +88,6 @@ const middleware = store => next => action => {
   next({
     type: requestType,
   })
-
-  if ( URL === AI_API_URL) {
-      console.log(`${CORS_PROXY_URL}/${URL}${cleanedEndpoint}`)
-  }
 
   fetch(`${CORS_PROXY_URL}/${URL}${cleanedEndpoint}`, {
     method,

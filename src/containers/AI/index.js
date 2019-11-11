@@ -240,7 +240,7 @@ const AI = () => {
             <main className={classes.content}>
                 <div className={classes.appBarSpacer} />
                 <Container component="main" maxWidth="lg">
-                <Grid container spacing={3}>
+                <Grid container spacing={6}>
                         <Grid item xs={12} className={classes.cardContainer}>
                             <Card className={classes.card}>
                                 <CardActionArea>
@@ -279,7 +279,7 @@ const AI = () => {
                             </Card>
                         </Grid>
                     </Grid>
-                    <Grid container spacing={3}>
+                    <Grid container spacing={6}>
                         <Grid item xs className={classes.cardContainer}>
                             <Card className={classes.card}>
                                 <CardActionArea>
@@ -345,7 +345,7 @@ const AI = () => {
                         </Grid>
                     </Grid>
                         
-                    <Grid container spacing={3}>
+                    <Grid container spacing={6}>
                         <Grid item xs className={classes.cardContainer}>
                             <Card className={classes.card}>
                                 <CardActionArea>
