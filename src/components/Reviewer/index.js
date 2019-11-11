@@ -17,7 +17,6 @@ import { useEffect } from 'react';
 import { fetchRules, doneFetchingRules } from '../../redux/actions/ruleActions';
 import { fetchReviewer, doneFetchingReviewer} from '../../redux/actions/reviewerActions';
 import store from '../../redux/store'
-import { getState } from 'expect/build/jestMatchersObject';
 
 const useStyles = makeStyles(theme => ({
   root: {
