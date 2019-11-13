@@ -15,6 +15,7 @@ import { sentenceRulesReducer } from './sentenceRules'
 import { ruleReducer } from './rules'
 import { reviewReducer } from './reviews'
 import { reviewerReducer } from './reviewers'
+import { aiReducer } from './ai';
 import { utilsReducer } from './utils'
 
 export default combineReducers({
@@ -24,4 +25,5 @@ export default combineReducers({
     reviewReducer,
     utilsReducer,
     ruleReducer,
+    aiReducer,
 })

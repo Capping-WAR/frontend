@@ -30,6 +30,9 @@ import TableCell from '@material-ui/core/TableCell';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Store from '../../redux/store';
+import { useDispatch, useSelector } from 'react-redux';
+import { useState, useEffect } from 'react';
+import { fetchThreads, doneFetchingThreads } from '../../redux/actions/aiActions';
 
 const drawerWidth = 240;
 
@@ -131,91 +134,265 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-export default function AI() {
-  const classes = useStyles();
-  const [open, setOpen] = React.useState(true);
-  const handleDrawerOpen = () => {
-    setOpen(true);
-  };
-  const handleDrawerClose = () => {
-    setOpen(false);
-  };
-  const fixedHeightPaper = clsx(classes.paper, classes.fixedHeight);
+const transposeThreads = (threads) => {
+    let ids = [];
+    let rows = [];
+    threads.map(thread => {
+        ids.push(thread.id)
+        let params = thread.parameters.split(',');
+        params.map(param => {
+            let param_data = param.split('<');
+            let param_name = param_data[0].trim()
+            let param_value = param_data[1].split('>')[0].trim()
+            if (!rows[param_name]) {
+                Object.assign(rows, {[param_name]:[]})
+            }
+            rows[param_name].push(param_value)
+        })
 
-  const createData = (id, queued_by, location, progress) => {
-    return {id, queued_by, location, progress};
-  }
-  
-  const rows = [
-    createData('1', 'pablo', '/dev/null', '%89'),
-    createData('2', 'war-tool', '/dev/null', '%43'),
-    createData('3', 'pablo', '/dev/null', '%4'),
-  ];
-  
+        params.map(param => {
+            let param_name = param.split('<')[0].trim();
+            if (!rows[param_name]) {
+                
+                Object.assign(rows, {[param_name]:{}})
+            }
+        })
+       
+    })
 
-  return (
-    <MuiThemeProvider theme={theme}>
-      <Provider store={Store}>
-        <Fragment>
-          <div className={classes.root}>
-            <SideNav />
-          <main className={classes.content}>
-            <div className={classes.appBarSpacer} />
-            <Container maxWidth="lg" className={classes.container}>
-              <Grid item spacing={12} className={classes.cardContainer}>
-              <Card className={classes.card}>
-                <CardActionArea>
-                  <CardContent>
-                    <Typography gutterBottom variant="h5" component="h2">
-                      Current Threads
-                    </Typography>
-                    <Typography variant="body2" color="textSecondary" component="p">
-                    <Table className={classes.table} aria-label="simple table">
-                      <TableHead>
-                        <TableRow>
-                          <TableCell>ID</TableCell>
-                          <TableCell align="right">Queued By</TableCell>
-                          <TableCell align="right">Progress</TableCell>
-                          <TableCell align="right">Location</TableCell>
-                        </TableRow>
-                      </TableHead>
-                        <TableBody>
-                          {rows.map(row => (
-                            <TableRow key={row.name}>
-                              <TableCell component="th" scope="row">
-                                {row.id}
-                              </TableCell>
-                              <TableCell align="right">{row.queued_by}</TableCell>
-                              <TableCell align="right">{row.location}</TableCell>
-                              <TableCell align="right">{row.progress}</TableCell>
-                            </TableRow>
-                          ))}
-                        </TableBody>
-                      </Table>
-                    </Typography>
-                  </CardContent>
-                  </CardActionArea>
-                </Card>
-                </Grid>
-                <Grid item spacing={12} className={classes.cardContainer}>
-                <Card className={classes.card}>
-                  <CardActionArea>
-                    <CardContent>
-                      <Typography gutterBottom variant="h5" component="h2">
-                        Hyper Param Search Space
-                      </Typography>
-                      <div>
-                      <img alt=""  src={require("../../static/iu.gif")} />
-                      </div>
-                    </CardContent>
-                  </CardActionArea>
-                </Card>
-              </Grid>
-            </Container>
-          </main>
-    </div>
-    </Fragment>
-    </Provider>
-  </MuiThemeProvider> 
-  );
+    let rows_jsx = []
+    Object.keys(rows).map(row => {
+        console.log(String(row),)
+        let vals = []
+
+        rows[row].map(val => {
+            vals.push(<TableCell align="center">{val}</TableCell>)
+        })
+
+        rows_jsx.push(
+            <TableRow key={row}>
+            <TableCell component="th" scope="row">
+                {row}
+            </TableCell>
+                {vals}
+            </TableRow>
+        )
+    })
+
+    return {ids: ids, rows: rows_jsx}
 }
+
+const AI = () => {
+    const classes = useStyles();
+    const dispatch = useDispatch();
+    const state = useSelector(state => state);
+
+    const [open, setOpen] = useState(true);
+    const [table, setTable] = useState(undefined);
+    const [tableIsSet, setTableIsSet] = useState(false);
+    const handleDrawerOpen = () => {
+        setOpen(true);
+    };
+    const handleDrawerClose = () => {
+        setOpen(false);
+    };
+    const fixedHeightPaper = clsx(classes.paper, classes.fixedHeight);
+
+
+    const { threads } = state.aiReducer;
+
+    if (threads !== undefined && table === undefined && !tableIsSet) {
+        setTable(transposeThreads(threads.threads));
+        setTableIsSet(true);
+    }
+
+    useEffect(() => {
+        new Promise((resolve, reject) => {
+            dispatch(fetchThreads());
+            resolve();
+        })
+        .then(() => {
+            dispatch(doneFetchingThreads());
+        })
+        .catch((err) => {
+            dispatch(doneFetchingThreads());
+            console.log(err)
+        });
+    }, []);
+
+    const createData = (id, queued_by, location, progress) => {
+        return {id, queued_by, location, progress};
+    }
+    
+    const rows = [
+        createData('1', 'pablo', '/dev/null', '%89'),
+        createData('2', 'war-tool', '/dev/null', '%43'),
+        createData('3', 'pablo', '/dev/null', '%4'),
+    ];
+    
+
+    return (
+        <MuiThemeProvider theme={theme}>
+        <Provider store={Store}>
+            <Fragment>
+            <div className={classes.root}>
+                <SideNav />
+            <main className={classes.content}>
+                <div className={classes.appBarSpacer} />
+                <Container component="main" maxWidth="lg">
+                <Grid container spacing={6}>
+                        <Grid item xs={12} className={classes.cardContainer}>
+                            <Card className={classes.card}>
+                                <CardActionArea>
+                                    <CardContent>
+                                        <Typography gutterBottom variant="h5" component="h2">
+                                        Current Threads
+                                        </Typography>
+                                        {
+                                            (table === undefined
+                                                ? (
+                                                <Typography gutterBottom variant="h5" component="h2">
+                                                    Threads Unavailable
+                                                </Typography>
+                                                )
+                                                : (
+                                                    <Typography variant="body2" color="textSecondary" component="p">
+                                                        <Table className={classes.table} aria-label="simple table">
+                                                        <TableHead>
+                                                            <TableRow>
+                                                            <TableCell>Parameters</TableCell>
+                                                            {table.ids.map(id => (
+                                                                <TableCell align="center">{id}</TableCell>
+                                                            ))}
+                                                            </TableRow>
+                                                        </TableHead>
+                                                            <TableBody>
+                                                                {table.rows}
+                                                            </TableBody>
+                                                        </Table>
+                                                    </Typography>
+                                                )
+                                            )
+                                        }
+                                    </CardContent>
+                                </CardActionArea>
+                            </Card>
+                        </Grid>
+                    </Grid>
+                    <Grid container spacing={6}>
+                        <Grid item xs className={classes.cardContainer}>
+                            <Card className={classes.card}>
+                                <CardActionArea>
+                                    <CardContent>
+                                    <Typography gutterBottom variant="h5" component="h2">
+                                        Hyper-Parameter Search Space
+                                    </Typography>
+                                    <div align="center">
+                                        {
+                                            (threads === undefined
+                                                ? (
+                                                    <Typography gutterBottom variant="h5" component="h2">
+                                                        Image Unavailable
+                                                    </Typography>  
+                                                )
+                                                : (
+                                                    <img alt="" src={threads.imgurl} />
+                                                )
+                                            )
+                                        }
+                                    </div>
+                                    </CardContent>
+                                </CardActionArea>
+                            </Card>
+                        </Grid>
+                        <Grid item xs className={classes.cardContainer}>
+                            <Card className={classes.card}>
+                                <CardActionArea>
+                                    <CardContent>
+                                        <Typography gutterBottom variant="h5" component="h2">
+                                            Thread Status
+                                        </Typography>
+                                        <Typography variant="body2" color="textSecondary" component="p"> 
+                                            {
+                                                (threads === undefined
+                                                    ? (
+                                                        <Typography className={classes.heading}>System Information Unavailable</Typography>
+                                                    )
+                                                    : (
+                                                        <Table className={classes.table} aria-label="simple table">
+                                                            <TableHead>
+                                                                <TableRow>
+                                                                    <TableCell align="center">ID</TableCell>
+                                                                    <TableCell align="center">Status</TableCell>
+                                                                </TableRow>
+                                                            </TableHead>
+                                                            <TableBody>
+                                                                {threads.threads.map(thread => (
+                                                                    <TableRow key="thread_status">
+                                                                        <TableCell align="center">{thread.id}</TableCell>
+                                                                        <TableCell align="center">{thread.status}</TableCell>
+                                                                    </TableRow>
+                                                                ))}
+                                                            </TableBody>
+                                                        </Table>
+                                                    )
+                                                )
+                                            }    
+                                        </Typography>
+                                    </CardContent>
+                                </CardActionArea>
+                            </Card>
+                        </Grid>
+                    </Grid>
+                        
+                    <Grid container spacing={6}>
+                        <Grid item xs className={classes.cardContainer}>
+                            <Card className={classes.card}>
+                                <CardActionArea>
+                                    <CardContent>
+                                        <Typography gutterBottom variant="h5" component="h2">
+                                            System Information
+                                        </Typography>
+                                        <Typography variant="body2" color="textSecondary" component="p"> 
+                                            {
+                                                (threads === undefined
+                                                    ? (
+                                                        <Typography className={classes.heading}>System Information Unavailable</Typography>
+                                                    )
+                                                    : (
+                                                        <Table className={classes.table} aria-label="simple table">
+                                                        <TableHead>
+                                                            <TableRow>
+                                                                <TableCell align="center">CPU</TableCell>
+                                                                <TableCell align="center">Disk</TableCell>
+                                                                <TableCell align="center">Memory</TableCell>
+                                                            </TableRow>
+                                                        </TableHead>
+                                                        <TableBody>
+
+                                                            <TableRow key="sys_info">
+                                                                    <TableCell align="center">%{threads.system.cpu}</TableCell>
+                                                                    <TableCell align="center">%{threads.system.dsk}</TableCell>
+                                                                    <TableCell align="center">%{threads.system.mem}</TableCell>
+                                                                </TableRow>
+                                                        </TableBody>
+                                                        </Table>
+                                                    )
+                                                )
+                                            }    
+                                        </Typography>
+                                    </CardContent>
+                                </CardActionArea>
+                            </Card>
+                        </Grid>
+                    </Grid>
+                </Container>                
+            </main>
+        </div>
+        </Fragment>
+        </Provider>
+        </MuiThemeProvider> 
+    );
+};
+
+export default AI;

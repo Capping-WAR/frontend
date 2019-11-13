@@ -1,6 +1,6 @@
 import * as ActionTypes from '../constants';
 
-export const fetchSearch = (query) => ({
+export const fetchSentenceToBeReviewed = (query) => ({
     type: ActionTypes.API_MIDDLEWARE_INVOKE,
     [ActionTypes.API_MIDDLEWARE_INVOKE]: {
       route: ActionTypes.API_MIDDLEWARE_SEARCH_ENDPOINT,
@@ -10,9 +10,26 @@ export const fetchSearch = (query) => ({
         query: query
       },
       types: [
-        ActionTypes.GET_SEARCH_REQUEST,
-        ActionTypes.GET_SEARCH_SUCCESS,
-        ActionTypes.GET_SEARCH_FAILURE,
+        ActionTypes.GET_SENTENCE_TO_REVIEW_REQUEST,
+        ActionTypes.GET_SENTENCE_TO_REVIEW_SUCCESS,
+        ActionTypes.GET_SENTENCE_TO_REVIEW_FAILURE,
+      ],
+    },
+  });
+
+export const fetchLeaderboard = (CWID) => ({
+    type: ActionTypes.API_MIDDLEWARE_INVOKE,
+    [ActionTypes.API_MIDDLEWARE_INVOKE]: {
+      route: ActionTypes.API_MIDDLEWARE_SEARCH_ENDPOINT,
+      endpoint: ``,
+      method: 'POST',
+      content: {
+        query: `SELECT * FROM getTopReviewers(${CWID})`
+      },
+      types: [
+        ActionTypes.GET_LEADERBOARD_REQUEST,
+        ActionTypes.GET_LEADERBOARD_SUCCESS,
+        ActionTypes.GET_LEADERBOARD_FAILURE,
       ],
     },
   });

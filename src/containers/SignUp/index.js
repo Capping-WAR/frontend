@@ -119,7 +119,6 @@ const SignUp = () => {
             dispatch(doneFetchingReviewer());
         });
     }, []);
-
     
 
     return ((reviewer !== undefined ) && (!isFetchingReviewer) && (!checkEmptyArr(reviewer))) ? (
