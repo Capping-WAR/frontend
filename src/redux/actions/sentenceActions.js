@@ -2,7 +2,7 @@
 // Daniel Nicolas Gisolfi
 
 import * as ActionTypes from '../constants';
-import { fetchSearch } from './utilActions';
+import { fetchSentenceToBeReviewed } from './utilActions';
 import store from '../store';
 
 export const fetchSentence = (sentenceID) => ({
@@ -25,12 +25,12 @@ export const fetchSentence = (sentenceID) => ({
 	}
   );
 
-export const fetchSentenceToBeReviewed = () =>  (dispatch, getState, subscribe) => {
+export const fetchSentenceForReview = () =>  (dispatch, getState, subscribe) => {
 	// Get the Sentence ID of the sentence to be reviewed
 	return new Promise((resolve, reject) => {
 		const state = getState();
 		const { reviewer } = state.reviewerReducer;
-		dispatch(fetchSearch(
+		dispatch(fetchSentenceToBeReviewed(
 			`SELECT * FROM SentenceToBeReviewed(${reviewer.id});`
 		));
 		resolve();
@@ -38,14 +38,14 @@ export const fetchSentenceToBeReviewed = () =>  (dispatch, getState, subscribe) 
 	.then(() => {
 		const unsubscribe = store.subscribe(() => {
 			const state = getState();
-			const { isFetchingSearch, SearchResults } = state.utilsReducer;
+			const { isFetchingSentenceToReview, sentenceToReview } = state.utilsReducer;
 
-			if (!isFetchingSearch) {
+			if (!isFetchingSentenceToReview) {
 				unsubscribe()
-				if (SearchResults !== undefined) {
+				if (sentenceToReview !== undefined) {
 					
-					if (SearchResults.sentencetobereviewed.length != 0){
-						dispatch(fetchSentence(SearchResults.sentencetobereviewed[0][0]))
+					if (sentenceToReview.sentencetobereviewed.length != 0){
+						dispatch(fetchSentence(sentenceToReview.sentencetobereviewed[0][0]))
 					}
 				} else {
 					console.log('This shouldnt happen, something has gone arye')

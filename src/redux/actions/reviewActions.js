@@ -6,7 +6,7 @@ import {
 	fetchRuleReviewID, 
 	doneFetchingRuleReviewID,  
 } from './sentenceRuleActions';
-import { fetchSentenceToBeReviewed } from './sentenceActions';
+import { fetchSentenceForReview } from './sentenceActions';
 import store from '../store';
 
 export const addPeopleReview = (review) => ({
@@ -71,7 +71,7 @@ export const submitCorrectReviews = (review, rules) => (dispatch, getState, subs
 			const { isSubmitingReview } = state.reviewReducer;
 			if (!isSubmitingReview) {
 				unsubscribe();
-				dispatch(fetchSentenceToBeReviewed())
+				dispatch(fetchSentenceForReview())
 			}
 		});
 	})
@@ -114,7 +114,7 @@ export const submitIncorrectReviews = (review, rules, checkboxVals) => (dispatch
 			const { isSubmitingReview } = state.reviewReducer;
 			if (!isSubmitingReview) {
 				unsubscribe();
-				dispatch(fetchSentenceToBeReviewed())
+				dispatch(fetchSentenceForReview())
 			}
 		});
 	})

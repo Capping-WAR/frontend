@@ -9,13 +9,14 @@ import Sentence from './sentence';
 import { 
   doneFetchingSentence, 
   fetchSentence, 
-  fetchSentenceToBeReviewed
+  fetchSentenceForReview,
   } from '../../redux/actions/sentenceActions';
 import { fetchSearch } from '../../redux/actions/utilActions';
 import { useDispatch, useSelector } from 'react-redux';
 import { useEffect } from 'react';
 import { fetchRules, doneFetchingRules } from '../../redux/actions/ruleActions';
 import { fetchReviewer, doneFetchingReviewer} from '../../redux/actions/reviewerActions';
+import { fetchLeaderboard } from '../../redux/actions/utilActions';
 import store from '../../redux/store'
 
 const useStyles = makeStyles(theme => ({
@@ -29,6 +30,7 @@ const Reviewer = () => {
 
   const dispatch = useDispatch();
   const state = useSelector(state => state);
+  const { reviewer } = state.reviewerReducer;
 
 
   useEffect(() => {
@@ -39,8 +41,18 @@ const Reviewer = () => {
     .then(() => {
         dispatch(doneFetchingRules());
         new Promise((resolve, reject) => {
-          dispatch(fetchSentenceToBeReviewed());
+          dispatch(fetchSentenceForReview());
           resolve();
+          new Promise((resolve, reject) => {
+              dispatch(fetchLeaderboard(reviewer.id));
+              resolve();
+          }).then(() => {
+            //   
+          })
+          .catch(err => {
+            console.log(err);
+            // dispatch();
+          });
         })
         .then(() => {
             dispatch(doneFetchingSentence());

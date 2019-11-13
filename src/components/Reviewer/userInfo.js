@@ -59,6 +59,9 @@ const UserInfo = () => {
     setRank(reviewer.reputation)
     setRankIsNotSet(false);
   }
+
+  let { leaderboard } = state.utilsReducer;
+
   useEffect(() => {
     const timer = setInterval(rank, 500);
     return () => {
@@ -70,53 +73,42 @@ const UserInfo = () => {
     <Grid item xs={12}>
       <div className={`${classes.root} ${classes.GridItem}`}>
         <Paper className={classes.paper}>
-          <Typography variant="display1" className={classes.title}>
-            Leaderboard
-          </Typography>
-          <List className={classes.root}>
-            <ListItem>
-              <ListItemAvatar>
-                <Avatar>
-                <AccountCircleIcon
-                  color="secondary"
-                  fontSize="large"
-                />
-                </Avatar>
-              </ListItemAvatar>
-              <ListItemText primary="Daniel" secondary="1456 points" />
-            </ListItem>
-            <Divider variant="inset" component="li" />
-            <ListItem>
-              <ListItemAvatar>
-                <Avatar>
-                  <AccountCircleIcon
-                    color="secondary"
-                    fontSize="large"
-                  />
-                </Avatar>
-                </ListItemAvatar>
-              <ListItemText primary="Ali" secondary="1232 points" />
-            </ListItem>
-            <Divider variant="inset" component="li" />
-            <ListItem>
-              <ListItemAvatar>
-                <Avatar>
-                  <AccountCircleIcon
-                    color="secondary"
-                    fontSize="large"
-                  />
-                </Avatar>
-              </ListItemAvatar>
-              <ListItemText primary="Dayna" secondary="1045 points" />
-            </ListItem>
-          </List>
+            <Typography variant="display1" className={classes.title}>
+                Leaderboard
+            </Typography>
+            <List className={classes.root}>
+                {
+                    (leaderboard === undefined
+                        ? (
+                            <Typography variant="display1" className={classes.title}>
+                                Leaderboard Unavailable
+                            </Typography>
+                        )
+                        : (
+                            leaderboard.map(user => (
+                                <ListItem>
+                                    <ListItemAvatar>
+                                        <Avatar>
+                                            <AccountCircleIcon
+                                            color="secondary"
+                                            fontSize="large"
+                                            />
+                                        </Avatar>
+                                    </ListItemAvatar>
+                                    <ListItemText primary={`${user[1]} ${user[2]}`} secondary={`${user[3]} points`} />
+                                </ListItem>
+                            ))
+                        )
+                    )
+                }
+            </List>
         </Paper>
         </div>
         <div className={classes.root} style={{ padding: 20 }} >
         <Tooltip title={rankExplained}>
           <Paper className={classes.paper}>
             <Typography variant="display1" className={classes.title}>
-            Rank - {Math.floor(rank/100)}
+                Rank - {Math.floor(rank/100)}
             </Typography>
             <br />
             <div className={classes.root} style = {{paddingTop:"15px"}}>
