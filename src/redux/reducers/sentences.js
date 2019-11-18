@@ -39,7 +39,13 @@ export const sentenceReducer = (state = defaultState, action) => {
 				isFetchingSentence: false,
 				error: action.payload.error || 'Could not get Sentences',
 			}
-			
+        
+        case ActionTypes.NO_SENTENCES:
+            return {
+                ...state,
+                sentence: undefined
+            }
+            
 		default:
 			return state;
 	}

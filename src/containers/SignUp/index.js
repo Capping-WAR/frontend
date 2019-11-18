@@ -103,9 +103,8 @@ const SignUp = () => {
     if (cookies.get('cwid') !== undefined  && user === undefined) {
       setUser({id: cookies.get('cwid')})
     }
-    
+    console.log(reviewer)
     useEffect(() => {
-      dispatch(resetReviewer())
       new Promise((resolve, reject) => {
           dispatch(fetchReviewer(user.id));
           resolve();
@@ -195,7 +194,17 @@ const SignUp = () => {
 
                             onClick={() => {
                                 dispatch(addReviewer(user))
-                                window.location.replace('/')
+                                new Promise((resolve, reject) => {
+                                    dispatch(fetchReviewer(user.id));
+                                    resolve();
+                                })
+                                .then(() => {
+                                    dispatch(doneFetchingReviewer());
+                                })
+                                .catch((err) => {
+                                    console.log(err);
+                                    dispatch(doneFetchingReviewer());
+                                });
                             }}
                         >
                             Sign Up

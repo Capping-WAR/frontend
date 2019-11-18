@@ -58,10 +58,10 @@ export const reviewerReducer = (state = defaultState, action) => {
             }
 
         case ActionTypes.POST_REVIEWER_SUCCESS:
+            console.log(action.payload)
             return {
                 ...state,
                 isAddingReviewer: false,
-                reviewer: action.payload.Reviewer
             }
 
         case ActionTypes.POST_REVIEWER_FAILURE:
