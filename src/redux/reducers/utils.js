@@ -6,7 +6,8 @@ import * as ActionTypes from '../constants';
 export const defaultState = {
 	isFetchingSentenceToReview: false,
     sentenceToReview: undefined,
-    isFetchingLeaderboard: false,
+	isFetchingLeaderboard: false,
+	isPostingDataset: false,
     leaderboard:undefined,
 	error: null,
 }
@@ -51,7 +52,26 @@ export const utilsReducer = (state = defaultState, action) => {
                 ...state,
                 isFetchingLeaderboard: false,
                 error: action.payload.error || 'Could not get Leaderboard',
-            }
+			}
+			
+		case ActionTypes.POST_DATASET_REQUEST:
+			return {
+				...state,
+				isPostingDataset: true
+			}
+	
+		case ActionTypes.POST_DATASET_SUCCESS:
+			return {
+				...state,
+				isPostingDataset: false,
+			}
+		
+		case ActionTypes.POST_DATASET_FAILURE:
+			return {
+				...state,
+				isPostingDataset: false,
+				error: action.payload.error || 'Could not Call Send To Dataset',
+			}
 
 		default:
 			return state;
