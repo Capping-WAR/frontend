@@ -44,9 +44,11 @@ export const fetchSentenceForReview = () =>  (dispatch, getState, subscribe) => 
 				unsubscribe()
 				if (sentenceToReview !== undefined) {
 					
-					if (sentenceToReview.sentencetobereviewed.length != 0){
+					if (sentenceToReview.sentencetobereviewed.length !== 0){
 						dispatch(fetchSentence(sentenceToReview.sentencetobereviewed[0][0]))
-					}
+					} else {
+                        dispatch(noSentence())
+                    }
 				} else {
 					console.log('This shouldnt happen, something has gone arye')
 				}
@@ -58,3 +60,9 @@ export const fetchSentenceForReview = () =>  (dispatch, getState, subscribe) => 
 		// handle error
 	});
 };
+
+export const noSentence = () => (
+    {
+		type: ActionTypes.NO_SENTENCES,
+	}
+);

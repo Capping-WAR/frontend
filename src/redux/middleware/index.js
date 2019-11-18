@@ -5,7 +5,7 @@
 import 'whatwg-fetch';
 import * as ActionTypes from '../constants';
 
-const CORS_PROXY_URL = 'https://cors-anywhere.herokuapp.com';
+const CORS_PROXY_URL = 'http://dgisolfi.xyz:5050';
 const SERVER_API_URL = 'http://dgisolfi.xyz:8085';
 const AI_API_URL = 'http://148.100.33.25:9291';
 

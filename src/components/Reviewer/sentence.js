@@ -64,7 +64,7 @@ const Sentence = () => {
     const { reviewer } = state.reviewerReducer;
     const { sentence } = state.sentenceReducer;
     const [checkboxVals, setCheckboxVals] = useState({});
-
+    console.log(state)
   
     const spinner = isFetchingSentence
     ? <CircularProgress color="secondary"/>
