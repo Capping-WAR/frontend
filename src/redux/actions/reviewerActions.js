@@ -42,7 +42,7 @@ export const addReviewer = (user) => ({
         firstName: user.firstName,
         lastName: user.lastName,
         reputation: 0, // gotta start somewhere...
-        reviewerID: user.id
+        reviewerID: Number(user.id)
       },
       types: [
         ActionTypes.POST_REVIEWER_REQUEST,

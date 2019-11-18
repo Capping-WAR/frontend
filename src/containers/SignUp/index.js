@@ -92,7 +92,6 @@ const checkEmptyArr = (arr) => {
     }
 }
   
-
 const SignUp = () => {
     const classes = useStyles();
     const dispatch = useDispatch();
@@ -102,13 +101,13 @@ const SignUp = () => {
 
     const cookies = new Cookies();
     if (cookies.get('cwid') !== undefined  && user === undefined) {
-      setUser(cookies.get('cwid'))
+      setUser({id: cookies.get('cwid')})
     }
-
+    
     useEffect(() => {
       dispatch(resetReviewer())
       new Promise((resolve, reject) => {
-          dispatch(fetchReviewer(user));
+          dispatch(fetchReviewer(user.id));
           resolve();
         })
         .then(() => {
@@ -120,7 +119,6 @@ const SignUp = () => {
         });
     }, []);
     
-    console.log('SIGNUP',reviewer, isFetchingReviewer, !checkEmptyArr(reviewer), user)
     return ((reviewer !== undefined ) && (!isFetchingReviewer) && (!checkEmptyArr(reviewer))) ? (
         <Redirect
         to={{ pathname: '/' }}
@@ -194,7 +192,11 @@ const SignUp = () => {
                             variant="contained"
                             color="secondary"
                             className={classes.submit}
-                            onClick={() => dispatch(addReviewer(user))}
+
+                            onClick={() => {
+                                dispatch(addReviewer(user))
+                                window.location.replace('/')
+                            }}
                         >
                             Sign Up
                         </Button>
