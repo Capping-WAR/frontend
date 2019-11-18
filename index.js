@@ -22,30 +22,33 @@ app.use(cookieSession({
 
 app.get('/login', cas.serviceValidate(), cas.authenticate(), (req, res) => {
   // Great, we logged in, now redirect back to the home page.
+  res.cookie('cwid', req.session.cas.user.split('@')[0])
   return res.redirect('/');
 });
 
 app.get('/logout', (req, res) => {
-  if (!req.session) {
-    return res.redirect('/');
-  }
-  // Forget our own login session
-  if (req.session.destroy) {
-    req.session.destroy();
-  } else {
-    // Cookie-based sessions have no destroy()
-    req.session = null;
-  }
-  // Send the user to the official campus-wide logout URL
-  var options = cas.configure();
-  options.pathname = options.paths.logout;
-  return res.redirect(url.format(options));
+    res.clearCookie('cwid');
+    if (!req.session) {
+        return res.redirect('/');
+    }
+    
+    // Forget our own login session
+    if (req.session.destroy) {
+            req.session.destroy()
+    } else {
+        // Cookie-based sessions have no destroy()
+        req.session = null;
+    }
+    // Send the user to the official campus-wide logout URL
+    var options = cas.configure();
+    options.pathname = options.paths.logout;
+    return res.redirect(url.format(options));
 });  
 
 // Handles any requests
 app.get('*', (req, res) => {
   if (req.session.cas && req.session.cas.user) {
-    res.cookie('username', req.session.cas.user.split('@')[0])
+    res.cookie('cwid', req.session.cas.user.split('@')[0])
     
     res.sendFile(path.join(__dirname+'/build/index.html'));
   } else {

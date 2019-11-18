@@ -33,9 +33,9 @@ const useStyles = makeStyles(theme => ({
 const Dashboard = () => {
   const classes = useStyles();
   const state = useSelector(state => state);
-  const { reviewer } = state.reviewerReducer;
-
-  if (reviewer === undefined) {
+  const { reviewer, isFetchingReviewer } = state.reviewerReducer;
+  console.log('DASH',reviewer, isFetchingReviewer)
+  if (reviewer === undefined && !isFetchingReviewer) {
     return <Redirect to={{ pathname: '/signup' }} />;
   }
 

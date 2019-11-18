@@ -101,10 +101,10 @@ const SignUp = () => {
     const { reviewer, isFetchingReviewer } = state.reviewerReducer;
 
     const cookies = new Cookies();
-    if (cookies.get('username') !== undefined  && user === undefined) {
-      setUser(cookies.get('username'))
+    if (cookies.get('cwid') !== undefined  && user === undefined) {
+      setUser(cookies.get('cwid'))
     }
-    
+
     useEffect(() => {
       dispatch(resetReviewer())
       new Promise((resolve, reject) => {
@@ -120,85 +120,92 @@ const SignUp = () => {
         });
     }, []);
     
-
+    console.log('SIGNUP',reviewer, isFetchingReviewer, !checkEmptyArr(reviewer), user)
     return ((reviewer !== undefined ) && (!isFetchingReviewer) && (!checkEmptyArr(reviewer))) ? (
         <Redirect
         to={{ pathname: '/' }}
         />
     ) : (
-        <Container component="main" maxWidth="xs">
-            <CssBaseline />
-            <div className={classes.paper}>
-                <Avatar className={classes.avatar}>
-                <LockOutlinedIcon />
-                </Avatar>
-                <Typography component="h1" variant="h5">
-                Sign up
-                </Typography>
-                <form className={classes.form} Validate>
-                <Grid container spacing={2}>
-                    <Grid item xs={12} sm={6}>
-                    <TextField
-                        autoComplete="fname"
-                        name="firstName"
-                        variant="outlined"
-                        required
-                        fullWidth
-                        id="firstName"
-                        label="First Name"
-                        onChange={e => setUser({
-                            ...user, 
-                            firstName:e.target.value
-                        })}
-                        autoFocus
-                    />
-                    </Grid>
-                    <Grid item xs={12} sm={6}>
-                    <TextField
-                        variant="outlined"
-                        required
-                        fullWidth
-                        id="lastName"
-                        label="Last Name"
-                        name="lastName"
-                        autoComplete="lname"
-                        onChange={e => setUser({
-                            ...user, 
-                            lastName:e.target.value
-                        })}
-                    />
-                    </Grid>
-                    <Grid item xs={12}>
-                    <TextField
-                        variant="outlined"
-                        required
-                        fullWidth
-                        id="email"
-                        label="Email Address"
-                        name="email"
-                        autoComplete="email"
-                        onChange={e => setUser({
-                            ...user, 
-                            email:e.target.value
-                        })}
-                    />
-                    </Grid>
-                </Grid>
-                <Button
-                    fullWidth
-                    variant="contained"
-                    color="secondary"
-                    className={classes.submit}
-                    onClick={() => dispatch(addReviewer(user))}
-                >
-                    Sign Up
-                </Button>
-                </form>
-            </div>
-            <Box mt={5}>
-                <Copyright />
-            </Box>
-        </Container> 
+        ((cookies.get('cwid') === undefined) ?
+            (
+                window.location.replace('login')
+            ) :
+            (
+                <Container component="main" maxWidth="xs">
+                    <CssBaseline />
+                    <div className={classes.paper}>
+                        <Avatar className={classes.avatar}>
+                        <LockOutlinedIcon />
+                        </Avatar>
+                        <Typography component="h1" variant="h5">
+                        Sign up
+                        </Typography>
+                        <form className={classes.form} Validate>
+                        <Grid container spacing={2}>
+                            <Grid item xs={12} sm={6}>
+                            <TextField
+                                autoComplete="fname"
+                                name="firstName"
+                                variant="outlined"
+                                required
+                                fullWidth
+                                id="firstName"
+                                label="First Name"
+                                onChange={e => setUser({
+                                    ...user, 
+                                    firstName:e.target.value
+                                })}
+                                autoFocus
+                            />
+                            </Grid>
+                            <Grid item xs={12} sm={6}>
+                            <TextField
+                                variant="outlined"
+                                required
+                                fullWidth
+                                id="lastName"
+                                label="Last Name"
+                                name="lastName"
+                                autoComplete="lname"
+                                onChange={e => setUser({
+                                    ...user, 
+                                    lastName:e.target.value
+                                })}
+                            />
+                            </Grid>
+                            <Grid item xs={12}>
+                            <TextField
+                                variant="outlined"
+                                required
+                                fullWidth
+                                id="email"
+                                label="Email Address"
+                                name="email"
+                                autoComplete="email"
+                                onChange={e => setUser({
+                                    ...user, 
+                                    email:e.target.value
+                                })}
+                            />
+                            </Grid>
+                        </Grid>
+                        <Button
+                            fullWidth
+                            variant="contained"
+                            color="secondary"
+                            className={classes.submit}
+                            onClick={() => dispatch(addReviewer(user))}
+                        >
+                            Sign Up
+                        </Button>
+                        </form>
+                    </div>
+                    <Box mt={5}>
+                        <Copyright />
+                    </Box>
+                </Container> 
+            )
+        )
     );
 };
 

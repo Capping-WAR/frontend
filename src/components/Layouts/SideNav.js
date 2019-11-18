@@ -177,14 +177,13 @@ const SideNav = () => {
                   </div>
                   <Divider />
                   <div>
-                      <Link>
-                          <ListItem button>
-                              <ListItemIcon>
-                                  <AssignmentIcon />
-                              </ListItemIcon>
-                              <ListItemText style = {{color: "white", textDecoration: "none"}} primary="Log Out" />
-                          </ListItem>
-                      </Link>
+                        <ListItem button onClick={() => window.location.replace('logout')}>
+                            <ListItemIcon>
+                                <AssignmentIcon />
+                            </ListItemIcon>
+                            <ListItemText style = {{color: "white", textDecoration: "none"}} primary="Log Out" />
+                        </ListItem>
+                      
                       <Link to="/faq">
                           <ListItem button>
                               <ListItemIcon>
