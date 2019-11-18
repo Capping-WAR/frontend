@@ -3,7 +3,8 @@ import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import { useDispatch, useSelector } from 'react-redux';
 import { useState, useEffect } from 'react';
-import { fetchSentenceToBeReviewed } from '../../redux/actions/sentenceActions'
+import { fetchSentenceToBeReviewed } from '../../redux/actions/sentenceActions';
+import { callSendToDataset } from '../../redux/actions/utilActions';
 import { submitCorrectReviews, submitIncorrectReviews } from '../../redux/actions/reviewActions';
 import { store } from '../../redux/store'
 import Popover from '@material-ui/core/Popover';
@@ -101,12 +102,13 @@ const Sentence = () => {
                 </Typography>
             </CardContent>
             <CardActions className={classes.buttons}>
-                <Button variant="contained" size="medium" color="secondary" onClick={() =>
+                <Button variant="contained" size="medium" color="secondary" onClick={() => {
                     dispatch(submitCorrectReviews({
                         ...review,
                         ruleReview: 1, // 1 means correct
                     }, rules))
-                } className={classes.buttons.correct}>Correct</Button>
+                    dispatch(callSendToDataset(review.sentenceID))
+                }} className={classes.buttons.correct}>Correct</Button>
                 <PopupState variant="popover" popupId="demo-popup-popover">
                     {popupState => (
                         <div>
@@ -170,12 +172,13 @@ const Sentence = () => {
 
                             }
                             <tr><td>
-                            <Button variant="contained" onClick={() => 
-                                dispatch(submitIncorrectReviews(
+                            <Button variant="contained" onClick={() => {
+                                 dispatch(submitIncorrectReviews(
                                     review, rules, checkboxVals
                                     )
                                 )
-                            } className={classes.buttons.incorrect}>
+                                dispatch(callSendToDataset(review.sentenceID))
+                            }} className={classes.buttons.incorrect}>
                                 Submit
                             </Button>
                             </td></tr></table>
