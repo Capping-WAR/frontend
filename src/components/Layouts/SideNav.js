@@ -85,9 +85,9 @@ const useStyles = makeStyles(theme => ({
         easing: theme.transitions.easing.sharp,
         duration: theme.transitions.duration.leavingScreen,
       }),
-      width: theme.spacing(4),
+      width: theme.spacing(6),
       [theme.breakpoints.up('sm')]: {
-        width: theme.spacing(12),
+        width: theme.spacing(14),
       },
     },
     paper: {
@@ -193,6 +193,17 @@ const SideNav = () => {
                           </ListItem>
                       </Link>
                   </div>
+                  <Divider />
+                  <div>
+                      <Link to="/admin">
+                        <ListItem button>
+                            <ListItemIcon>
+                                <PeopleIcon />
+                            </ListItemIcon>
+                            <ListItemText style = {{color: "white", textDecoration: "none"}} primary="Admin" />
+                        </ListItem>
+                    </Link>
+                </div>
               </div>
           </Drawer>
       </Fragment>

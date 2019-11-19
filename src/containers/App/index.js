@@ -4,6 +4,7 @@ import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles';
 import Store from '../../redux/store';
 import SignUp from '../SignUp';
 import AI from '../AI';
+import Admin from '../Admin';
 import Dashboard from '../Dashboard';
 import About from '../../containers/About';
 import FAQ from '../../containers/FAQ';
@@ -36,6 +37,7 @@ const App = () => {
           <Switch>
             {/* Each route is defined with Route */}
             <Route path="/signup" component={SignUp}/>
+            <Route path="/admin" component={Admin}/>
             <Route path="/about" component={About}/>
             <Route path="/ai" component={AI}/>
             <Route path="/faq" component={FAQ}/>
