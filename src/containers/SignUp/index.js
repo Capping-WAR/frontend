@@ -103,7 +103,6 @@ const SignUp = () => {
     if (cookies.get('cwid') !== undefined  && user === undefined) {
       setUser({id: cookies.get('cwid')})
     }
-    console.log(reviewer)
     useEffect(() => {
       new Promise((resolve, reject) => {
           dispatch(fetchReviewer(user.id));

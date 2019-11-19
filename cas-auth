@@ -1,7 +1,0 @@
-M	src/components/Layouts/SideNav.js
-M	src/components/Layouts/index.js
-D	src/components/Layouts/listItems.js
-D	src/containers/About/About.js
-M	src/containers/App/index.js
-M	src/containers/Dashboard/index.js
-M	src/containers/SignUp/index.js
