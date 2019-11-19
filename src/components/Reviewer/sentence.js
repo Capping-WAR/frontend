@@ -4,7 +4,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import { useDispatch, useSelector } from 'react-redux';
 import { useState, useEffect } from 'react';
 import { fetchSentenceToBeReviewed } from '../../redux/actions/sentenceActions';
-import { callSendToDataset } from '../../redux/actions/utilActions';
+import { callSendToDataset, callRetrain } from '../../redux/actions/utilActions';
 import { submitCorrectReviews, submitIncorrectReviews } from '../../redux/actions/reviewActions';
 import { store } from '../../redux/store'
 import Popover from '@material-ui/core/Popover';
@@ -106,7 +106,8 @@ const Sentence = () => {
                         ...review,
                         ruleReview: 1, // 1 means correct
                     }, rules))
-                    dispatch(callSendToDataset(review.sentenceID))
+                    // dispatch(callSendToDataset(review.sentenceID))
+                    // dispatch(callRetrain())
                 }} className={classes.buttons.correct}>Correct</Button>
                 <PopupState variant="popover" popupId="demo-popup-popover">
                     {popupState => (
@@ -176,7 +177,8 @@ const Sentence = () => {
                                     review, rules, checkboxVals
                                     )
                                 )
-                                dispatch(callSendToDataset(review.sentenceID))
+                                // dispatch(callSendToDataset(review.sentenceID))
+                                // dispatch(callRetrain())
                             }} className={classes.buttons.incorrect}>
                                 Submit
                             </Button>

@@ -16,6 +16,7 @@ const SERVER_API_RULE_ACTIONS = `${SERVER_API_ENDPOINT_BASE}/rules`;
 const SERVER_API_PEOPLE_REVIEWS_ACTIONS = `${SERVER_API_ENDPOINT_BASE}/review`;
 const SERVER_API_SENTENCE_RULES_ACTIONS = `${SERVER_API_ENDPOINT_BASE}/sentenceRule`;
 const SERVER_API_SEARCH_ACTIONS = `${SERVER_API_ENDPOINT_BASE}/search`;
+const SERVER_API_RETRAIN_ACTIONS = `${SERVER_API_ENDPOINT_BASE}/retrain`;
 const SERVER_API_REVIEWER_ACTIONS = `${SERVER_API_ENDPOINT_BASE}/reviewer`;
 
 const AI_API_ENDPOINT_BASE = '/marist/ai/wa';
@@ -70,6 +71,10 @@ const middleware = store => next => action => {
       cleanedRoute = SERVER_API_REVIEWER_ACTIONS;
       URL = SERVER_API_URL;
       break;
+    case ActionTypes.API_MIDDLEWARE_RETRAIN_ENDPOINT:
+        cleanedRoute = SERVER_API_RETRAIN_ACTIONS;
+        URL = SERVER_API_URL;
+        break;
     case ActionTypes.API_MIDDLEWARE_THREADS_ENDPOINT:
         cleanedRoute = AI_API_THREADS_ACTIONS;
         URL = AI_API_URL;

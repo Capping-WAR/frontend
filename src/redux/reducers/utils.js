@@ -9,6 +9,7 @@ export const defaultState = {
 	isFetchingLeaderboard: false,
 	isPostingDataset: false,
     leaderboard:undefined,
+    isCallingRetrain: false,
 	error: null,
 }
 
@@ -71,7 +72,26 @@ export const utilsReducer = (state = defaultState, action) => {
 				...state,
 				isPostingDataset: false,
 				error: action.payload.error || 'Could not Call Send To Dataset',
-			}
+            }
+            
+            case ActionTypes.POST_RETRAIN_REQUEST:
+                return {
+                    ...state,
+                    isCallingRetrain: true
+                }
+            
+            case ActionTypes.POST_RETRAIN_SUCCESS:
+                return {
+                    ...state,
+                    isCallingRetrain: false,
+                }
+            
+            case ActionTypes.POST_RETRAIN_FAILURE:
+                return {
+                    ...state,
+                    isCallingRetrain: false,
+                    error: action.payload.error || 'Could not Call Retrain',
+                }
 
 		default:
 			return state;

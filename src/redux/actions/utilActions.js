@@ -50,3 +50,17 @@ export const callSendToDataset = (id) => ({
     ],
   },
 });
+
+export const callRetrain = () => ({
+    type: ActionTypes.API_MIDDLEWARE_INVOKE,
+    [ActionTypes.API_MIDDLEWARE_INVOKE]: {
+      route: ActionTypes.API_MIDDLEWARE_RETRAIN_ENDPOINT,
+      endpoint: ``,
+      method: 'POST',
+      types: [
+        ActionTypes.POST_RETRAIN_REQUEST,
+        ActionTypes.POST_RETRAIN_SUCCESS,
+        ActionTypes.POST_RETRAIN_FAILURE,
+      ],
+    },
+  });
