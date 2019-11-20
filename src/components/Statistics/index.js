@@ -1,7 +1,6 @@
 import React from 'react';
 import { makeStyles } from '@material-ui/styles';
 import { Grid } from '@material-ui/core';
-import LatestActivity from './LatestActivity';
 import LoginData from './LoginData';
 import TotalUsers from './TotalUsers';
 import UsersByDevice from './UsersByDevice';
@@ -12,7 +11,7 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-const Dashboard = () => {
+const Statistics = () => {
   const classes = useStyles();
 
   return (
@@ -47,4 +46,4 @@ const Dashboard = () => {
   );
 };
 
-export default Dashboard;
+export default Statistics;

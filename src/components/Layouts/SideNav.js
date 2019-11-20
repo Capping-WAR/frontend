@@ -13,14 +13,15 @@ import Divider from '@material-ui/core/Divider';
 import IconButton from '@material-ui/core/IconButton';
 import clsx from 'clsx';
 import { Link } from 'react-router-dom';
+import TrendingUpIcon from '@material-ui/icons/TrendingUp';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
 import DashboardIcon from '@material-ui/icons/Dashboard';
-import PeopleIcon from '@material-ui/icons/People';
+import HelpIcon from '@material-ui/icons/Help';
 import BarChartIcon from '@material-ui/icons/BarChart';
 import LayersIcon from '@material-ui/icons/Layers';
-import AssignmentIcon from '@material-ui/icons/Assignment';
+import ExitToAppIcon from '@material-ui/icons/ExitToApp';
 import { theme } from '../../containers/App';
 
 const drawerWidth = 240;
@@ -179,7 +180,7 @@ const SideNav = () => {
                   <div>
                         <ListItem button onClick={() => window.location.replace('logout')}>
                             <ListItemIcon>
-                                <AssignmentIcon />
+                                <ExitToAppIcon />
                             </ListItemIcon>
                             <ListItemText style = {{color: "white", textDecoration: "none"}} primary="Log Out" />
                         </ListItem>
@@ -187,7 +188,7 @@ const SideNav = () => {
                       <Link to="/faq">
                           <ListItem button>
                               <ListItemIcon>
-                                  <PeopleIcon />
+                                  <HelpIcon />
                               </ListItemIcon>
                               <ListItemText style = {{color: "white", textDecoration: "none"}} primary="Help" />
                           </ListItem>
@@ -198,9 +199,9 @@ const SideNav = () => {
                       <Link to="/admin">
                         <ListItem button>
                             <ListItemIcon>
-                                <PeopleIcon />
+                                <TrendingUpIcon />
                             </ListItemIcon>
-                            <ListItemText style = {{color: "white", textDecoration: "none"}} primary="Admin" />
+                            <ListItemText style = {{color: "white", textDecoration: "none"}} primary="Admin Dashboard" />
                         </ListItem>
                     </Link>
                 </div>

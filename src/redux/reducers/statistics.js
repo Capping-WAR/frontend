@@ -6,6 +6,12 @@ import * as ActionTypes from '../constants';
 export const defaultState = {
     isPostingLoginStats: false,
     isPostingUsersStats: false,
+    isFetchingUserCount: false,
+    userCount: undefined,
+    isFetchingUsersByOS: false,
+    usersByOS: undefined,
+    isFetchingLoginStats: false,
+    loginStats: undefined,
 	error: null,
 }
 
@@ -37,8 +43,7 @@ export const statisticsReducer = (state = defaultState, action) => {
                 ...state,
                 isPostingUsersStats: true
             }
-            
-
+        
         case ActionTypes.POST_USER_STATS_SUCCESS:
             return {
                 ...state,
@@ -51,6 +56,88 @@ export const statisticsReducer = (state = defaultState, action) => {
                 isPostingUsersStats: false,
                 error: action.payload.error || 'Could not get post login stats',
             }
+
+            case ActionTypes.FETCH_USER_COUNT_REQUEST:
+                return {
+                    ...state,
+                    isFetchingUserCount: true
+                }
+            
+            case ActionTypes.FETCH_USER_COUNT_SUCCESS:
+                return {
+                    ...state,
+                    isFetchingUserCount: false,
+                    userCount: action.payload.reviewers
+                }
+            
+            case ActionTypes.FETCH_USER_COUNT_FAILURE:
+                return {
+                    ...state,
+                    isFetchingUserCount: false,
+                    error: action.payload.error || 'Could not fetch user count',
+                }
+            
+            case ActionTypes.DONE_FETCHING_USER_COUNT:
+                return {
+                    ...state,
+                    isFetchingUserCount: false,
+                }
+
+                case ActionTypes.FETCH_USERS_BY_OS_REQUEST:
+                    return {
+                        ...state,
+                        isFetchingUsersByOS: true
+                    }
+                
+                case ActionTypes.FETCH_USERS_BY_OS_SUCCESS:
+                    return {
+                        ...state,
+                        isFetchingUsersByOS: false,
+                        usersByOS: {
+                            Mac: action.payload.userstatistics[0][0],
+                            Windows: action.payload.userstatistics[0][1],
+                            Other: action.payload.userstatistics[0][2]
+                        }
+                    }
+                
+                case ActionTypes.FETCH_USERS_BY_OS_FAILURE:
+                    return {
+                        ...state,
+                        isFetchingUsersByOS: false,
+                        error: action.payload.error || 'Could not fetch users by OS',
+                    }
+                
+                case ActionTypes.DONE_FETCHING_USERS_BY_OS:
+                    return {
+                        ...state,
+                        isFetchingUsersByOS: false,
+                    }
+                
+                case ActionTypes.FETCH_LOGIN_STATS_REQUEST:
+                    return {
+                        ...state,
+                        isFetchingLoginStats: true
+                    }
+                
+                case ActionTypes.FETCH_LOGIN_STATS_SUCCESS:
+                    return {
+                        ...state,
+                        isFetchingLoginStats: false,
+                        loginStats: action.payload.loginstatistics
+                    }
+                
+                case ActionTypes.FETCH_LOGIN_STATS_FAILURE:
+                    return {
+                        ...state,
+                        isFetchingLoginStats: false,
+                        error: action.payload.error || 'Could not fetch users by OS',
+                    }
+                
+                case ActionTypes.DONE_FETCHING_LOGIN_STATS:
+                    return {
+                        ...state,
+                        isFetchingLoginStats: false,
+                    }
 
 		default:
 			return state;

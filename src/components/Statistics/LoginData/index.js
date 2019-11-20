@@ -9,12 +9,17 @@ import {
   CardContent,
   CardActions,
   Divider,
-  Button
+  Button,
+  Typography
 } from '@material-ui/core';
 import ArrowDropDownIcon from '@material-ui/icons/ArrowDropDown';
 import ArrowRightIcon from '@material-ui/icons/ArrowRight';
+import { useDispatch, useSelector } from 'react-redux';
+import { useState, useEffect } from 'react';
+import { fetchLoginStats, doneFetchingLoginStats } from '../../../redux/actions/statisticsActions';
+import moment from 'moment';
+import { options } from './chart';
 
-import { data, options } from './chart';
 
 const useStyles = makeStyles(() => ({
   root: {
@@ -30,52 +35,74 @@ const useStyles = makeStyles(() => ({
   }
 }));
 
-const LatestSales = props => {
+const LoginStats = props => {
   const { className, ...rest } = props;
-
   const classes = useStyles();
 
+  const dispatch = useDispatch();
+  const state = useSelector(state => state);
+  const { loginStats, isFetchingLoginStats } = state.statisticsReducer;
+
+  useEffect(() => {
+    new Promise((resolve, reject) => {
+        dispatch(fetchLoginStats());
+        resolve();
+      })
+      .then(() => {
+        dispatch(doneFetchingLoginStats());
+      })
+      .catch((err) => {
+          console.log(err);
+          dispatch(doneFetchingLoginStats());
+      });
+  }, []);
+
+  let data = {};
+  if (loginStats !== undefined) {
+    data = {
+      labels: loginStats.map(day => day[0].split('T')[0]),
+      datasets: [
+        {
+          label: 'Logins',
+          backgroundColor: '#438397',
+          data: loginStats.map(day => day[1])
+        },
+        {
+          label: 'Reviews Submited',
+          backgroundColor: '#C0C0C0',
+          data: loginStats.map(day => day[2])
+        }
+      ]
+    }
+  }
+  
   return (
     <Card
       {...rest}
       className={clsx(classes.root, className)}
     >
       <CardHeader
-        action={
-          <Button
-            size="small"
-            variant="text"
-          >
-            Last 7 days <ArrowDropDownIcon />
-          </Button>
-        }
         title="Login Data"
       />
       <Divider />
       <CardContent>
         <div className={classes.chartContainer}>
-          <Bar
-            data={data}
-            options={options}
-          />
+        {(loginStats === undefined
+          ? (
+            <Typography variant="h3">Data Unavailable</Typography>
+          ) :
+          (  
+            <Bar data={data} options={options}/>
+          )
+        )}
         </div>
       </CardContent>
-      <Divider />
-      <CardActions className={classes.actions}>
-        <Button
-          color="primary"
-          size="small"
-          variant="text"
-        >
-          Overview <ArrowRightIcon />
-        </Button>
-      </CardActions>
     </Card>
   );
 };
 
-LatestSales.propTypes = {
+LoginStats.propTypes = {
   className: PropTypes.string
 };
 
-export default LatestSales;
+export default LoginStats;

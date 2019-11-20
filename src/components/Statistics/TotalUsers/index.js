@@ -6,6 +6,7 @@ import { Card, CardContent, Grid, Typography, Avatar } from '@material-ui/core';
 import PeopleIcon from '@material-ui/icons/PeopleOutlined';
 import { useDispatch, useSelector } from 'react-redux';
 import { useState, useEffect } from 'react';
+import { fetchUserCount, doneFetchingUserCount } from '../../../redux/actions/statisticsActions';
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -47,20 +48,20 @@ const TotalUsers = props => {
   const { className, ...rest } = props;
   const dispatch = useDispatch();
   const state = useSelector(state => state);
-  // const { reviewer, isFetchingReviewer } = state.reviewerReducer;
+  const { userCount, isFetchingUserCount } = state.statisticsReducer;
 
   useEffect(() => {
-    // new Promise((resolve, reject) => {
-    //     dispatch(fetchReviewer(user.id));
-    //     resolve();
-    //   })
-    //   .then(() => {
-    //     dispatch(doneFetchingReviewer());
-    //   })
-    //   .catch((err) => {
-    //       console.log(err);
-    //       dispatch(doneFetchingReviewer());
-    //   });
+    new Promise((resolve, reject) => {
+        dispatch(fetchUserCount());
+        resolve();
+      })
+      .then(() => {
+        dispatch(doneFetchingUserCount());
+      })
+      .catch((err) => {
+          console.log(err);
+          dispatch(doneFetchingUserCount());
+      });
   }, []);
 
 
@@ -85,7 +86,17 @@ const TotalUsers = props => {
             >
               TOTAL USERS
             </Typography>
-            <Typography variant="h3">1,600</Typography>
+            <Typography variant="h3">
+            {(userCount === undefined 
+              ? (
+                'Unavailable'
+              ) :
+              (
+                userCount
+              )
+            )}
+            </Typography>
+            
           </Grid>
           <Grid item>
             <Avatar className={classes.avatar}>
