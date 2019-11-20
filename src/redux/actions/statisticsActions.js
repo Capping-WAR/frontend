@@ -28,3 +28,27 @@ export const updateUserStats = (user_info) => ({
       ],
     },
 });
+
+
+export const fetchUserCount = () => ({
+  type: ActionTypes.API_MIDDLEWARE_INVOKE,
+  [ActionTypes.API_MIDDLEWARE_INVOKE]: {
+    route: ActionTypes.API_MIDDLEWARE_SEARCH_ENDPOINT,
+    endpoint: ``,
+    method: 'POST',
+    content: {
+      query: `SELECT COUNT(*) FROM Reviewers;`
+    },
+    types: [
+      ActionTypes.FETCH_USER_COUNT_REQUEST,
+      ActionTypes.FETCH_USER_COUNT_SUCCESS,
+      ActionTypes.FETCH_USER_COUNT_FAILURE,
+    ],
+  },
+});
+
+export const doneFetchingUserCount = () => (
+  {
+    type: ActionTypes.DONE_FETCHING_USER_COUNT,
+  }
+);

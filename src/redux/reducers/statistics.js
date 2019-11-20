@@ -6,6 +6,8 @@ import * as ActionTypes from '../constants';
 export const defaultState = {
     isPostingLoginStats: false,
     isPostingUsersStats: false,
+    isFetchingUserCount: false,
+    userCount: undefined,
 	error: null,
 }
 
@@ -37,8 +39,7 @@ export const statisticsReducer = (state = defaultState, action) => {
                 ...state,
                 isPostingUsersStats: true
             }
-            
-
+        
         case ActionTypes.POST_USER_STATS_SUCCESS:
             return {
                 ...state,
@@ -51,6 +52,32 @@ export const statisticsReducer = (state = defaultState, action) => {
                 isPostingUsersStats: false,
                 error: action.payload.error || 'Could not get post login stats',
             }
+
+            case ActionTypes.FETCH_USER_COUNT_REQUEST:
+                return {
+                    ...state,
+                    isFetchingUserCount: true
+                }
+            
+            case ActionTypes.FETCH_USER_COUNT_SUCCESS:
+                return {
+                    ...state,
+                    isFetchingUserCount: false,
+                    userCount: action.payload.reviewers
+                }
+            
+            case ActionTypes.FETCH_USER_COUNT_FAILURE:
+                return {
+                    ...state,
+                    isFetchingUserCount: false,
+                    error: action.payload.error || 'Could not get post login stats',
+                }
+            
+            case ActionTypes.DONE_FETCHING_USER_COUNT:
+                return {
+                    ...state,
+                    isFetchingUserCount: false,
+                }
 
 		default:
 			return state;
