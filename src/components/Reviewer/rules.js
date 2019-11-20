@@ -19,6 +19,7 @@ const useStyles = makeStyles(theme => ({
       padding: theme.spacing(2),
       backgroundColor: "#444B58",
       textAlign: 'center',
+      boxShadow: theme.shadows[5],
       color: theme.palette.text.secondary,
     },
     item: {

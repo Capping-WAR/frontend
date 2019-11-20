@@ -58,7 +58,6 @@ const LoginStats = props => {
 
   let data = {};
   if (loginStats !== undefined) {
-    console.log(loginStats)
     data = {
       labels: loginStats.map(day => day[0].split('T')[0]),
       datasets: [
