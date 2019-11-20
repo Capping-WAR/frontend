@@ -33,6 +33,13 @@ import Store from '../../redux/store';
 import { useDispatch, useSelector } from 'react-redux';
 import { useState, useEffect } from 'react';
 import { fetchThreads, doneFetchingThreads } from '../../redux/actions/aiActions';
+import { Button } from '@material-ui/core';
+import Menu from '@material-ui/core/Menu';
+import MenuItem from '@material-ui/core/MenuItem';
+import ListItemIcon from '@material-ui/core/ListItemIcon';
+import ListItemText from '@material-ui/core/ListItemText';
+import { withStyles } from '@material-ui/core/styles';
+
 
 const drawerWidth = 240;
 
@@ -162,7 +169,6 @@ const transposeThreads = (threads) => {
 
     let rows_jsx = []
     Object.keys(rows).map(row => {
-        console.log(String(row),)
         let vals = []
 
         rows[row].map(val => {
@@ -187,21 +193,14 @@ const AI = () => {
     const dispatch = useDispatch();
     const state = useSelector(state => state);
 
-    const [open, setOpen] = useState(true);
     const [table, setTable] = useState(undefined);
     const [tableIsSet, setTableIsSet] = useState(false);
-    const handleDrawerOpen = () => {
-        setOpen(true);
-    };
-    const handleDrawerClose = () => {
-        setOpen(false);
-    };
-    const fixedHeightPaper = clsx(classes.paper, classes.fixedHeight);
-
-
+   
     const { threads } = state.aiReducer;
+    
 
     if (threads !== undefined && table === undefined && !tableIsSet) {
+        console.log(threads)
         setTable(transposeThreads(threads.threads));
         setTableIsSet(true);
     }
@@ -220,16 +219,52 @@ const AI = () => {
         });
     }, []);
 
-    const createData = (id, queued_by, location, progress) => {
-        return {id, queued_by, location, progress};
-    }
     
-    const rows = [
-        createData('1', 'pablo', '/dev/null', '%89'),
-        createData('2', 'war-tool', '/dev/null', '%43'),
-        createData('3', 'pablo', '/dev/null', '%4'),
-    ];
+
+    const StyledMenu = withStyles({
+        paper: {
+          border: '1px solid #d3d4d5',
+        },
+      })(props => (
+        <Menu
+          elevation={0}
+          getContentAnchorEl={null}
+          anchorOrigin={{
+            vertical: 'bottom',
+            horizontal: 'center',
+          }}
+          transformOrigin={{
+            vertical: 'top',
+            horizontal: 'center',
+          }}
+          {...props}
+        />
+      ));
+      
+      const StyledMenuItem = withStyles(theme => ({
+        root: {
+          '&:focus': {
+            backgroundColor: theme.palette.primary.main,
+            '& .MuiListItemIcon-root, & .MuiListItemText-primary': {
+              color: theme.palette.common.white,
+            },
+          },
+        },
+      }))(MenuItem);
+
+      const [anchorEl, setAnchorEl] = useState(null);
+      const [image, setImage] = useState(undefined);
+
+      if (threads !== undefined && image === undefined) {
+          setImage(threads.imgurl[0])
+      }
+      const updateImage = event => {
+        setAnchorEl(event.currentTarget);
+      };
     
+      const handleClose = () => {
+        setAnchorEl(null);
+      };
 
     return (
         <MuiThemeProvider theme={theme}>
@@ -285,24 +320,64 @@ const AI = () => {
                                 <CardActionArea>
                                     <CardContent>
                                     <Typography gutterBottom variant="h5" component="h2">
-                                        Hyper-Parameter Search Space
-                                    </Typography>
+                                        Hyper-Parameter Search Space 
+                                    </Typography> 
+                                    
                                     <div align="center">
                                         {
-                                            (threads === undefined
+                                            (image === undefined
                                                 ? (
                                                     <Typography gutterBottom variant="h5" component="h2">
                                                         Image Unavailable
                                                     </Typography>  
                                                 )
                                                 : (
-                                                    <img alt="" src={threads.imgurl} />
+                                                    <img alt="" style={{height: '60vh'}}src={image}/>
                                                 )
                                             )
                                         }
                                     </div>
                                     </CardContent>
                                 </CardActionArea>
+                                <CardActions>
+                                    <div>
+                                        <Button
+                                            aria-controls="customized-menu"
+                                            aria-haspopup="true"
+                                            variant="contained"
+                                            color="secondary"
+                                            onClick={updateImage}
+                                        >
+                                            Images
+                                        </Button>
+                                        <StyledMenu
+                                            id="customized-menu"
+                                            anchorEl={anchorEl}
+                                            keepMounted
+                                            open={Boolean(anchorEl)}
+                                            onClose={handleClose}
+                                        >
+                                        {(threads === undefined
+                                            ? (
+                                                <StyledMenuItem>
+                                                    <ListItemText primary="..." />
+                                                </StyledMenuItem>
+                                            ) :
+                                            (
+                                                threads.imgurl.map(img => 
+                                                    <StyledMenuItem>
+                                                        <ListItemText 
+                                                        onClick={()=> setImage(img)} 
+                                                        primary={img.split('/').slice(-1)[0].split('.')[0]} 
+                                                        />
+                                                    </StyledMenuItem>
+                                                )
+
+                                            )
+                                        )}
+                                        </StyledMenu>
+                                    </div>
+                                </CardActions>
                             </Card>
                         </Grid>
                         <Grid item xs className={classes.cardContainer}>

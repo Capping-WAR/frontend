@@ -23,6 +23,7 @@ import BarChartIcon from '@material-ui/icons/BarChart';
 import LayersIcon from '@material-ui/icons/Layers';
 import ExitToAppIcon from '@material-ui/icons/ExitToApp';
 import { theme } from '../../containers/App';
+import { Button } from '@material-ui/core';
 
 const drawerWidth = 240;
 
@@ -132,6 +133,7 @@ const SideNav = () => {
               <Typography component="h1" variant="h6"  noWrap className={classes.title}>
                   Writing Advisor Review Tool
               </Typography>
+                <Button onClick={() => window.location.replace('logout')}><ExitToAppIcon /></Button>
               </Toolbar>
           </AppBar>
 
@@ -175,16 +177,17 @@ const SideNav = () => {
                               <ListItemText style = {{color: "white", textDecoration: "none"}} primary="AI" />
                           </ListItem>
                       </Link>
+                      <Link to="/admin">
+                        <ListItem button>
+                            <ListItemIcon>
+                                <TrendingUpIcon />
+                            </ListItemIcon>
+                            <ListItemText style = {{color: "white", textDecoration: "none"}} primary="Admin Dashboard" />
+                        </ListItem>
+                    </Link>
                   </div>
                   <Divider />
                   <div>
-                        <ListItem button onClick={() => window.location.replace('logout')}>
-                            <ListItemIcon>
-                                <ExitToAppIcon />
-                            </ListItemIcon>
-                            <ListItemText style = {{color: "white", textDecoration: "none"}} primary="Log Out" />
-                        </ListItem>
-                      
                       <Link to="/faq">
                           <ListItem button>
                               <ListItemIcon>
@@ -194,17 +197,6 @@ const SideNav = () => {
                           </ListItem>
                       </Link>
                   </div>
-                  <Divider />
-                  <div>
-                      <Link to="/admin">
-                        <ListItem button>
-                            <ListItemIcon>
-                                <TrendingUpIcon />
-                            </ListItemIcon>
-                            <ListItemText style = {{color: "white", textDecoration: "none"}} primary="Admin Dashboard" />
-                        </ListItem>
-                    </Link>
-                </div>
               </div>
           </Drawer>
       </Fragment>
