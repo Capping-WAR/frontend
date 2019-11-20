@@ -75,3 +75,26 @@ export const doneFetchingUsersByOS = () => (
     type: ActionTypes.DONE_FETCHING_USERS_BY_OS,
   }
 );
+
+export const fetchLoginStats = () => ({
+  type: ActionTypes.API_MIDDLEWARE_INVOKE,
+  [ActionTypes.API_MIDDLEWARE_INVOKE]: {
+    route: ActionTypes.API_MIDDLEWARE_SEARCH_ENDPOINT,
+    endpoint: ``,
+    method: 'POST',
+    content: {
+      query: `SELECT dayDate, loginCount, reviewCount FROM loginStatistics  ORDER BY dayDate ASC;`
+    },
+    types: [
+      ActionTypes.FETCH_LOGIN_STATS_REQUEST,
+      ActionTypes.FETCH_LOGIN_STATS_SUCCESS,
+      ActionTypes.FETCH_LOGIN_STATS_FAILURE,
+    ],
+  },
+});
+
+export const doneFetchingLoginStats = () => (
+  {
+    type: ActionTypes.DONE_FETCHING_LOGIN_STATS,
+  }
+);

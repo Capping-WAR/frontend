@@ -156,7 +156,7 @@ const UsersByDevice = props => {
             data={data}
             options={options}
           />
-        </div>
+        </div>       
         <div className={classes.stats}>
           {devices.map(device => (
             <div

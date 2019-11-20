@@ -10,6 +10,8 @@ export const defaultState = {
     userCount: undefined,
     isFetchingUsersByOS: false,
     usersByOS: undefined,
+    isFetchingLoginStats: false,
+    loginStats: undefined,
 	error: null,
 }
 
@@ -81,7 +83,6 @@ export const statisticsReducer = (state = defaultState, action) => {
                     isFetchingUserCount: false,
                 }
 
-
                 case ActionTypes.FETCH_USERS_BY_OS_REQUEST:
                     return {
                         ...state,
@@ -89,7 +90,6 @@ export const statisticsReducer = (state = defaultState, action) => {
                     }
                 
                 case ActionTypes.FETCH_USERS_BY_OS_SUCCESS:
-                    console.log(action.payload.userstatistics[0][0])
                     return {
                         ...state,
                         isFetchingUsersByOS: false,
@@ -111,6 +111,32 @@ export const statisticsReducer = (state = defaultState, action) => {
                     return {
                         ...state,
                         isFetchingUsersByOS: false,
+                    }
+                
+                case ActionTypes.FETCH_LOGIN_STATS_REQUEST:
+                    return {
+                        ...state,
+                        isFetchingLoginStats: true
+                    }
+                
+                case ActionTypes.FETCH_LOGIN_STATS_SUCCESS:
+                    return {
+                        ...state,
+                        isFetchingLoginStats: false,
+                        loginStats: action.payload.loginstatistics
+                    }
+                
+                case ActionTypes.FETCH_LOGIN_STATS_FAILURE:
+                    return {
+                        ...state,
+                        isFetchingLoginStats: false,
+                        error: action.payload.error || 'Could not fetch users by OS',
+                    }
+                
+                case ActionTypes.DONE_FETCHING_LOGIN_STATS:
+                    return {
+                        ...state,
+                        isFetchingLoginStats: false,
                     }
 
 		default:
