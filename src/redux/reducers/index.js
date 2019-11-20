@@ -17,9 +17,11 @@ import { reviewReducer } from './reviews'
 import { reviewerReducer } from './reviewers'
 import { aiReducer } from './ai';
 import { utilsReducer } from './utils'
+import { statisticsReducer } from './statistics';
 
 export default combineReducers({
     sentenceRulesReducer,
+    statisticsReducer,
     reviewerReducer,
     sentenceReducer,
     reviewReducer,
