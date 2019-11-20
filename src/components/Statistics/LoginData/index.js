@@ -9,7 +9,8 @@ import {
   CardContent,
   CardActions,
   Divider,
-  Button
+  Button,
+  Typography
 } from '@material-ui/core';
 import ArrowDropDownIcon from '@material-ui/icons/ArrowDropDown';
 import ArrowRightIcon from '@material-ui/icons/ArrowRight';
@@ -86,10 +87,14 @@ const LoginStats = props => {
       <Divider />
       <CardContent>
         <div className={classes.chartContainer}>
-          <Bar
-            data={data}
-            options={options}
-          />
+        {(loginStats === undefined
+          ? (
+            <Typography variant="h3">Data Unavailable</Typography>
+          ) :
+          (  
+            <Bar data={data} options={options}/>
+          )
+        )}
         </div>
       </CardContent>
     </Card>

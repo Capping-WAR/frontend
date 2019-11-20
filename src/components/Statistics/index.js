@@ -11,7 +11,7 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-const Dashboard = () => {
+const Statistics = () => {
   const classes = useStyles();
 
   return (
@@ -46,4 +46,4 @@ const Dashboard = () => {
   );
 };
 
-export default Dashboard;
+export default Statistics;

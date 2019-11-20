@@ -151,29 +151,37 @@ const UsersByDevice = props => {
       />
       <Divider />
       <CardContent>
-        <div className={classes.chartContainer}>
-          <Doughnut
-            data={data}
-            options={options}
-          />
-        </div>       
-        <div className={classes.stats}>
-          {devices.map(device => (
-            <div
-              className={classes.device}
-              key={device.title}
-            >
-              <span className={classes.deviceIcon}>{device.icon}</span>
-              <Typography variant="body1">{device.title}</Typography>
-              <Typography
-                style={{ color: device.color }}
-                variant="h4"
-              >
-                {device.value}%
-              </Typography>
+        {(usersByOS === undefined
+          ? (
+            <Typography variant="h3">Data Unavailable</Typography>
+          ) :
+          (
+            <div className={classes.chartContainer}>
+              <Doughnut
+                data={data}
+                options={options}
+              />
+              <div className={classes.stats}>
+                {devices.map(device => (
+                  <div
+                    className={classes.device}
+                    key={device.title}
+                  >
+                    <span className={classes.deviceIcon}>{device.icon}</span>
+                    <Typography variant="body1">{device.title}</Typography>
+                    <Typography
+                      style={{ color: device.color }}
+                      variant="h4"
+                    >
+                      {device.value}%
+                    </Typography>
+                  </div>
+                ))}
+              </div>
             </div>
-          ))}
-        </div>
+          )
+        )}
+        
       </CardContent>
     </Card>
   );
