@@ -8,6 +8,7 @@ import Dashboard from '../Dashboard';
 import About from '../../containers/About';
 import FAQ from '../../containers/FAQ';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
+import {UserAgentProvider} from '@quentin-sommer/react-useragent'
 
 export const theme = createMuiTheme({
   spacing: 4,
@@ -30,20 +31,22 @@ export const theme = createMuiTheme({
 // The state will reside in this component
 const App = () => {
   return (
-    <MuiThemeProvider theme={theme}>
-      <Provider store={Store}>
-        <Router>
-          <Switch>
-            {/* Each route is defined with Route */}
-            <Route path="/signup" component={SignUp}/>
-            <Route path="/about" component={About}/>
-            <Route path="/ai" component={AI}/>
-            <Route path="/faq" component={FAQ}/>
-            <Route path="/" component={Dashboard}/>
-          </Switch>
-        </Router>
-      </Provider>
-    </MuiThemeProvider>
+    <UserAgentProvider ua={window.navigator.userAgent}>
+        <MuiThemeProvider theme={theme}>
+        <Provider store={Store}>
+            <Router>
+            <Switch>
+                {/* Each route is defined with Route */}
+                <Route path="/signup" component={SignUp}/>
+                <Route path="/about" component={About}/>
+                <Route path="/ai" component={AI}/>
+                <Route path="/faq" component={FAQ}/>
+                <Route path="/" component={Dashboard}/>
+            </Switch>
+            </Router>
+        </Provider>
+        </MuiThemeProvider>
+    </UserAgentProvider>
   )
 }
 
