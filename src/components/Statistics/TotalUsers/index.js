@@ -3,8 +3,9 @@ import clsx from 'clsx';
 import PropTypes from 'prop-types';
 import { makeStyles } from '@material-ui/styles';
 import { Card, CardContent, Grid, Typography, Avatar } from '@material-ui/core';
-import ArrowUpwardIcon from '@material-ui/icons/ArrowUpward';
 import PeopleIcon from '@material-ui/icons/PeopleOutlined';
+import { useDispatch, useSelector } from 'react-redux';
+import { useState, useEffect } from 'react';
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -44,6 +45,24 @@ const useStyles = makeStyles(theme => ({
 
 const TotalUsers = props => {
   const { className, ...rest } = props;
+  const dispatch = useDispatch();
+  const state = useSelector(state => state);
+  // const { reviewer, isFetchingReviewer } = state.reviewerReducer;
+
+  useEffect(() => {
+    // new Promise((resolve, reject) => {
+    //     dispatch(fetchReviewer(user.id));
+    //     resolve();
+    //   })
+    //   .then(() => {
+    //     dispatch(doneFetchingReviewer());
+    //   })
+    //   .catch((err) => {
+    //       console.log(err);
+    //       dispatch(doneFetchingReviewer());
+    //   });
+  }, []);
+
 
   const classes = useStyles();
 
@@ -74,21 +93,6 @@ const TotalUsers = props => {
             </Avatar>
           </Grid>
         </Grid>
-        <div className={classes.difference}>
-          <ArrowUpwardIcon className={classes.differenceIcon} />
-          <Typography
-            className={classes.differenceValue}
-            variant="body2"
-          >
-            16%
-          </Typography>
-          <Typography
-            className={classes.caption}
-            variant="caption"
-          >
-            Since last month
-          </Typography>
-        </div>
       </CardContent>
     </Card>
   );

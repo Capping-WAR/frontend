@@ -29,7 +29,7 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-const Dashboard = () => {
+const Admin = () => {
   const classes = useStyles();
   const state = useSelector(state => state);
 
@@ -52,4 +52,4 @@ const Dashboard = () => {
   );
 }
 
-export default Dashboard;
+export default Admin;
