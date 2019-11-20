@@ -52,3 +52,26 @@ export const doneFetchingUserCount = () => (
     type: ActionTypes.DONE_FETCHING_USER_COUNT,
   }
 );
+
+export const fetchUsersByOS = () => ({
+  type: ActionTypes.API_MIDDLEWARE_INVOKE,
+  [ActionTypes.API_MIDDLEWARE_INVOKE]: {
+    route: ActionTypes.API_MIDDLEWARE_SEARCH_ENDPOINT,
+    endpoint: ``,
+    method: 'POST',
+    content: {
+      query: `SELECT macosCount, windowsCount, otherCount FROM userStatistics;`
+    },
+    types: [
+      ActionTypes.FETCH_USERS_BY_OS_REQUEST,
+      ActionTypes.FETCH_USERS_BY_OS_SUCCESS,
+      ActionTypes.FETCH_USERS_BY_OS_FAILURE,
+    ],
+  },
+});
+
+export const doneFetchingUsersByOS = () => (
+  {
+    type: ActionTypes.DONE_FETCHING_USERS_BY_OS,
+  }
+);

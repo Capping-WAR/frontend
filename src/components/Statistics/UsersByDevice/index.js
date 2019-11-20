@@ -12,9 +12,12 @@ import {
   Typography
 } from '@material-ui/core';
 import LaptopMacIcon from '@material-ui/icons/LaptopMac';
-import PhoneIphoneIcon from '@material-ui/icons/PhoneIphone';
+import DevicesOtherIcon from '@material-ui/icons/DevicesOther';
 import RefreshIcon from '@material-ui/icons/Refresh';
-import TabletMacIcon from '@material-ui/icons/TabletMac';
+import AppleIcon from '@material-ui/icons/Apple';
+import { useDispatch, useSelector } from 'react-redux';
+import { useState, useEffect } from 'react';
+import { fetchUsersByOS, doneFetchingUsersByOS } from '../../../redux/actions/statisticsActions';
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -41,26 +44,26 @@ const useStyles = makeStyles(theme => ({
 
 const UsersByDevice = props => {
   const { className, ...rest } = props;
-
   const classes = useStyles();
   const theme = useTheme();
 
-  const data = {
-    datasets: [
-      {
-        data: [63, 15, 22],
-        backgroundColor: [
-          '#438397',
-          '#1c1e24',
-          '#C0C0C0'
-        ],
-        borderWidth: 8,
-        borderColor: 'black',
-        hoverBorderColor: 'black'
-      }
-    ],
-    labels: ['Desktop', 'Tablet', 'Mobile']
-  };
+  const dispatch = useDispatch();
+  const state = useSelector(state => state);
+  const { usersByOS, isFetchingUsersByOS } = state.statisticsReducer;
+
+  useEffect(() => {
+    new Promise((resolve, reject) => {
+        dispatch(fetchUsersByOS());
+        resolve();
+      })
+      .then(() => {
+        dispatch(doneFetchingUsersByOS());
+      })
+      .catch((err) => {
+          console.log(err);
+          dispatch(doneFetchingUsersByOS());
+      });
+  }, []);
 
   const options = {
     legend: {
@@ -84,26 +87,59 @@ const UsersByDevice = props => {
     }
   };
 
-  const devices = [
-    {
-      title: 'Windows',
-      value: '60',
-      icon: <LaptopMacIcon />,
-      color: '#438397'
-    },
-    {
-      title: 'Mac',
-      value: '30',
-      icon: <TabletMacIcon />,
-      color: '#1c1e24'
-    },
-    {
-      title: 'Other',
-      value: '10',
-      icon: <PhoneIphoneIcon />,
-      color: '#C0C0C0'
+  const calcPercent = () => {
+    const total = usersByOS.Windows + usersByOS.Mac + usersByOS.Other;
+    return {
+      windows: Math.round(100*(usersByOS.Windows/total)), 
+      mac: Math.round(100*(usersByOS.Mac/total)), 
+      other: Math.round(100*(usersByOS.Other/total))
     }
-  ];
+  }
+
+  let devices= [];
+  let data = [];
+  if (usersByOS !== undefined) {
+    let percentages = calcPercent();
+    
+    data = {
+      datasets: [
+        {
+          data: [percentages.windows, percentages.mac, percentages.other],
+          backgroundColor: [
+            '#438397',
+            '#1c1e24',
+            '#C0C0C0'
+          ],
+          borderWidth: 8,
+          borderColor: 'black',
+          hoverBorderColor: 'black'
+        }
+      ],
+      labels: ['Windows', 'Mac', 'Other']
+    };
+
+    devices = [
+      {
+        title: 'Windows',
+        value: percentages.windows,
+        icon: <LaptopMacIcon />,
+        color: '#438397'
+      },
+      {
+        title: 'Mac',
+        value: percentages.mac,
+        icon: <AppleIcon />,
+        color: '#1c1e24'
+      },
+      {
+        title: 'Other',
+        value: percentages.other,
+        icon: <DevicesOtherIcon />,
+        color: '#C0C0C0'
+      }
+    ];
+  }
+  
 
   return (
     <Card
@@ -111,11 +147,6 @@ const UsersByDevice = props => {
       className={clsx(classes.root, className)}
     >
       <CardHeader
-        action={
-          <IconButton size="small">
-            <RefreshIcon />
-          </IconButton>
-        }
         title="Users By OS"
       />
       <Divider />

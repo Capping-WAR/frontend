@@ -8,6 +8,8 @@ export const defaultState = {
     isPostingUsersStats: false,
     isFetchingUserCount: false,
     userCount: undefined,
+    isFetchingUsersByOS: false,
+    usersByOS: undefined,
 	error: null,
 }
 
@@ -70,7 +72,7 @@ export const statisticsReducer = (state = defaultState, action) => {
                 return {
                     ...state,
                     isFetchingUserCount: false,
-                    error: action.payload.error || 'Could not get post login stats',
+                    error: action.payload.error || 'Could not fetch user count',
                 }
             
             case ActionTypes.DONE_FETCHING_USER_COUNT:
@@ -78,6 +80,38 @@ export const statisticsReducer = (state = defaultState, action) => {
                     ...state,
                     isFetchingUserCount: false,
                 }
+
+
+                case ActionTypes.FETCH_USERS_BY_OS_REQUEST:
+                    return {
+                        ...state,
+                        isFetchingUsersByOS: true
+                    }
+                
+                case ActionTypes.FETCH_USERS_BY_OS_SUCCESS:
+                    console.log(action.payload.userstatistics[0][0])
+                    return {
+                        ...state,
+                        isFetchingUsersByOS: false,
+                        usersByOS: {
+                            Mac: action.payload.userstatistics[0][0],
+                            Windows: action.payload.userstatistics[0][1],
+                            Other: action.payload.userstatistics[0][2]
+                        }
+                    }
+                
+                case ActionTypes.FETCH_USERS_BY_OS_FAILURE:
+                    return {
+                        ...state,
+                        isFetchingUsersByOS: false,
+                        error: action.payload.error || 'Could not fetch users by OS',
+                    }
+                
+                case ActionTypes.DONE_FETCHING_USERS_BY_OS:
+                    return {
+                        ...state,
+                        isFetchingUsersByOS: false,
+                    }
 
 		default:
 			return state;
