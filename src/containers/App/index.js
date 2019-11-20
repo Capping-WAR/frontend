@@ -7,6 +7,7 @@ import AI from '../AI';
 import Dashboard from '../Dashboard';
 import About from '../../containers/About';
 import FAQ from '../../containers/FAQ';
+import Admin from '../../containers/Admin';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import {UserAgentProvider} from '@quentin-sommer/react-useragent'
 
@@ -37,6 +38,7 @@ const App = () => {
             <Router>
             <Switch>
                 {/* Each route is defined with Route */}
+                <Route path="/admin" component={Admin}/>
                 <Route path="/signup" component={SignUp}/>
                 <Route path="/about" component={About}/>
                 <Route path="/ai" component={AI}/>

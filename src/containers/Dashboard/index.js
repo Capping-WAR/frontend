@@ -79,21 +79,17 @@ const Dashboard = () => {
   
   
   return (
-      <MuiThemeProvider theme={theme}>
-        <Provider store={Store}>
-          <Fragment>
-            <div className={classes.root}>
-              <SideNav />
-              <main className={classes.content}>
+    <Fragment>
+        <div className={classes.root}>
+            <SideNav />
+            <main className={classes.content}>
                 <div className={classes.appBarSpacer} />
                 <Container maxWidth="lg" className={classes.container}>
-                  <Reviewer />
+                    <Reviewer />
                 </Container>
-              </main>
-            </div>
-          </Fragment>
-      </Provider>
-    </MuiThemeProvider> 
+            </main>
+        </div>
+    </Fragment>
   );
 }
 

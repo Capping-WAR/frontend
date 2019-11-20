@@ -128,7 +128,7 @@ const useStyles = makeStyles(theme => ({
     },
 }));
 
-export default function AI() {
+const AI = () => {
   const classes = useStyles();
   const [open, setOpen] = React.useState(true);
   const handleDrawerOpen = () => {
@@ -205,3 +205,5 @@ export default function AI() {
   </MuiThemeProvider> 
   );
 }
+
+export default AI;

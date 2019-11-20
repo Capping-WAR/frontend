@@ -95,7 +95,7 @@ const checkEmptyArr = (arr) => {
 const SignUp = () => {
     const classes = useStyles();
     const dispatch = useDispatch();
-    const [user, setUser] = useState(undefined);
+    const [user, setUser] = useState({id: '20074558'});
     const state = useSelector(state => state);
     const { reviewer, isFetchingReviewer } = state.reviewerReducer;
 
@@ -122,11 +122,11 @@ const SignUp = () => {
         to={{ pathname: '/' }}
         />
     ) : (
-        ((cookies.get('cwid') === undefined) ?
-            (
-                window.location.replace('login')
-            ) :
-            (
+        // ((cookies.get('cwid') === undefined) ?
+        //     (
+        //         window.location.replace('login')
+        //     ) :
+        //     (
                 <Container component="main" maxWidth="xs">
                     <CssBaseline />
                     <div className={classes.paper}>
@@ -214,8 +214,8 @@ const SignUp = () => {
                         <Copyright />
                     </Box>
                 </Container> 
-            )
-        )
+        //     )
+        // )
     );
 };
 
