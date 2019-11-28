@@ -87,8 +87,8 @@ const Admin = () => {
             <Container maxWidth="lg" className={classes.container}>
               <Grid item container spacing={12} justify="center" style={{ paddingTop: '10vh' }}>
                 <Paper className={classes.paper}>
-                  <Typography style={{textAlign:"center"}} variant="h3">Wait...Who are You?</Typography>
-                  <Typography style={{textAlign:"center"}} variant="h3">Your not logged in, click below to login!</Typography>
+                  <Typography style={{textAlign:"center"}} variant="h3">Wait...Who are You? 🤔</Typography>
+                  <Typography style={{textAlign:"center"}} variant="h3">You're not logged in, click below to login!</Typography>
                   <Grid item container spacing={12} justify="center" style={{ paddingTop: '5vh' }}>
                     <Button variant="outlined"  justify="center" size="large" href="/" color="inherit" className={classes.button}>
                       Login

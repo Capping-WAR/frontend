@@ -200,7 +200,6 @@ const AI = () => {
     
 
     if (threads !== undefined && table === undefined && !tableIsSet) {
-        console.log(threads)
         setTable(transposeThreads(threads.threads));
         setTableIsSet(true);
     }

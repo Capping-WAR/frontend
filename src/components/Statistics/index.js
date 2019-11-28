@@ -38,6 +38,7 @@ const Statistics = () => {
           md={12}
           xl={9}
           xs={12}
+          style={{height:"88vh"}}
         >
           <LoginData />
         </Grid>

@@ -8,11 +8,6 @@ import { Paper, withStyles, Grid, TextField, Button, FormControlLabel, Checkbox 
 import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
-import Card from '@material-ui/core/Card';
-import CardActions from '@material-ui/core/CardActions';
-import CardContent from '@material-ui/core/CardContent';
-import * as Yup from 'yup';
-import { Face, Fingerprint } from '@material-ui/icons'
 import Typography from '@material-ui/core/Typography';
 import { useState, useEffect } from 'react';
 import Avatar from '@material-ui/core/Avatar';
@@ -95,7 +90,7 @@ const checkEmptyArr = (arr) => {
 const SignUp = () => {
     const classes = useStyles();
     const dispatch = useDispatch();
-    const [user, setUser] = useState({id:'20074558'});
+    const [user, setUser] = useState(undefined);
     const state = useSelector(state => state);
     const { reviewer, isFetchingReviewer } = state.reviewerReducer;
 
@@ -122,11 +117,11 @@ const SignUp = () => {
         to={{ pathname: '/' }}
         />
     ) : (
-        // ((cookies.get('cwid') === undefined) ?
-        //     (
-        //         window.location.replace('login')
-        //     ) :
-        //     (
+        ((cookies.get('cwid') === undefined) ?
+            (
+                window.location.replace('login')
+            ) :
+            (
                 <Container component="main" maxWidth="xs">
                     <CssBaseline />
                     <div className={classes.paper}>
@@ -214,8 +209,8 @@ const SignUp = () => {
                         <Copyright />
                     </Box>
                 </Container> 
-        //     )
-        // )
+            )
+        )
     );
 };
 

@@ -5,23 +5,19 @@
 import 'whatwg-fetch';
 import * as ActionTypes from '../constants';
 
-const CORS_PROXY_URL = 'http://dgisolfi.xyz:5050';
-const SERVER_API_URL = 'http://dgisolfi.xyz:8085';
-const AI_API_URL = 'http://148.100.33.25:9291';
+const SERVER_API_URL = 'https://war.marist.ai';
 
-const SERVER_API_ENDPOINT_BASE = '/api/v1';
+const SERVER_API_ENDPOINT_BASE = '/api/war/v1';
 const SERVER_API_USER_ACTIONS = `${SERVER_API_ENDPOINT_BASE}/users`;
 const SERVER_API_SENTENCE_ACTIONS = `${SERVER_API_ENDPOINT_BASE}/sentence`;
 const SERVER_API_RULE_ACTIONS = `${SERVER_API_ENDPOINT_BASE}/rules`;
 const SERVER_API_PEOPLE_REVIEWS_ACTIONS = `${SERVER_API_ENDPOINT_BASE}/review`;
 const SERVER_API_SENTENCE_RULES_ACTIONS = `${SERVER_API_ENDPOINT_BASE}/sentenceRule`;
 const SERVER_API_SEARCH_ACTIONS = `${SERVER_API_ENDPOINT_BASE}/search`;
-const SERVER_API_RETRAIN_ACTIONS = `${SERVER_API_ENDPOINT_BASE}/retrain`;
 const SERVER_API_REVIEWER_ACTIONS = `${SERVER_API_ENDPOINT_BASE}/reviewer`;
 const SERVER_API_STATISTICS_ACTIONS = `${SERVER_API_ENDPOINT_BASE}/statistics`;
-
-const AI_API_ENDPOINT_BASE = '/marist/ai/wa';
-const AI_API_THREADS_ACTIONS = `${AI_API_ENDPOINT_BASE}/threads`;
+const SERVER_API_RETRAIN_ACTIONS = `${SERVER_API_ENDPOINT_BASE}/retrain`;
+const SERVER_API_THREAD_ACTIONS = `${SERVER_API_ENDPOINT_BASE}/threads`;
 
 
 
@@ -41,48 +37,37 @@ const middleware = store => next => action => {
   const [ requestType, successType, failureType ] = types;
 
   let cleanedRoute = '';
-  let URL = '';
 
   switch (route) {
     case ActionTypes.API_MIDDLEWARE_USERS_ENDPOINT:
       cleanedRoute = SERVER_API_USER_ACTIONS;
-      URL = SERVER_API_URL;
       break;
     case ActionTypes.API_MIDDLEWARE_SENTENCE_ENDPOINT:
       cleanedRoute = SERVER_API_SENTENCE_ACTIONS;
-      URL = SERVER_API_URL;
       break;
     case ActionTypes.API_MIDDLEWARE_RULES_ENDPOINT:
       cleanedRoute = SERVER_API_RULE_ACTIONS;
-      URL = SERVER_API_URL;
       break;
     case ActionTypes.API_MIDDLEWARE_PEOPLE_REVIEWS_ENDPOINT:
       cleanedRoute = SERVER_API_PEOPLE_REVIEWS_ACTIONS;
-      URL = SERVER_API_URL;
       break;
     case ActionTypes.API_MIDDLEWARE_SENTENCE_RULES_ENDPOINT:
       cleanedRoute = SERVER_API_SENTENCE_RULES_ACTIONS;
-      URL = SERVER_API_URL;
       break;
     case ActionTypes.API_MIDDLEWARE_SEARCH_ENDPOINT:
       cleanedRoute = SERVER_API_SEARCH_ACTIONS;
-      URL = SERVER_API_URL;
       break;
     case ActionTypes.API_MIDDLEWARE_REVIEWER_ENDPOINT:
       cleanedRoute = SERVER_API_REVIEWER_ACTIONS;
-      URL = SERVER_API_URL;
       break;
     case ActionTypes.API_MIDDLEWARE_RETRAIN_ENDPOINT:
         cleanedRoute = SERVER_API_RETRAIN_ACTIONS;
-        URL = SERVER_API_URL;
         break;
     case ActionTypes.API_MIDDLEWARE_STATISTICS_ENDPOINT:
         cleanedRoute = SERVER_API_STATISTICS_ACTIONS;
-        URL = SERVER_API_URL;
         break;
     case ActionTypes.API_MIDDLEWARE_THREADS_ENDPOINT:
-        cleanedRoute = AI_API_THREADS_ACTIONS;
-        URL = AI_API_URL;
+        cleanedRoute = SERVER_API_THREAD_ACTIONS;
         break;
   }
 
@@ -99,7 +84,7 @@ const middleware = store => next => action => {
     type: requestType,
   })
 
-  fetch(`${CORS_PROXY_URL}/${URL}${cleanedEndpoint}`, {
+  fetch(`${SERVER_API_URL}${cleanedEndpoint}`, {
     method,
     headers: {
       'Content-Type': 'application/json',
