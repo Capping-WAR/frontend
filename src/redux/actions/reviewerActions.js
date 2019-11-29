@@ -52,3 +52,10 @@ export const addReviewer = (user) => ({
     },
   }
 );
+
+export const doneAddingReviewer = () => (
+    {
+      type: ActionTypes.POST_REVIEWER_DONE,
+    }
+  );
+  

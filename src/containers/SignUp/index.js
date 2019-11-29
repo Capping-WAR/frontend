@@ -1,7 +1,7 @@
 /**
  * 
  */
-import React from 'react';
+import React, { Fragment } from 'react';
 import { Redirect } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { Paper, withStyles, Grid, TextField, Button, FormControlLabel, Checkbox } from '@material-ui/core';
@@ -15,9 +15,10 @@ import CssBaseline from '@material-ui/core/CssBaseline';
 import Link from '@material-ui/core/Link';
 import Box from '@material-ui/core/Box';
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
-import { fetchReviewer, doneFetchingReviewer, resetReviewer} from '../../redux/actions/reviewerActions';
+import { fetchReviewer, doneFetchingReviewer, resetReviewer, doneAddingReviewer} from '../../redux/actions/reviewerActions';
 import { addReviewer } from '../../redux/actions/reviewerActions';
 import Cookies from 'universal-cookie';
+import CircularProgress from '@material-ui/core/CircularProgress';
 
 
 const theme = createMuiTheme({
@@ -92,8 +93,10 @@ const SignUp = () => {
     const dispatch = useDispatch();
     const [user, setUser] = useState(undefined);
     const state = useSelector(state => state);
-    const { reviewer, isFetchingReviewer } = state.reviewerReducer;
+    const { reviewer, isFetchingReviewer, isAddingReviewer } = state.reviewerReducer;
 
+    
+    console.log(user)
     const cookies = new Cookies();
     if (cookies.get('cwid') !== undefined  && user === undefined) {
       setUser({id: cookies.get('cwid')})
@@ -111,104 +114,113 @@ const SignUp = () => {
             dispatch(doneFetchingReviewer());
         });
     }, []);
+    console.log(reviewer, isFetchingReviewer)
     
-    return ((reviewer !== undefined ) && (!isFetchingReviewer) && (!checkEmptyArr(reviewer))) ? (
-        <Redirect
-        to={{ pathname: '/' }}
-        />
-    ) : (
-        ((cookies.get('cwid') === undefined) ?
-            (
-                window.location.replace('login')
-            ) :
-            (
-                <Container component="main" maxWidth="xs">
-                    <CssBaseline />
-                    <div className={classes.paper}>
-                        <Avatar className={classes.avatar}>
-                        <LockOutlinedIcon />
-                        </Avatar>
-                        <Typography component="h1" variant="h5">
-                        Sign up
-                        </Typography>
-                        <form className={classes.form} Validate>
-                        <Grid container spacing={2}>
-                            <Grid item xs={12} sm={6}>
-                            <TextField
-                                autoComplete="fname"
-                                name="firstName"
-                                variant="outlined"
-                                required
-                                fullWidth
-                                id="firstName"
-                                label="First Name"
-                                onChange={e => setUser({
-                                    ...user, 
-                                    firstName:e.target.value
-                                })}
-                                autoFocus
-                            />
-                            </Grid>
-                            <Grid item xs={12} sm={6}>
-                            <TextField
-                                variant="outlined"
-                                required
-                                fullWidth
-                                id="lastName"
-                                label="Last Name"
-                                name="lastName"
-                                autoComplete="lname"
-                                onChange={e => setUser({
-                                    ...user, 
-                                    lastName:e.target.value
-                                })}
-                            />
-                            </Grid>
-                            <Grid item xs={12}>
-                            <TextField
-                                variant="outlined"
-                                required
-                                fullWidth
-                                id="email"
-                                label="Email Address"
-                                name="email"
-                                autoComplete="email"
-                                onChange={e => setUser({
-                                    ...user, 
-                                    email:e.target.value
-                                })}
-                            />
-                            </Grid>
-                        </Grid>
-                        <Button
-                            fullWidth
-                            variant="contained"
-                            color="secondary"
-                            className={classes.submit}
-
-                            onClick={() => {
-                                dispatch(addReviewer(user))
-                                new Promise((resolve, reject) => {
-                                    dispatch(fetchReviewer(user.id));
-                                    resolve();
-                                })
-                                .then(() => {
-                                    dispatch(doneFetchingReviewer());
-                                })
-                                .catch((err) => {
-                                    console.log(err);
-                                    dispatch(doneFetchingReviewer());
-                                });
-                            }}
-                        >
-                            Sign Up
-                        </Button>
-                        </form>
-                    </div>
-                    <Box mt={5}>
-                        <Copyright />
-                    </Box>
-                </Container> 
+    return (
+        ((reviewer !== undefined ) && (!isFetchingReviewer) && (!checkEmptyArr(reviewer))) ? (
+            <Redirect
+            to={{ pathname: '/' }}
+            />
+        ) : (
+            ((cookies.get('cwid') === undefined) ?
+                (
+                    window.location.replace('login')
+                ) :
+                (
+                    <Container component="main" maxWidth="xs">
+                        <CssBaseline />
+                        <div className={classes.paper}>
+                            <Avatar className={classes.avatar}>
+                            <LockOutlinedIcon />
+                            </Avatar>
+                            <Typography component="h1" variant="h5">
+                            Sign up
+                            </Typography>
+                            <form className={classes.form}>
+                                <Grid container spacing={2}>
+                                    <Grid item xs={12} sm={6}>
+                                        <TextField
+                                            autoComplete="fname"
+                                            name="firstName"
+                                            variant="outlined"
+                                            color="secondary"
+                                            required
+                                            fullWidth
+                                            id="firstName"
+                                            label="First Name"
+                                            onChange={e => setUser({
+                                                ...user, 
+                                                firstName:e.target.value
+                                            })}
+                                            autoFocus
+                                        />
+                                    </Grid>
+                                    <Grid item xs={12} sm={6}>
+                                        <TextField
+                                            variant="outlined"
+                                            required
+                                            fullWidth
+                                            id="lastName"
+                                            label="Last Name"
+                                            name="lastName"
+                                            autoComplete="lname"
+                                            color="secondary"
+                                            onChange={e => setUser({
+                                                ...user, 
+                                                lastName:e.target.value
+                                            })}
+                                        />
+                                    </Grid>
+                                    <Grid item xs={12}>
+                                        <TextField
+                                            variant="outlined"
+                                            required
+                                            fullWidth
+                                            id="email"
+                                            label="Email Address"
+                                            name="email"
+                                            autoComplete="email"
+                                            color="secondary"
+                                            onChange={e => setUser({
+                                                ...user, 
+                                                email:e.target.value
+                                            })}
+                                        />
+                                    </Grid>
+                                    <Button
+                                        fullWidth
+                                        variant="contained"
+                                        color="secondary"
+                                        className={classes.submit}
+                                        onClick={() => {
+                                            dispatch(addReviewer(user))
+                                            new Promise((resolve, reject) => {
+                                                // while(isAddingReviewer) {
+                                                //     // wait
+                                                // }
+                                                console.log('done', isAddingReviewer)
+                                                resolve();
+                                            })
+                                            .then(() => {
+                                                dispatch(doneAddingReviewer());
+                                                setTimeout(() => window.location.reload(), 1000);
+                                               
+                                            })
+                                            .catch((err) => {
+                                                console.log(err);
+                                                dispatch(doneAddingReviewer());
+                                            });
+                                        }}
+                                    > Sign Up 
+                                    </Button>
+                                </Grid>
+                            </form>
+                        </div>
+                        <Box mt={5}>
+                            <Copyright />
+                        </Box>
+                    </Container>                        
+                )
             )
         )
     );
