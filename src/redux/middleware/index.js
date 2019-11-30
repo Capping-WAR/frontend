@@ -7,7 +7,7 @@ import * as ActionTypes from '../constants';
 
 const SERVER_API_URL = 'https://war.marist.ai';
 
-const SERVER_API_ENDPOINT_BASE = '/api/war/v1';
+const SERVER_API_ENDPOINT_BASE = '/api/v1';
 const SERVER_API_USER_ACTIONS = `${SERVER_API_ENDPOINT_BASE}/users`;
 const SERVER_API_SENTENCE_ACTIONS = `${SERVER_API_ENDPOINT_BASE}/sentence`;
 const SERVER_API_RULE_ACTIONS = `${SERVER_API_ENDPOINT_BASE}/rules`;

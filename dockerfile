@@ -12,7 +12,5 @@ COPY package.json .
 
 EXPOSE 3000
 RUN npm install \
-    && npm run build \
-    && find /war/build/index.html -type f -exec sed -i 's/src="\//src="\/war\//g' {} \; \
-    && find /war/build/index.html -type f -exec sed -i 's/href="\//href="\/war\//g' {} \;
+    && npm run build
 CMD npm run serve

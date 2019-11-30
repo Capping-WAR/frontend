@@ -11,6 +11,7 @@ import FAQ from '../../containers/FAQ';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import {UserAgentProvider} from '@quentin-sommer/react-useragent'
 
+// Beware: Any changes made to the Theme here will cascade throughout the site!
 export const theme = createMuiTheme({
   spacing: 4,
   palette: {

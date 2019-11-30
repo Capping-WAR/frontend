@@ -1,6 +1,3 @@
-/**
- * 
- */
 import React, { Fragment } from 'react';
 import { Redirect } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
@@ -93,14 +90,13 @@ const SignUp = () => {
     const dispatch = useDispatch();
     const [user, setUser] = useState(undefined);
     const state = useSelector(state => state);
-    const { reviewer, isFetchingReviewer, isAddingReviewer } = state.reviewerReducer;
+    const { reviewer, isFetchingReviewer } = state.reviewerReducer;
 
-    
-    console.log(user)
     const cookies = new Cookies();
     if (cookies.get('cwid') !== undefined  && user === undefined) {
       setUser({id: cookies.get('cwid')})
     }
+
     useEffect(() => {
       new Promise((resolve, reject) => {
           dispatch(fetchReviewer(user.id));
@@ -114,7 +110,6 @@ const SignUp = () => {
             dispatch(doneFetchingReviewer());
         });
     }, []);
-    console.log(reviewer, isFetchingReviewer)
     
     return (
         ((reviewer !== undefined ) && (!isFetchingReviewer) && (!checkEmptyArr(reviewer))) ? (
@@ -195,16 +190,27 @@ const SignUp = () => {
                                         onClick={() => {
                                             dispatch(addReviewer(user))
                                             new Promise((resolve, reject) => {
-                                                // while(isAddingReviewer) {
-                                                //     // wait
-                                                // }
-                                                console.log('done', isAddingReviewer)
                                                 resolve();
                                             })
                                             .then(() => {
                                                 dispatch(doneAddingReviewer());
+                                                /* 
+                                                Ok so this is like using duct tape for an open wound...it works but its messy. 
+                                                This is the only shortcut made throughout the app so I'm letting it go. 
+                                                to much time was spent trying to fix this. Heres why:
+                                                
+                                                Problem
+                                                -------
+                                                When addReviewer is called, a post request is made to the API to add the user,
+                                                the component then re-renders...issue is we need it to re-render after the reviewer is added
+                                                so that the user can be retreived and we can bring them to the dashboard.
+
+                                                Solution
+                                                --------
+                                                I have tried to force re-rendering the component by updating the state when the call is done 
+                                                however, the timing never lines up. So instead I force the page to reload after a whole second.
+                                                */
                                                 setTimeout(() => window.location.reload(), 1000);
-                                               
                                             })
                                             .catch((err) => {
                                                 console.log(err);
